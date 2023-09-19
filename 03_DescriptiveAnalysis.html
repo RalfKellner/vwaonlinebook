@@ -1,0 +1,1486 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Deskriptive Analyse von Daten &#8212; Datenanalyse und Datenmanagement</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '03_DescriptiveAnalysis';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Die Analyse abhängiger Variablen" href="04_SupervisedLearning.html" />
+    <link rel="prev" title="Zugang zu Daten" href="02_DataAccess.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_Introduction.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/Logo_VWA.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/Logo_VWA.jpg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_Introduction.html">
+                    Einführung
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_PythonIntroduction.html">Einführung in Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_DataAccess.html">Zugang zu Daten</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Deskriptive Analyse von Daten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_SupervisedLearning.html">Die Analyse abhängiger Variablen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_LinearRegression.html">Das multiple lineare Regressionmodell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_Classification.html">Klassifizierung</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="07_ModellAccuracy.html">Generalisierung funktionaler Zusammenhänge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_ModelComplexity.html">Modellkomplexität</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_Regularization.html">Regularisierung</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="10_DimensionalityReduction.html">Dimensionsreduktion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_Clustering.html">Clustering</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2F03_DescriptiveAnalysis.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/03_DescriptiveAnalysis.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Deskriptive Analyse von Daten</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datenerhebung-und-datenkollektion">Datenerhebung und Datenkollektion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#umgang-mit-fehlenden-daten">Umgang mit fehlenden Daten</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merkmalstypen-und-skalen">Merkmalstypen und Skalen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantitative-beschreibung-der-merkmale">Quantitative Beschreibung der Merkmale</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graphische-darstellung-der-daten">Graphische Darstellung der Daten</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#univariate-verteilungen-der-merkmalsauspragungen">Univariate Verteilungen der Merkmalsausprägungen</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#darstellung-von-zusammenhangen">Darstellung von Zusammenhängen</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vorbereitung-der-daten">Vorbereitung der Daten</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="deskriptive-analyse-von-daten">
+<h1>Deskriptive Analyse von Daten<a class="headerlink" href="#deskriptive-analyse-von-daten" title="Permalink to this heading">#</a></h1>
+<p>Jede gute Datenanalyse beinhaltet eine deskriptive Untersuchung der Daten. Dies erfolgt meist eher zu Beginn einer Auswertung, um sich einen ersten Eindruck zu den Merkmalsausprägungen der Daten und potentiellen Zusammenhängen zu machen. Zur deskriptiven Analyse gehört die Interpretation der Verteilung einzelner Merkmale und auch deren Zusammenhänge. Passend für diesen Einsatzbereich sind quantitative Kennzahlen aus der beschreibenden Statistik und graphische Darstellungen. Wir wollen uns in diesem Kapitel einen kleinen Überblick über gängige Kennzahlen und Graphiken verschaffen und diskutieren, welche Schlüsse hieraus gezogen werden können.</p>
+<section id="datenerhebung-und-datenkollektion">
+<h2>Datenerhebung und Datenkollektion<a class="headerlink" href="#datenerhebung-und-datenkollektion" title="Permalink to this heading">#</a></h2>
+<p>Jeder Datenanalyse geht die Erhebung von Daten voraus. Ziel der Analyse ist es möglichst allgemein gültige Zusammenhänge zu identifizieren. Beispielsweise könnten wir uns dafür interessieren, welche Faktoren den Mietpreis von Mietwohungen in Deutschland beeinflussen. Die relevante Einheit unseres Beispiels wären die Wohnungen. Wären wir in der Lage Daten zu allen Wohnungen zu sammeln, so hätten wir den Überblick über die Grundgesamtheit. Dies ist bereits in diesem Beispiel mit offensichtlich hohem Aufwand verbunden bzw. sogar unmmöglich, wenn einige der Immobilieninhaber*innen nicht gewillt sind, die Daten mit uns zu teilen. Zudem stellt sich die Frage, welche Merkmale neben dem Mietpreis gemessen werden sollten, die potentiell Einfluss auf diesen haben.</p>
+<p>Das einzige was als Lösung bleibt, ist es in der Regel eine Stichprobe der Einheiten (hier Wohnungen) zu ziehen und hierbei möglichst viel sinnvolle Merkmalsausprägungen je Einheit abzufragen. Beziehen wir die Stichprobe bereits von Dritten, müssen wir in der Regel mit dem was zugänglich ist, die Analyse durchführen und zu einem späteren Zeitpunkt entscheiden, ob wir die verschiedenen Merkmale als ausreichend für den Erkenntnisgewinn der Ananlyse betrachten.</p>
+<p>Eine Stichprobe sollte repräsentativ und zufällig, jedoch nicht willkürlich gewählt werden. In den meisten Fällen macht es am meisten Sinn, wenn jede Einheit mit der gleichen Wahrscheinlichkeit für eine Stichprobe gezogen wird. Ohne näher auf die statistischen Hintergründe einzugehen, kann man festhalten, dass die Erkenntnisse aus den Analysen der Stichprobe nur dann Rückschlüsse auf allgemeine Zusammenhänge zulassen, wenn die Stichprobe in etwa die Zusammenhänge der Daten der Grundgesamtheit widerspiegelt. Dennoch treten leichte unterschiedliche Resultate der Stichprobe bedingt durch die Zufälligkeit der Stichprobenziehung und der damit verbundenen Unvollständigkeit gegenüber der Gesamtpopulation mit Sicherheit auf. Die Quantifizierung dieser Unterschiedlichkeit ist ein zentraler Bestandteil der Statistik, jedoch nicht im zentralen Fokus dieses Kurses. Dennoch sollen die genannten Argumente für einen vorsichtigen Umgang mit den Ergebnissen der Datenanalyse sensibilisieren.</p>
+</section>
+<section id="umgang-mit-fehlenden-daten">
+<h2>Umgang mit fehlenden Daten<a class="headerlink" href="#umgang-mit-fehlenden-daten" title="Permalink to this heading">#</a></h2>
+<p>In vielen Datensätzen fehlen oft Werte, dies ist meist durch Kürzel wie “NA, NAN, na, nan” gekennzeichnet. Wir wollen es im Umgang mit fehlenden Werten in diesem Kurs einfach halten und fokussieren uns daher auf die eher einfachen bestehenden Lösungen. Die beiden einfachsten Möglichkeiten bestehen entweder darin die Zeile (also eine Beobachtung was in der Regel den Ausprägungen einer statistischen Einheit entspricht) zu löschen, in der es zu mindestens einem fehlenden Wert kommt. Dies macht Sinn, wenn der gesamte Datensatz dadurch nicht zu stark reduziert wird. Kommt es vor allem bei einem Merkmal zu häufigen fehlenden Werten, kann auch überlegt werden, nur diese Spalte, also alle Ausprägungen eines Merkmals zu löschen. Alternativ können fehlende Werte durch möglichst repräsentative Werte ersetzt werden. Dies sollte jedoch nicht zu leichtfertig gemacht werden, da auf diese Art eine Verzerrung der Realität bei der Analyse eingeführt wird. Dennoch kann es die bessere Lösung sein, wenn auf anderem Weg die Datengrundlage zu stark eingeschränkt wird.</p>
+</section>
+<section id="merkmalstypen-und-skalen">
+<h2>Merkmalstypen und Skalen<a class="headerlink" href="#merkmalstypen-und-skalen" title="Permalink to this heading">#</a></h2>
+<p>Oft sind Datensätze eine Sammlung von Merkmalsausprägungen verschiedener Variablen von Einheiten. Man unterscheidet bei Merkmalen ob diese diskret (mit endlich abzählbar oder unendlich abzählbar vielen möglichen Realisierungen) oder stetig (alle Realisierungen in einem Intervall sind möglich) sind. Zudem ist das Skalenniveu eines Merkmals wichtig für die Datenanalyse. Folgende Skalenniveus werden unterschieden:</p>
+<ul class="simple">
+<li><p>nominal: Kategorien, ohne sinnvolle Reihung</p></li>
+<li><p>ordinal: mögliche Reihung, keine sinnvolle Interpretation der Abstände</p></li>
+<li><p>karindal bzw. metrisch: mögliche Reihung und Abstandsinterpretation, zum Teil jedoch ohne sinnvollen Nullpunkt (Intervallskala vs. Verhältnisskala)</p></li>
+</ul>
+<p>In der unteren Zelle sehen wir beispielsweise einen Datensatz von Schülern, bei dem es um eine mögliche Analyse zwischen den Zusammenhang zwischen der Prüfungsleistung (G3) und weiteren Merkmalen geht. Die Variable “sex” bezieht sich z.B. auf das Geschlecht und ist kategorial, hier ist es durch “F” für female und “M” wie male abgekürzt. Um die Ausprägungen dieser Variable später analysieren zu können bietet es sich an die Kategorien in Zahlenwerte zu transformieren. Dennoch machen auch nach der Kodierung mathematische Berechnungen wie die Addition inhaltlich keinen Sinn. “Fedu” und “Medu” sind gemäß der Variablenbeschreibung klar ordinal. Beispielsweise das Alter “age” ist metrisch.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
+<span class="c1"># import original data</span>
+<span class="n">df_math</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../Daten/student/student-mat.csv&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;;&quot;</span><span class="p">)</span>
+
+<span class="c1"># variable descriptions</span>
+<span class="c1"># sex - student&#39;s sex (binary: &quot;F&quot; - female or &quot;M&quot; - male)</span>
+<span class="c1"># age - student&#39;s age (numeric: from 15 to 22)</span>
+<span class="c1"># Medu - mother&#39;s education (numeric: 0 - none,  1 - primary education (4th grade), 2 – 5th to 9th grade, 3 – secondary education or 4 – higher education)</span>
+<span class="c1"># Fedu - father&#39;s education (numeric: 0 - none,  1 - primary education (4th grade), 2 – 5th to 9th grade, 3 – secondary education or 4 – higher education)</span>
+<span class="c1"># studytime - weekly study time (numeric: 1 - &lt;2 hours, 2 - 2 to 5 hours, 3 - 5 to 10 hours, or 4 - &gt;10 hours)</span>
+<span class="c1"># freetime - free time after school (numeric: from 1 - very low to 5 - very high)</span>
+<span class="c1"># absences - number of school absences (numeric: from 0 to 93)</span>
+<span class="c1"># G3 - final grade (numeric: from 0 to 20, output target)</span>
+<span class="n">df_math</span> <span class="o">=</span> <span class="n">df_math</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="s2">&quot;Medu&quot;</span><span class="p">,</span> <span class="s2">&quot;Fedu&quot;</span><span class="p">,</span> <span class="s2">&quot;studytime&quot;</span><span class="p">,</span> <span class="s2">&quot;freetime&quot;</span><span class="p">,</span> <span class="s2">&quot;absences&quot;</span><span class="p">,</span> <span class="s2">&quot;G3&quot;</span><span class="p">]]</span>
+<span class="n">df_math</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sex</th>
+      <th>age</th>
+      <th>Medu</th>
+      <th>Fedu</th>
+      <th>studytime</th>
+      <th>freetime</th>
+      <th>absences</th>
+      <th>G3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>F</td>
+      <td>18</td>
+      <td>4</td>
+      <td>4</td>
+      <td>2</td>
+      <td>3</td>
+      <td>6</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>F</td>
+      <td>17</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>4</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>F</td>
+      <td>15</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>10</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>F</td>
+      <td>15</td>
+      <td>4</td>
+      <td>2</td>
+      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>F</td>
+      <td>16</td>
+      <td>3</td>
+      <td>3</td>
+      <td>2</td>
+      <td>3</td>
+      <td>4</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># numerical transformation of the variable sex</span>
+<span class="n">df_math</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;num_sex&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_math</span><span class="o">.</span><span class="n">sex</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+<span class="n">df_math</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s2">&quot;num_sex&quot;</span><span class="p">:</span> <span class="s2">&quot;int32&quot;</span><span class="p">})</span>
+<span class="n">df_math</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;sex&quot;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">df_math</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>Medu</th>
+      <th>Fedu</th>
+      <th>studytime</th>
+      <th>freetime</th>
+      <th>absences</th>
+      <th>G3</th>
+      <th>num_sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>18</td>
+      <td>4</td>
+      <td>4</td>
+      <td>2</td>
+      <td>3</td>
+      <td>6</td>
+      <td>6</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>4</td>
+      <td>6</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>15</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>10</td>
+      <td>10</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>15</td>
+      <td>4</td>
+      <td>2</td>
+      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+      <td>15</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>16</td>
+      <td>3</td>
+      <td>3</td>
+      <td>2</td>
+      <td>3</td>
+      <td>4</td>
+      <td>10</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="quantitative-beschreibung-der-merkmale">
+<h2>Quantitative Beschreibung der Merkmale<a class="headerlink" href="#quantitative-beschreibung-der-merkmale" title="Permalink to this heading">#</a></h2>
+<p>Um einen ersten Überblick über die einzelnen Merkmalsausprägungen zu erhalten, bieten es sich an die Verteilungen dieser näher zu betrachten. Dies kann anhand von beschreibenden Kennzahlen aus der deskriptiven Statistik und anhand von geeigneten Grafiken durchgeführt werden. Gängige Kennzahlen sind das arithmetische Mittel, der Median, Minima, Maxima, Quantile, die Standardabweichung, Schiefe und Wölbung. Zur Wiederholung ein paar Definitionen.</p>
+<p>Für eine Anzahl von <span class="math notranslate nohighlight">\(n\)</span> Beobachtungen eines Merkmals <span class="math notranslate nohighlight">\(x_1, ..., x_n\)</span> ist das arithmetische Mittel definiert durch:</p>
+<div class="math notranslate nohighlight">
+\[
+\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i
+\]</div>
+<p>Gegeben eine geordnete Liste der Merkmalsausprägungen <span class="math notranslate nohighlight">\(x_{(1)}, ..., x_{(n)}\)</span>, ist der Median definiert durch:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+x_{med} = 
+\begin{cases}
+ x_{\left( \frac{n+1}{2} \right)} &amp; \text{wenn } n \text{ ungerade}\\
+ \frac{1}{2} \left(x_{(\frac{n}{2})} + x_{(\frac{n}{2}+1)} \right) &amp; \text{wenn } n \text{ gerade}
+\end{cases}
+\end{split}\]</div>
+<p>Das <span class="math notranslate nohighlight">\(p\)</span> Quantil eines Merkmals ist der Wert für den ein Anteil der Ausprägungen <span class="math notranslate nohighlight">\(p\)</span> kleiner oder gleich und mindestens ein Anteil <span class="math notranslate nohighlight">\(1-p\)</span> größer oder gleich ist. Minimum und Maximum ist die jeweils kleinste bzw. größte aller Ausprägungen. Um die Schwankung der Ausprägungen untersuchen zu können, wird meist die empirische Standardabweichung verwendet. Die Varianz ist die mittlere quadratische Abweichung der Werte vom Mittelwert.</p>
+<div class="math notranslate nohighlight">
+\[
+s^2 = \frac{1}{n} \sum_{i=1}^n \left( x_i - \bar{x} \right)^2
+\]</div>
+<p>Die empirische Standardabweichung ist die Wurzel der empirischen Varianz, <span class="math notranslate nohighlight">\(s = \sqrt{s^2}\)</span>. Um die Schiefe der Verteilung empirisch zu analysieren wird oft der Momentenkoeffizient der Schiefe verwendet:</p>
+<div class="math notranslate nohighlight">
+\[
+g_m = \frac{\frac{1}{n} \sum_{i - 1}^n \left( x_i - \bar{x} \right)^3}{s^3}
+\]</div>
+<p>Ein negativer Wert spricht für eine linksschiefe, ein positiver Wert für eine rechtsschiefe Verteilung. Bei einem Wert von <span class="math notranslate nohighlight">\(0\)</span> oder nahe <span class="math notranslate nohighlight">\(0\)</span> kann man von einer symmetrischen Verteilung ausgehen.</p>
+<p>Die Wölbung der Verteilung wird oft mit dem Wölbunsmaß nach Fisher beurteilt:</p>
+<div class="math notranslate nohighlight">
+\[
+\gamma = \frac{\frac{1}{n} \sum_{i - 1}^n \left( x_i - \bar{x} \right)^4}{s^4} - 3
+\]</div>
+<p>Beachten Sie, dass beim letzten Maß der Wert von <span class="math notranslate nohighlight">\(3\)</span> abgezogen wird, um die Wölbung mit der einer Normalverteilung zu vergleichen. Bei einem Wert größer <span class="math notranslate nohighlight">\(0\)</span> spricht man von einer leptokurtischen, bei einem Wert kleiner <span class="math notranslate nohighlight">\(0\)</span> von einer platokurtischen Verteilung. Manche Statistikprogramme ziehen nicht per default den Wert von <span class="math notranslate nohighlight">\(3\)</span>, dies gilt es zur Sicherheit meist noch zu überprüfen.</p>
+<p>Wenn wir mit pandas DataFrames arbeiten, ist es relativ einfach diese deskriptiven Maße zu bestimmen. Zum einen besteht die <em>describe</em> Funktion, wodurch Anzahl der Beobachtungen, Mittelwert, Standardabweichung, Minimum, Maximum, Median sowie das 25% und 75% Quantil ausgegeben werden. Darüber hinaus existieren die <em>skew</em> und die <em>kurtosis</em> Funktion.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_math</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>Medu</th>
+      <th>Fedu</th>
+      <th>studytime</th>
+      <th>freetime</th>
+      <th>absences</th>
+      <th>G3</th>
+      <th>num_sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>395.000000</td>
+      <td>395.000000</td>
+      <td>395.000000</td>
+      <td>395.000000</td>
+      <td>395.000000</td>
+      <td>395.000000</td>
+      <td>395.000000</td>
+      <td>395.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>16.696203</td>
+      <td>2.749367</td>
+      <td>2.521519</td>
+      <td>2.035443</td>
+      <td>3.235443</td>
+      <td>5.708861</td>
+      <td>10.415190</td>
+      <td>0.526582</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>1.276043</td>
+      <td>1.094735</td>
+      <td>1.088201</td>
+      <td>0.839240</td>
+      <td>0.998862</td>
+      <td>8.003096</td>
+      <td>4.581443</td>
+      <td>0.499926</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>15.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>16.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>0.000000</td>
+      <td>8.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>17.000000</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>3.000000</td>
+      <td>4.000000</td>
+      <td>11.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>18.000000</td>
+      <td>4.000000</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
+      <td>4.000000</td>
+      <td>8.000000</td>
+      <td>14.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>22.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>5.000000</td>
+      <td>75.000000</td>
+      <td>20.000000</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_math</span><span class="o">.</span><span class="n">skew</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>age          0.466270
+Medu        -0.318381
+Fedu        -0.031672
+studytime    0.632142
+freetime    -0.163351
+absences     3.671579
+G3          -0.732672
+num_sex     -0.106886
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_math</span><span class="o">.</span><span class="n">kurtosis</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>age          -0.001222
+Medu         -1.090014
+Fedu         -1.198539
+studytime    -0.014432
+freetime     -0.301807
+absences     21.719150
+G3            0.403421
+num_sex      -1.998721
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="graphische-darstellung-der-daten">
+<h2>Graphische Darstellung der Daten<a class="headerlink" href="#graphische-darstellung-der-daten" title="Permalink to this heading">#</a></h2>
+<p>Es existieren viele anschauliche Möglichkeiten Daten zu visualisieren. Um möglichst erkenntnisreiche Informationen aus den Visualisierungen zu ziehen bedarf es jedoch Erfahrung und Fachkentniss. Wir wollen daher zunächst mit ein paar grundlegenden Grafiktypen beginnen. Die Wahl der passenden Grafik ist auch hier wieder in Teilen mit der Skala eines Merkmals verbunden. Um einen Überblick über die Verteilung von Merkmalsausprägungen zu erhalten bieten sich für nominal oder ordinal skalierte Merkmale Barplots (Stabdiagramme) und für metrisch skalierte Merkmale Histogramme an.</p>
+<section id="univariate-verteilungen-der-merkmalsauspragungen">
+<h3>Univariate Verteilungen der Merkmalsausprägungen<a class="headerlink" href="#univariate-verteilungen-der-merkmalsauspragungen" title="Permalink to this heading">#</a></h3>
+<p>In der unteren Zelle sehen wir Barplots für die kategorialen bzw. ordinalen Merkmale. Bei den Barplots werden auf der x-Achse die Merkmalsausprägungen und auf der y-Achse die absoluten Häufigkeiten abgetragen. Wir können anhand dieser Darstellungen erkennen, dass die meisten Verteilungen der Merkmalsausprägungen nicht symmetrisch sind und insbesondere bei der “studytime” und “freetime” meist eine Kategorie deutlich häufiger als alle anderen Kategorien bei den Ausprägungen auftritt.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="n">non_metric_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Medu&quot;</span><span class="p">,</span> <span class="s2">&quot;Fedu&quot;</span><span class="p">,</span> <span class="s2">&quot;studytime&quot;</span><span class="p">,</span> <span class="s2">&quot;freetime&quot;</span><span class="p">,</span> <span class="s2">&quot;num_sex&quot;</span><span class="p">]</span>
+
+<span class="n">fig_non_metric</span><span class="p">,</span> <span class="n">axs_non_metric</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">non_m_var</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">non_metric_vars</span><span class="p">):</span>
+    <span class="n">nobs_per_cat</span> <span class="o">=</span> <span class="n">df_math</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">non_m_var</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+    <span class="n">axs_non_metric</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">nobs_per_cat</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">nobs_per_cat</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">axs_non_metric</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">non_m_var</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/f7cdf73c96ea38ffad66228e24fd0854bc3186342222cd4a9bf76eb2d4b7cb79.png" src="_images/f7cdf73c96ea38ffad66228e24fd0854bc3186342222cd4a9bf76eb2d4b7cb79.png" />
+</div>
+</div>
+<p>In der nächsten Zelle sehen wir die Histogramme der metrischen Variablen. Bei einem Histogramm werden die Häufigkeiten der Ausprägungen innerhalb definierter Intervalle gezählt. An Stelle fester Intervallgrenzen wird auch oft eine Anzahl von Internallen (bins) vorgegeben, und die Intervallgrenzen werden entsprchend über die Bandbreite aller Merkmalsausprägungen bestimmt. Alternativ zur absoluten Anzahl der Merkmalsausprägungen innerhalb eines Intervalls, werden auf der y-Achse auch manchmal die empirischen Dichtewerte abgetragen. Hierbei werden die Häufigkeiten so normalsiert, dass die Fläche unterhalb des Histograms den Wert <span class="math notranslate nohighlight">\(1\)</span> ergibt. Letzteres wird vor allem dann vorgezogen, wenn die empirische Verteilung mit Dichtefunktionen theoretischer Verteilungen verglichen werden soll.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="n">metric_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="s2">&quot;absences&quot;</span><span class="p">,</span> <span class="s2">&quot;G3&quot;</span><span class="p">]</span>
+
+<span class="n">fig_metric</span><span class="p">,</span> <span class="n">axs_metric</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">m_var</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">metric_vars</span><span class="p">):</span>
+    <span class="n">axs_metric</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df_math</span><span class="p">[</span><span class="n">m_var</span><span class="p">],</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">density</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">axs_metric</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">m_var</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/cec693a6dc7db2b5558e8225c319b588ab26944d599724006368a4206c380d90.png" src="_images/cec693a6dc7db2b5558e8225c319b588ab26944d599724006368a4206c380d90.png" />
+</div>
+</div>
+<p>Eine weitere Möglichkeit eine graphischen Eindruck der Verteilungen zu erhalten, besteht durch die Verwendung von Boxplots, welche sowohl für nicht-metrische wie auch für metrische Variablen eingesetzt werden können. Im Vergleich zu den Barplots und den Histogrammen sind Boxplots besser geeignet, um einen Eindruch von extremen Werten und deren Häufung zu erhalten. Die nächste Zelle visualisiert die Boxplots aller Merkmale im Datensatz. Im Standard, der in der unteren Zelle gezeigt wird, entspricht die untere Kante der Box dem 25% und die obere Kante der Box dem 75% Quantil, der Strich in der Mitte symbolisiert den Median. Die äußeren Striche sind Abstände in Höhe des <span class="math notranslate nohighlight">\(1,5\)</span>-fachen des Interquartilsabstands. Als extremeren Ausprägungen werden durch einzelne Punkte dargestellt. Mit Hilfe der Boxplots im Beispiel lässt sich beispielsweise gut erkennen, dass es bei der Abwesenheit deutlich häufiger zu vereinzelt hohen Werten kommt, als bei den übrigen Merkmalen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">boxplots</span> <span class="o">=</span> <span class="n">df_math</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b0e93f45aa0d1f1efc89b41b54b082e8c185ca25717927e17abaf31361f9a1ce.png" src="_images/b0e93f45aa0d1f1efc89b41b54b082e8c185ca25717927e17abaf31361f9a1ce.png" />
+</div>
+</div>
+</section>
+<section id="darstellung-von-zusammenhangen">
+<h3>Darstellung von Zusammenhängen<a class="headerlink" href="#darstellung-von-zusammenhangen" title="Permalink to this heading">#</a></h3>
+<p>Sehr oft sind Zusammenhänge zwischen den Merkmalsausprägungen einzelner Variablen ebenso von großer Bedeutung für die Datenanalyse. Im ersten Schritt bieten sich Scatterplots an, um paarweise Zusammenhänge zwischen Variablen zu visualisieren. Diese liefern jedoch meist nur Erkenntnisse im Falle von stetigen Variablen. Beispielsweise sehen wir in der unteren Zelle einen Scatterplot zwischen der Abwesenheit und der finalen Note. Hieraus schein durchaus ein Zusammenhang ersichtlich zu sein. Daneben ist ein Scatterplot zwischen der Studien- und der Freizeit. Da beide Variablen in diesem Datensatz diskret sind, kann man aus dieser Ansicht nur erkennen, welche Werte-Kombinationen auftreten, was jedoch wenig erkenntnisreich ist. Als kleinen “Workaround” wäre es für solche Fälle möglich, die Größe der Punkte der Grafik proportional zur Häufigkeit der paarweisen Kombinationen darzustellen. Diese Graphik können Sie im dritten Plot betrachten.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">df_math</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;absences&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;G3&quot;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">df_math</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;freetime&quot;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;studytime&quot;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">count_study_free</span> <span class="o">=</span> <span class="n">df_math</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;freetime&quot;</span><span class="p">,</span> <span class="s2">&quot;studytime&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<span class="n">x_levels</span> <span class="o">=</span> <span class="n">count_study_free</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="n">level</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">y_levels</span> <span class="o">=</span> <span class="n">count_study_free</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="n">level</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_levels</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">y_levels</span><span class="p">:</span>
+        <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">count_study_free</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;#1f77b4&quot;</span><span class="p">)</span>
+
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;freetime&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;studytime&quot;</span><span class="p">)</span>
+
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;ohne Häufigkeitsinformation&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;mit Häufigkeitsinformation&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/0ce4adaf01036c4f850438bfda4f6e0f378110808e08105763de4dde217f64c8.png" src="_images/0ce4adaf01036c4f850438bfda4f6e0f378110808e08105763de4dde217f64c8.png" />
+</div>
+</div>
+<p>Die Möglichkeit alle paarweisen Abhängigkeiten eines Datensatzes zu visualisieren, besteht durch die Verwendung von Heatmaps der Korrelationsmatrix eines Datensatzes. Auch hier gilt es bei der Berechnung der Korrelationen, die Skalen der Merkmale zu beachten. Solange ein Merkmal mindestens ordinal skaliert ist, kann der Korrelationskoeffizient nach Spearman (Rangkorrelation) verwendet werden. In unserem Beispiel schließen wir daher die Variable des Geschlechts aus. In einer Heatmap werden durch Farben und Zahlen relativ schnell alle paarweisen Abhängigkeiten übersichtilich. Ein Beispiel finden Sie in der folgenden Zelle.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="n">corr_mat</span> <span class="o">=</span> <span class="n">df_math</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;num_sex&quot;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;spearman&quot;</span><span class="p">)</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">corr_mat</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">corr_mat</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">corr_mat</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b111d665e12e6f07c0e7aa247ec7f40af571982b28a242947bf613d488a0f230.png" src="_images/b111d665e12e6f07c0e7aa247ec7f40af571982b28a242947bf613d488a0f230.png" />
+</div>
+</div>
+<p>Zuletzt betrachten wir noch ein Beispiel für die Zusammenhangsanalyse, wenn wir an einer Zielvariable und den möglichen Einfluss von einzelnen unabhängigen Merkmalen interessiert sind, die nicht stetig skaliert sind. Es bietet sich hier an, Histogramme nach den Kategorien der unabhängigen Variablen zu generieren. Beispielsweise sehen wir in der Graphik der nächsten Zelle erneut in Histogrammform der finalen Prüfungsergebnisse, jedoch dieses Mal getrennt nach Personen mit hoher und geringerer Lernzeit. Derartige Grafiken lassen sich auch für Merkmale mit mehreren Ausprägungen erstellen. Gleichen sich die Histogramme des Merkmals von Interesse für unterschiedliche Kategorien eines anderen Merkmals, kann eher weniger von einem Einfluss des Merkmals auf die Zielvariable ausgegangen werden. Je unterschiedlicher die Verteilungen in Abhängigkeit der Kategorie, umso stärker ist potentiel der Einfluss des Merkmals.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df_math</span><span class="p">[</span><span class="s2">&quot;G3&quot;</span><span class="p">][</span><span class="n">df_math</span><span class="o">.</span><span class="n">studytime</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">],</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;studytime &lt;= 2&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df_math</span><span class="p">[</span><span class="s2">&quot;G3&quot;</span><span class="p">][</span><span class="n">df_math</span><span class="o">.</span><span class="n">studytime</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">],</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;studytime &gt; 2&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Final test results&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b5bccfa64a2db1cdc6cbf7379fbf293bb5d4574ab4122851b79e92a8df03837c.png" src="_images/b5bccfa64a2db1cdc6cbf7379fbf293bb5d4574ab4122851b79e92a8df03837c.png" />
+</div>
+</div>
+<p>Hiermit beenden wir den Auszug aus den Möglichkeiten der graphischen Beschreibung von Daten. An dieser Stelle sei angemerkt, dass die Erzeugung erkenntnisreicher Graphiken ein lebenslanger Lernprozess ist, da gute graphische Visualisierungen stark vom jeweiligen Datensatz abhängen.</p>
+</section>
+</section>
+<section id="vorbereitung-der-daten">
+<h2>Vorbereitung der Daten<a class="headerlink" href="#vorbereitung-der-daten" title="Permalink to this heading">#</a></h2>
+<p>Nach den ersten Erkenntnissen der deskriptiven Analyse, müssen manche Datenpunke vorbereitet werden, um Modelle der Datenanalyse mit diesen Daten zu trainieren. Die relevantesten Aspekte hierbei sind der Umgang mit kategorialen Daten und die Normierung quantitativer Merkmalsausprägungen. Bei nominalen und ordinalen Merkmalen, kann es vorkommen, dass diese im Datensatz als nicht numerische Werte übergebene werden, z.B. “male”, “female” oder “bad”, “neutral”, “good”. Für orinale Merkmale bietet es sich an, den Kategorien Zahlen entsprechend der oridinalen Reihung zuzuordnen, z.B. “bad” -&gt; 1, “neutral” -&gt; 2, “good” -&gt; 3. Es ist übrigens nicht zwingend erforderlich, dass die Zahlen 1,2,3 verwendet werden, solange eine sinnvolle Logik bei der Reihung verwendet wird, können die Ausprägungen beliebig gewählt werden. Ist ein Merkmal nominal skaliert, wird häufig eine 1-0 Kodierung verwendet. Im Englischen spricht man vom One-Hot-Encoding dessen Name impliziert, dass die jeweils zutreffende Kategorie als “Hot” durch eine 1 markiert wird. Genauer muss beim One-Hot-Encoding so viele neue Variablen generieren, wie es Kategorien gibt. Bei zwei Kategorien würde beispielsweise die erste Kategorie durch den Vektor <span class="math notranslate nohighlight">\(\begin{pmatrix} 1 &amp; 0 \end{pmatrix}^T\)</span> und die zweite Kategorie durch den Vektor <span class="math notranslate nohighlight">\(\begin{pmatrix} 0 &amp; 1 \end{pmatrix}^T\)</span>, bei drei Kategorien würde beispielsweise die erste Kategorie durch den Vektor <span class="math notranslate nohighlight">\(\begin{pmatrix} 1 &amp; 0 &amp; 0 \end{pmatrix}^T\)</span>, die zweite Kategorie durch den Vektor <span class="math notranslate nohighlight">\(\begin{pmatrix} 0 &amp; 1 &amp; 0 \end{pmatrix}^T\)</span> und die dritte Kategorie durch den Vektor <span class="math notranslate nohighlight">\(\begin{pmatrix} 0 &amp; 0 &amp; 1 \end{pmatrix}^T\)</span> dargestellt werden. Diese Art der Kodierung kann auch für ordinale Merkmale verwendet werden, jedoch geht hiermit die ordinale Information zunächst verloren. Alternativ wird in der Statistik auch die Dummy-Kodierung verwendet, bei der eine Kategorie als Standard festgelegt und die übrigen Ausprägungen durch <span class="math notranslate nohighlight">\(K-1\)</span> 1-0 Variablen kodiert werden.</p>
+<p>Bei numerischen Merkmalen kann es oft sinnvoll und manchmal auch erforderlich sein, die Werte auf einen vergleichbaren Wertebereich zu bringen. Dies erleichtert bei der Analyse die Vergleichbarkeit der Einflussstärke und ist für manche Algorithmen erforderlich um numerische Probleme beim Trainieren der Modelle zu verhindern. Für diesen Zweck, können unterschiedliche Arten der Normierung gewählt werden. Zwei gängie Möglichkeit sind die Standardisierung:</p>
+<div class="math notranslate nohighlight">
+\[
+z = \frac{x - \bar{x}}{s}
+\]</div>
+<p>und die Min-Max-Skalierung:</p>
+<div class="math notranslate nohighlight">
+\[
+z = \frac{x - \min(x)}{\max(x) - \min(x)}
+\]</div>
+<p>In den unteren Zellen generieren wir einen Beispieldatensatz mit den Merkmalen “gender”, “assessment” und “score”. Die <em>info</em> Methode des pandas-DataFrames zeigt uns, dass es sich bei den ersten beiden Variablen um kategoriale Merkmale handelt, die im Textformat im Datensatz enthalten sind. Dies wird von pandas durch den Typ “object” signalisiert. Der Typ “float64” beschreibt eine floating point number, was eine Kommatrennzahl entspricht womit wir von einem numerischen Wert ausgehen können. Im ersten Schritt wird das Merkmal “gender” auf die Anzahl unterschiedlicher Ausprägungen analysiert und im Anschluss One-Hot-Encoded. Im Anschluss werden den Kategorien der Variable “assessment” in aufsteigender Reihenfolge Zahlen zugewiesen. Zuletzt wird die Variable “score” standardisiert und Min-Max skaliert. Die Auswirkung der unterschiedlichen Skalierung lässt sich am besten durch den Vergleich der Histogramme oder der Boxplots dieser Variablen visualisieren.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">gender</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;male&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">250</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;female&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">250</span>
+<span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">gender</span><span class="p">)</span>
+<span class="n">assessment</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bad&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">150</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;neural&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">200</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;good&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">150</span>
+<span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">assessment</span><span class="p">)</span>
+<span class="n">numerical</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;gender&quot;</span><span class="p">:</span> <span class="n">gender</span><span class="p">,</span> <span class="s2">&quot;assessment&quot;</span><span class="p">:</span> <span class="n">assessment</span><span class="p">,</span> <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="n">numerical</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 500 entries, 0 to 499
+Data columns (total 3 columns):
+ #   Column      Non-Null Count  Dtype  
+---  ------      --------------  -----  
+ 0   gender      500 non-null    object 
+ 1   assessment  500 non-null    object 
+ 2   score       500 non-null    float64
+dtypes: float64(1), object(2)
+memory usage: 11.8+ KB
+None
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>gender</th>
+      <th>assessment</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>female</td>
+      <td>neural</td>
+      <td>0.460717</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>male</td>
+      <td>good</td>
+      <td>-0.791882</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>female</td>
+      <td>good</td>
+      <td>3.034854</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>male</td>
+      <td>bad</td>
+      <td>2.621412</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>male</td>
+      <td>good</td>
+      <td>0.619691</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+
+
+<span class="n">one_hot_encoder</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The variable gender has the following unique values:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">gender</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="s2">&quot;male&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">one_hot_encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">gender</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;gender&quot;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The variable gender has the following unique values:
+[&#39;female&#39; &#39;male&#39;]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>assessment</th>
+      <th>score</th>
+      <th>female</th>
+      <th>male</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>neural</td>
+      <td>0.460717</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>good</td>
+      <td>-0.791882</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>good</td>
+      <td>3.034854</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>bad</td>
+      <td>2.621412</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>good</td>
+      <td>0.619691</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The variable assessment has the following unique values:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">assessment</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">to_replace</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bad&quot;</span><span class="p">,</span> <span class="s2">&quot;neural&quot;</span><span class="p">,</span> <span class="s2">&quot;good&quot;</span><span class="p">],</span> <span class="n">value</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The variable assessment has the following unique values:
+[&#39;neural&#39; &#39;good&#39; &#39;bad&#39;]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>assessment</th>
+      <th>score</th>
+      <th>female</th>
+      <th>male</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>0.460717</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>-0.791882</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>3.034854</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>2.621412</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3</td>
+      <td>0.619691</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span><span class="p">,</span> <span class="n">MinMaxScaler</span>
+
+<span class="n">standard_scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">minmax_scaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;standard_score&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">standard_scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">score</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;minmax_score&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">minmax_scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">score</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>assessment</th>
+      <th>score</th>
+      <th>female</th>
+      <th>male</th>
+      <th>standard_score</th>
+      <th>minmax_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>0.460717</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>-0.675089</td>
+      <td>0.436486</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>-0.791882</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>-1.274583</td>
+      <td>0.337571</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>3.034854</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.556893</td>
+      <td>0.639762</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>2.621412</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.359020</td>
+      <td>0.607113</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3</td>
+      <td>0.619691</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>-0.599004</td>
+      <td>0.449040</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">standard_score</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">minmax_score</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;score&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;standard_score&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;minmax_score&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/76c06d60d1a1b0b2e26e186132b43b003838de0713fa6842ea28bb6fcc69dd45.png" src="_images/76c06d60d1a1b0b2e26e186132b43b003838de0713fa6842ea28bb6fcc69dd45.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&quot;score&quot;</span><span class="p">,</span> <span class="s2">&quot;standard_score&quot;</span><span class="p">,</span> <span class="s2">&quot;minmax_score&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/1470d4a3baa9087f5e2a540ce3de47d09a6d47a5b5c66e08964dfe1fb5912d0e.png" src="_images/1470d4a3baa9087f5e2a540ce3de47d09a6d47a5b5c66e08964dfe1fb5912d0e.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02_DataAccess.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Zugang zu Daten</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04_SupervisedLearning.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Die Analyse abhängiger Variablen</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datenerhebung-und-datenkollektion">Datenerhebung und Datenkollektion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#umgang-mit-fehlenden-daten">Umgang mit fehlenden Daten</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merkmalstypen-und-skalen">Merkmalstypen und Skalen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantitative-beschreibung-der-merkmale">Quantitative Beschreibung der Merkmale</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graphische-darstellung-der-daten">Graphische Darstellung der Daten</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#univariate-verteilungen-der-merkmalsauspragungen">Univariate Verteilungen der Merkmalsausprägungen</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#darstellung-von-zusammenhangen">Darstellung von Zusammenhängen</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vorbereitung-der-daten">Vorbereitung der Daten</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Prof. Dr. Ralf Kellner
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1442 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Das multiple lineare Regressionmodell &#8212; Datenanalyse und Datenmanagement</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '05_LinearRegression';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Klassifizierung" href="06_Classification.html" />
+    <link rel="prev" title="Die Analyse abhängiger Variablen" href="04_SupervisedLearning.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_Introduction.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/Logo_VWA.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/Logo_VWA.jpg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_Introduction.html">
+                    Einführung
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_PythonIntroduction.html">Einführung in Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_DataAccess.html">Zugang zu Daten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_DescriptiveAnalysis.html">Deskriptive Analyse von Daten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_SupervisedLearning.html">Die Analyse abhängiger Variablen</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Das multiple lineare Regressionmodell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_Classification.html">Klassifizierung</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="07_ModellAccuracy.html">Generalisierung funktionaler Zusammenhänge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_ModelComplexity.html">Modellkomplexität</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_Regularization.html">Regularisierung</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="10_DimensionalityReduction.html">Dimensionsreduktion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_Clustering.html">Clustering</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2F05_LinearRegression.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/05_LinearRegression.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Das multiple lineare Regressionmodell</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trainieren-des-linearen-regressionsmodells">Trainieren des linearen Regressionsmodells</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schatzunsicherheit">Schätzunsicherheit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modellgute">Modellgüte</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#beurteilung-der-unabhangigen-variablen">Beurteilung der unabhängigen Variablen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variablenselektion">Variablenselektion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abweichungen-der-modellannahmen">Abweichungen der Modellannahmen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#zusammenfassung">Zusammenfassung</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="das-multiple-lineare-regressionmodell">
+<h1>Das multiple lineare Regressionmodell<a class="headerlink" href="#das-multiple-lineare-regressionmodell" title="Permalink to this heading">#</a></h1>
+<p>Eines der einfachsten Modelle der Datenanalyse für numerische Variablen ist das lineare Regressionsmodell. Meist wird in den einführenden Statistikveranstaltungen eines Studiums das lineare Regressionsmodell mit einer unabängigen Variablen besprochen. Wir betrachten den allgemeineren Fall des linearen Regressionsmodells mit mehreren (bei uns <span class="math notranslate nohighlight">\(p\)</span> Variablen) unabhängigen Variablen:</p>
+<div class="math notranslate nohighlight">
+\[
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_p x_p + \epsilon =  \boldsymbol{\beta}^T \boldsymbol{x} + \epsilon
+\]</div>
+<p>In der Gleichung entspricht <span class="math notranslate nohighlight">\( \boldsymbol{\beta} = \begin{pmatrix} \beta_0 \\ \beta_1 \\ \vdots \\ \beta_p \end{pmatrix}\)</span> und <span class="math notranslate nohighlight">\( \boldsymbol{x} = \begin{pmatrix} 1 \\ x_1 \\ \vdots \\ x_p \end{pmatrix}\)</span></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Notation: In einführenden Statistikveranstaltungen wird oft zwischen der Zufallsvariablen <span class="math notranslate nohighlight">\(Y\)</span> und einer Realisierung <span class="math notranslate nohighlight">\(y\)</span> durch Groß- und Kleinschreibung unterschieden. Um die Notation möglichst schlank zu halten, verzichten wir auf diese Konvention und entnehmen dem Kontext, ob es sich um das Konzept der Zufallsvariablen oder um eine Realisierung einer Variablen handelt. Zudem verwende ich öfter die Vektor- bzw. Matrixschreibweise, um formalle Darstellungen kompakt zu halten. Fettgedruckte Kleinbuchstaben entsprechen Vektoren, fettgedruckte Großbuchstaben entsprechen Matrizen.</p>
+</div>
+<p>Wie der Name impliziert, können durch das lineare Regressionmodell lediglich lineare Zusammenhänge erfasst werden. D.h. im Fall der einfachen linearen Regression entspricht die Funktion einer Geraden, mit zwei Variablen einer Ebene und im allgemeinen Fall einer sogenannten Hyperebene. Charakteristisch für den linearen Zusammenhang ist es, dass der Anstieg um eine Einheit einer unabhängigen Variable immer zu einer konstanten Erhöhung der abhängigen Variable führt, unabhängig davon welchen Wert die unabhängigen Variable in ihrem Wertebereich gerade annimmt. Beispielsweise erhöhrt sich der Umsatz <span class="math notranslate nohighlight">\(y\)</span> eines Unternehmens immer um <span class="math notranslate nohighlight">\(\beta x \)</span>, egal ob x gerade ein kleiner Wert oder ein großer Wert ist.</p>
+<p>Dennoch kann durch die Wahl der Parameter <span class="math notranslate nohighlight">\(\boldsymbol{\beta}\)</span> das Modell angepasst werden. In der unteren Zelle sehen wir den Einluss der konstanten <span class="math notranslate nohighlight">\(\beta_0\)</span>, durch die es zu einer paralellen Verschiebung der Linie im einfachen Regressionsmodell kommt. Zudem kann durch die Wahl von <span class="math notranslate nohighlight">\(\beta_1\)</span> die Steigung der Geraden manipuliert werden. Letzteres trifft auf stetige bzw. ordinale unabhängige Variablen zu. Handelt es sich bei <span class="math notranslate nohighlight">\(x\)</span> um eine kategoriale Variable wird erneut die Gerade parallel nach oben oder unten verschoben. Der Wert der <span class="math notranslate nohighlight">\(\beta_j\)</span> Parameter lässt Rückschlüsse auf den möglichen Einfluss der jeweiligen unabhängigen Variablen zu. Ist der Wert beispielsweise <span class="math notranslate nohighlight">\(0\)</span>, so kann von keinem Einfluss der jeweiligen Variablen ausgegangen werden. Positiven (negative) Werte hingegen sind ein Indiz für einen möglichen Zusammenhang. Der Vollständigkeit halber sei erwähnt, dass das Modell erst mit einer Annahme über die Residuen <span class="math notranslate nohighlight">\(\epsilon\)</span> vollständig ist. Diese Annahme hat Einfluss auf die statistische Inferenz der geschätzen Einflüsse. In diesem Kurs fokussieren wir uns jedoch weniger auf die statistische Inferenz, sondern vielmehr auf die Schätzung der Punktschätzer der Parameter, weswegen wir nicht näher auf die Annahme zu <span class="math notranslate nohighlight">\(\epsilon\)</span> und den damit verbundenen Wahrscheinlichkeitstheoretischen Folgerungen eingehen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">b0</span> <span class="o">=</span> <span class="mf">2.</span>
+<span class="n">b1</span> <span class="o">=</span> <span class="mf">1.</span>
+
+<span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">250</span><span class="p">)</span>
+<span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="mi">250</span><span class="p">)</span>
+
+<span class="n">y1</span> <span class="o">=</span> <span class="n">b0</span> <span class="o">+</span> <span class="n">b1</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="n">e</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">b0</span> <span class="o">+</span> <span class="n">b1</span><span class="o">*</span><span class="n">x1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\beta_0$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">b0</span> <span class="o">-</span> <span class="mf">1.</span> <span class="o">+</span> <span class="n">b1</span><span class="o">*</span><span class="n">x1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\beta_0 - 1$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">b0</span> <span class="o">+</span> <span class="mf">1.</span> <span class="o">+</span> <span class="n">b1</span><span class="o">*</span><span class="n">x1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\beta_0 + 1$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Influence of the intercept&quot;</span><span class="p">)</span>
+
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">b0</span> <span class="o">+</span> <span class="n">b1</span><span class="o">*</span><span class="n">x1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\beta_1$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">b0</span> <span class="o">+</span> <span class="p">(</span><span class="n">b1</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="n">x1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\beta_1 - 0.5$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">b0</span> <span class="o">+</span> <span class="p">(</span><span class="n">b1</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="n">x1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\beta_1 + 0.5$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Influence of the slope&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/6e00792b7f496a977485670e92e7090502f088e970002063bdca32054ffe83a8.png" src="_images/6e00792b7f496a977485670e92e7090502f088e970002063bdca32054ffe83a8.png" />
+</div>
+</div>
+<p>Anzumerken ist, dass auch mittels des Regressionsmodells nicht-lineare Zusammenhänge abgebildet werden können, wenn die Variablen auf nicht lineare Art transformiert werden. Vermuten wir beispielsweise einen eher quadratischen Zusammenhang zwischen der <span class="math notranslate nohighlight">\(x\)</span> und <span class="math notranslate nohighlight">\(y\)</span>, so können wir <span class="math notranslate nohighlight">\(x^2\)</span> mit ins Modell aufnehmen. Die Auswirkung auf die funktionale Form des Modells kann in der nächsten Zelle betrachtet werden. Bei diesem Ansatz handelt es sich um die polynomiale Regression, ber der selbstverständlich auch höhere Polynome als Funktion aufgenommen werden können. Hierbei weichen wir jedoch bereits vom traditionellen linearen Regressionsmodell ab. Die polynomiale Regression ist eine von mehreren Alternative zum linearen Regressionsmodell, welche durch die Erhöhung der Komplexität des Modells eine höhere Flexibilität erzeugt. Dies ist jedoch oft auch mit Herausforderungen verbunden, welche erst später im Kurs diskutiert werden sollen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">b0</span> <span class="o">=</span> <span class="mf">2.</span>
+<span class="n">b1</span> <span class="o">=</span> <span class="mf">1.</span>
+
+<span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">250</span><span class="p">)</span>
+<span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="mi">250</span><span class="p">)</span>
+
+<span class="n">y1</span> <span class="o">=</span> <span class="n">b0</span> <span class="o">+</span> <span class="n">b1</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="n">e</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">axs</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+<span class="n">axs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">b0</span> <span class="o">+</span> <span class="n">b1</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">+</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">x1</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/321be2b38b466eb3de6f75fb21b12e3b5f23e2f92833030c812317ac47341cbe.png" src="_images/321be2b38b466eb3de6f75fb21b12e3b5f23e2f92833030c812317ac47341cbe.png" />
+</div>
+</div>
+<section id="trainieren-des-linearen-regressionsmodells">
+<h2>Trainieren des linearen Regressionsmodells<a class="headerlink" href="#trainieren-des-linearen-regressionsmodells" title="Permalink to this heading">#</a></h2>
+<p>Im vorherigen Abschnitt haben wir bereits kurz erwähnt, dass die Werte der Parameter <span class="math notranslate nohighlight">\(\boldsymbol{\beta}\)</span> maßgeblich für die Interpretation und Analyse möglicher Einflüsse der unabhängigen Variablen sind. Die hiermit verbundene wichtige Frage ist, was bei gegebenen Daten sinnvolle Werte für <span class="math notranslate nohighlight">\(\boldsymbol{\beta}\)</span> sind? Da das Modell das Zustandekommen der realen Zusammenhänge möglichst gut abbilden soll, werden in der Regel die Daten einer Stichprobe verwendet, um die Modellparameter so zu schätzen, dass die vorliegende Stichprobe möglichst gut durch das Modell erklärt wird. Im besten Fall erhält man auf diese Weise ein Modell, welches ebenso gut für neue Stichproben funktioniert. Gelingt dies, kann man davon ausgehen, dass das Modell im allgemeinen geeignet ist, um die Zusammenhänge für die vorliegende Aufgabenstellung abzubilden.</p>
+<p>Um ein Modell auf gegebene Daten möglichst gut anzupassen wird versucht, die Parameter so festzulegen, dass die Prognosen des Modells möglichst nahe an den realen Beobachtungen liegen. Gelingt dies, kann davon gesprochen werden, dass durch das Modell das Zustandekommen der Daten möglichst gut erklärt wird. Um zu lernen, wie dieser Vorgang bewältigt wird, starten wir zunächst mit einem einfachen (jedoch unrealistischen) Beispiel. Gegeben sei eine Beobachtung <span class="math notranslate nohighlight">\(y = 3\)</span> mit der Beobachtung einer unabhängigen Variablen <span class="math notranslate nohighlight">\(x = 2\)</span>. Die Gleichung der Regressionsgeraden sei:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = \beta \cdot x 
+\]</div>
+<p>Es handelt sich somit um eine Gerade durch den Ursprung des Koordinatensystems deren Steigung durch die Wahl von <span class="math notranslate nohighlight">\(\beta\)</span> beinflusst werden kann.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="n">x_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;grey&quot;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;grey&quot;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">x_range</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\beta = 0.5$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">x_range</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\beta = 2.0$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">x_range</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\beta = -0.5$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">x_range</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\beta = -2.0$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/99f5cfb5e9791fca499c025c59ff1b07776a4d96d0d326ed14232c22328d0540.png" src="_images/99f5cfb5e9791fca499c025c59ff1b07776a4d96d0d326ed14232c22328d0540.png" />
+</div>
+</div>
+<p>Um zu überprüfen, wie nahe die Prognose am tatsächlichen Wert liegt, bietet es sich an, zunächst die Differenz <span class="math notranslate nohighlight">\(y - f(x)\)</span> zu bestimmen. Da man sich jedoch primär eher dafür interessiert, wie hoch die Abweichung ist und nicht, ob man den tatsächlichen Wert gerade unter- oder überschätzt, wird vielmehr der absolute Wert <span class="math notranslate nohighlight">\(|y - f(x)|\)</span> oder die quadratische Abweichung <span class="math notranslate nohighlight">\(\left(y - f(x)\right)^2\)</span> verwendet, um zu quantifizieren, wie weit Realisierung und Schätzung des Modells voneinander entfernt sind. Die quadratische Abweichung hat mathematisch nützlichere Eigenschaften, weshalb diese meist verwendet wird. Die die Schätzung des Modells vom Parameter <span class="math notranslate nohighlight">\(\beta\)</span> abhängt, wollen wir die Kosten- bzw. Verlustfunktion definieren:</p>
+<div class="math notranslate nohighlight">
+\[
+L\left(y, f_{\beta}(x) \right) = \left(y - f_{\beta}(x)\right)^2
+\]</div>
+<p>In unserem Beispiel können wir direkt die Werte einsetzen:</p>
+<div class="math notranslate nohighlight">
+\[
+L\left(y, f_{\beta}(x) \right) = \left(3 - \beta \cdot 2\right)^2
+\]</div>
+<p>In der unteren Grafik sehen wir den Zusammenhang zwischen verschiedenen Werten für <span class="math notranslate nohighlight">\(\beta\)</span> und der Lossfunktion <span class="math notranslate nohighlight">\(L\left(y, f_{\beta}(x) \right)\)</span>. Wünschenswert ist ein möglichst geringer Wert für <span class="math notranslate nohighlight">\(L\left(y, f_{\beta}(x) \right)\)</span>, da hiermit eine möglichst gerine Abweichung zwischen Prognose des Modells und dem realisierten Wert einhergeht. Mathematisch befinden wir uns somit in einem Optimierungs-, genauer, Minimierungsproblem, bei dem es darum geht durch die Wahl von <span class="math notranslate nohighlight">\(\beta\)</span> die Funktion <span class="math notranslate nohighlight">\(L\left(y, f_{\beta}(x) \right)\)</span> zu minimieren. Für unser Beispiel können wir dieses Problem relativ leicht lösen, in dem wir mögliche Extremstellen der Funktion mittels ableiten und null setzen bestimmen und im nächsten Schritt durch die zweite Ableitung überprüfen, ob es sich bei den Extremstellen um ein Minimum, Maximum oder einen Wendepunkt handelt.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\frac{\partial L}{\partial \beta} = 2 (3 - \beta \cdot 2) \cdot (-2) \stackrel{!}{=} 0 \\
+-12 + 8 \cdot \beta = 0 \\
+\beta = \frac{3}{2}
+\end{aligned}
+\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial^2 L}{\partial^2 \beta} = 8 &gt; 0
+\]</div>
+<p>Wir sehen, dass es sich bei der Lösung <span class="math notranslate nohighlight">\(\beta = \frac{3}{2}\)</span> um ein Minimum handelt. Die entsprechende Linie geht in unserem Beispiel direkt durch den Punkt <span class="math notranslate nohighlight">\((2, 3)\)</span> womit wir für diese eine Beobachtung eine exakte Prognose erhalten.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="n">x</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">L</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">beta</span><span class="p">:</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">beta_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">beta_range</span><span class="p">,</span> <span class="n">L</span><span class="p">(</span><span class="n">beta_range</span><span class="p">))</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\beta$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$L\left(y, f_{\beta}(x) \right)$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Loss function&quot;</span><span class="p">)</span>
+
+<span class="n">x_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;grey&quot;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;grey&quot;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">x_range</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\beta = 1.5$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Model prediction&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/3c64b46c736d6053f3fd5b37ef22496694d22ea2fb1859ea95807e92c8646c28.png" src="_images/3c64b46c736d6053f3fd5b37ef22496694d22ea2fb1859ea95807e92c8646c28.png" />
+</div>
+</div>
+<p>Im realistischen Fall mit mehreren Datenpunkten ist es in der Regel nicht möglich perfekte Vorhersagen des Modells zu generieren, egal wie gut die Parameter des Modells gewählt werden. Jedoch können die Parameters des Modells mit der gleichen Logik wie im vorherigen Beispiel bestimmt werden. Fügen wir unserer Stichprobe nebem dem Punkt <span class="math notranslate nohighlight">\((x_1 = 2, y_1 = 3)\)</span> einen weiteren Datenpunkt <span class="math notranslate nohighlight">\((x_2 = 3, y_2 = 2)\)</span> hinzu. Die Lossfunktion wird zu:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{split}
+L\left(y, f_{\beta}(\boldsymbol{x}) \right) &amp; = \frac{1}{2} \left( \left(y_1 - f_{\beta}(x_1)\right)^2 +  \left(y_2 - f_{\beta}(x_2)\right)^2 \right) = \\
+&amp; = \frac{1}{2} \sum_{i = 1}^2 \left(y_i - f_{\beta}(x_i)\right)^2 = \\
+&amp; = \frac{1}{2} \sum_{i = 1}^2 \left(y_i - \beta x_i\right)^2 
+\end{split}
+\end{split}\]</div>
+<p>Auch wenn die Darstellung durch das Summenzeichen etwas formaler wird, kann ein mögliches Minimum wie vorher durch die erste Ableitung bestimmt werden:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\frac{\partial L}{\partial \beta} = \frac{1}{2} \sum_{i=1}^2 2 \left(y_i - \beta x_i\right) \cdot (-x_i) = \sum_{i=1}^2 \left(y_i - \beta x_i\right) \cdot (-x_i) \stackrel{!}{=} 0 \\
+\sum_{i=1}^2 - x_i y_i + \sum_{i=1}^2 \beta x_i^2 = 0 \\
+\beta \sum_{i=1}^2 x_i^2 = \sum_{i=1}^2 x_i y_i  \\
+\beta = \frac{\sum_{i=1}^2 x_i y_i }{\sum_{i=1}^2 x_i^2 }
+\end{aligned}
+\end{split}\]</div>
+<p>In unserem Beispiel resultiert hieraus der Wert <span class="math notranslate nohighlight">\(\beta = \frac{12}{13}\)</span>. Die untere Grafik visualisiert, dass auf diese Weise eine Gerade resultiert, die zwischen den beiden Punkten verläuft. Das Modell versucht auf diese Weise möglichst nahe an beiden Punkten zu sein.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">])</span>
+
+<span class="n">L</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">beta</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">beta_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">losses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">L</span><span class="p">(</span><span class="n">beta_</span><span class="p">)</span> <span class="k">for</span> <span class="n">beta_</span> <span class="ow">in</span> <span class="n">beta_range</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">beta_range</span><span class="p">,</span> <span class="n">losses</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\beta$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$L\left(y, f_{\beta}(x) \right)$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Loss function&quot;</span><span class="p">)</span>
+
+<span class="n">x_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;grey&quot;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;grey&quot;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="mi">12</span><span class="o">/</span><span class="mi">13</span> <span class="o">*</span> <span class="n">x_range</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\beta = 1.5$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Model prediction&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/88922723171dd6126010192e0c51f9b59458762004535a88d3fe2953785f7e66.png" src="_images/88922723171dd6126010192e0c51f9b59458762004535a88d3fe2953785f7e66.png" />
+</div>
+</div>
+<p>Wir halten also fest, dass die Anpassung des Modells der Daten durch mathematische Optimierung erfolgt. Hierbei ist es wichtig zu verstehen, dass die Datenpunkte der Stichprobe <span class="math notranslate nohighlight">\((x_1, y_1), ..., (x_n, y_n)\)</span> unveränderliche Werte sind und die Anpassung des Modells über die Wahl der Parameter erfolgt. Im Allgemeinen Fall mit mehreren Datenpunkten und dem multiplen linearen Regressionsmodell ist die Lossfunktion:</p>
+<div class="math notranslate nohighlight">
+\[
+L\left(\boldsymbol{y}, f_{\boldsymbol{\beta}}(\boldsymbol{X}) \right) = \frac{1}{n} \sum_{i=1}^n \left(y_i - \boldsymbol{\beta}^T \boldsymbol{x}_i \right)^2
+\]</div>
+<p>bzw. da für die Identifikation des Minimums die Konstante <span class="math notranslate nohighlight">\(\frac{1}{n}\)</span> unwesentlich ist, wird manchmal auch die Lossfunktion:</p>
+<div class="math notranslate nohighlight">
+\[
+L\left(\boldsymbol{y}, f_{\boldsymbol{\beta}}(\boldsymbol{X}) \right) = \sum_{i=1}^n \left(y_i - \boldsymbol{\beta}^T \boldsymbol{x}_i \right)^2
+\]</div>
+<p>minimiert. Auch wenn die Minimierung hierfür etwas schwieriger als in unseren einfachen Beispielen wird, können alle Werte für <span class="math notranslate nohighlight">\(\boldsymbol{\beta}\)</span> auf analytische Weise bestimmt werden. Diese Lösung ist in allen gängigen statistischen Paketen und Programmen implementiert und wir verzichten an dieser Stelle auf die formale Darstellung. Zuletzt sei an dieser Stelle darauf hingewiesen, dass sich die durch die Minimierung der Lossfunktion bestimmten Parameter normalerweise je Stichprobe unterscheiden. Daher werden die geschätzten Parameter meist mit einem Dach-Symbol wie hier <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\beta}}\)</span> versehen, um klar zu machen, dass es sich um Schätzungen aus der Stichprobe und nicht um die wahren Werte der Gesamtpopulation handelt.</p>
+</section>
+<section id="schatzunsicherheit">
+<h2>Schätzunsicherheit<a class="headerlink" href="#schatzunsicherheit" title="Permalink to this heading">#</a></h2>
+<p>Bevor wir auf ein konkretes Beispiel eingehen, wollen wir uns noch etwas näher mit dem Aspekt der Schätzunsicherheit befassen. In manchen Fällen mag es theoretisch möglich sein, dass man Zugriff auf die Daten der Gesamtpopulation hat und somit den wahren Wert eines Parameters bestimmen kann. Beispielsweise ist es theoretisch möglich die durchschnittliche Körpergröße aller Erwachsenen Bürger eines Landes zu ermitteln. Jedoch scheitert dieses Vorhaben oft an praktischen Aspekten bei der Datensammlung und bei Fragen des wirtschaftlichen Nutzens, da die Erhebung aller Daten oft mit hohen Kosten verbunden ist. Sobald man entsprechend nicht auf alle Werte der Population zurück greift, sondern versucht durch eine Stichprobe den unbekannten Wert der Population zu bestimmen, entsteht die durch die Zufälligkeit der Stichprobenerhebung Unsicherheit beim geschätzten Wert. Wird öfter eine zufällige Stichprobe gezogen, werden sich die zufälligen Realsierungen und somit die geschätzten Parameter je Stichprobe unterscheiden. Betrachten wir das stark vereinfachende Beispiel in der unteren Zelle, sehen wir, dass es bei zufälligen Ziehungen aus einer Population und dem Schätzen des Erwartungswertes durch das arithmetische Mittel zu variierenden und immer vom wahren Wert abweichenden Werten kommt. Ein derartiges Verhalten besteht immer, wenn die Parameter von Modellen anhand von Stichproben geschätzt werden. Je stärker die geschätzten Parameter variieren, umso höher die statistische Unsicherheit und die damit verbundene Inferenz. Wie stark die Parameter variieren lässt sich durch die Standardfehler quantifizieren. Diese werden für die Berechnung wichtiger statistischer Kennzahlen wie das Konfidenzintervall und dem p-value verwendet.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="n">population</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">22</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">22</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The population values are:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">population</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">tri</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+<span class="n">sample_means</span> <span class="o">=</span> <span class="n">population</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">true_mean</span> <span class="o">=</span> <span class="n">population</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The true mean of the population is:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">true_mean</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sample means with leave one out drawing are:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sample_means</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The population values are:
+[22 21 25 27 22]
+ 
+The true mean of the population is:
+23.4
+ 
+Sample means with leave one out drawing are:
+[23.75 24.   23.   22.5  23.75]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Frequentistische statistische Hypothesentests versuchen die Unsicherheit der Parameterschätzung bei der Überprüfung einer Hypothese mit einzubeziehen. Geht man z.B. bei der Null-Hypothese davon aus, dass die Variable <span class="math notranslate nohighlight">\(x_1\)</span> keinen von null verschiedenen Einfluss auf die abhängige Variable hat, so kann es durch die Zufälligkeit der Stichprobenziehung natürlich trotzdem passieren, dass <span class="math notranslate nohighlight">\(\hat{\beta}_1\)</span> einen von Null verschiedenen Wert annimmt, selbst wenn der wahre Wert <span class="math notranslate nohighlight">\(\beta = 0\)</span> ist. Kann man jedoch den Standardfehler des Parameterschätzers bestimmen, ist man in der Lage Grenzwerte festzulegen, ab denen der geschätzte zufällige Werte einer Stichprobe für eine gegebene Hypothese sehr unplausibel erscheint. Neben klassischen Tests werden oft Konfidenzintervalle bei geschätzten Parametern mit angegeben. Je höher der Standardfehler eines Schätzers umso breiter das Intervall, umso weniger konkret der Rückschluss auf den geschätzten Einfluss der zugehörigen Variable. Die genaue Funktionsweise von Hypthesentests und der Umgang mit Konfidenzintervalle sollten Inhalte einführender Statistikveranstaltungen Ihres Studiums sein, jedoch möchte ich Sie mit dieser Diskussion für die Wichtigkeit der statistischen Unsicherheit geschätzter Parameter eines Modells sensibilisieren. Der Blick bei der Analyse eines Modells sollte nicht nur auf den geschätzten Wert, sondern auf desen Unsicherheit gerichtet sein.</p>
+<p>In den nächsten beiden Zellen sehen Sie den Auszug eines Datensatzes, bei dem ein möglicher Einfluss des Werbekanals auf die Verkäufe analysiert werden soll. Wir verwenden die OLS Klasse des statsmodels Pakets, um die Parameter der linearen Regression dieses Datensatzes zu schätzen. Im zugehörigen Output erkennen wir, dass ein positiver Einfluss von Fernseh- und Ratiowerbung auf die Verkäufe messbar ist. Das Vorzeichen der News-Variable ist negative, jedoch können wir anhand des p-values erkennen, dass nicht von einem Null verschiedenen Einfluss dieser Variable ausgegangen werden kann. Dies bedeuet, dass es zumindest aus statistischer Sicht keinen Sinn macht, das negative Vorzeichen als negativen Einfluss der Variable zu interpretieren. Im Standard wird bei diesem Output jede Variable einzeln durch einen t-Test auf von null verschiedene statistsche Signifikanz getestet. Dies bedeutet, dass für jede Variable (und auch für die Konstante) die Nullhypothese <span class="math notranslate nohighlight">\(\beta = 0\)</span> lautet. Neben den p-values sind die Grenzen der Konfidenzintervalle angegeben. Zudem finden Sie weitere Informationen, wie die Anzahl der Beobachtungen (<span class="math notranslate nohighlight">\(n = 200\)</span>), den F-Test und Gütemaße wie das <span class="math notranslate nohighlight">\(R^2\)</span>, Log-Likelihood, AIC und BIC.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
+<span class="n">advertising_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../Daten/Advertising.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span> <span class="s2">&quot;Unnamed: 0&quot;</span><span class="p">)</span>
+<span class="n">advertising_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>TV</th>
+      <th>radio</th>
+      <th>newspaper</th>
+      <th>sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>230.1</td>
+      <td>37.8</td>
+      <td>69.2</td>
+      <td>22.1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>44.5</td>
+      <td>39.3</td>
+      <td>45.1</td>
+      <td>10.4</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>17.2</td>
+      <td>45.9</td>
+      <td>69.3</td>
+      <td>9.3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>151.5</td>
+      <td>41.3</td>
+      <td>58.5</td>
+      <td>18.5</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>180.8</td>
+      <td>10.8</td>
+      <td>58.4</td>
+      <td>12.9</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&quot;TV&quot;</span><span class="p">,</span> <span class="s2">&quot;radio&quot;</span><span class="p">,</span> <span class="s2">&quot;newspaper&quot;</span><span class="p">]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;sales&quot;</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  sales   R-squared:                       0.897
+Model:                            OLS   Adj. R-squared:                  0.896
+Method:                 Least Squares   F-statistic:                     570.3
+Date:                Mon, 18 Sep 2023   Prob (F-statistic):           1.58e-96
+Time:                        20:00:19   Log-Likelihood:                -386.18
+No. Observations:                 200   AIC:                             780.4
+Df Residuals:                     196   BIC:                             793.6
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          2.9389      0.312      9.422      0.000       2.324       3.554
+TV             0.0458      0.001     32.809      0.000       0.043       0.049
+radio          0.1885      0.009     21.893      0.000       0.172       0.206
+newspaper     -0.0010      0.006     -0.177      0.860      -0.013       0.011
+==============================================================================
+Omnibus:                       60.414   Durbin-Watson:                   2.084
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              151.241
+Skew:                          -1.327   Prob(JB):                     1.44e-33
+Kurtosis:                       6.332   Cond. No.                         454.
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Um Ihnen noch einmal zu demonstrieren, wie Sie sich die Zufälligkeit der geschätzten Parameter vorstellen können, führen wir für diesen Datensatz ein kleines Experiment in der unteren Zelle durch. Wir behandeln den Datensatz als Gesamtpopulation und ziehen mehrmals Stichproben vom Umfang <span class="math notranslate nohighlight">\(n_{\text{sample}} = 100\)</span> aus dieser Population. Jedes Mal schätzen wir die Parameter der Regressionsgeraden und halten diese in einer Tabelle fest. Nach 100 Ziehungen betrachten wir die Histogramme der geschätzten Parameter über alle Stichprobenziehungen. Wir können erkennen, dass die geschätzten Werte der Ziehungen oft nahe an den Werten der gesamten Stichprobe sind, es zum Teil jedoch auch zu größeren Abweichungen kommt. In unseren Studien arbeiten wir normalerweise mit einer Stichprobe, d.h. wir stützen unsere Ergebnisse lediglich auf eine geschätzte Parameterkombination dieser Verteilungen. Dies sollte mit diesem Beispiel noch einmal verdeutlicht werden.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">n_draws</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">beta_hats</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_draws</span><span class="p">):</span>
+    <span class="n">advertising_df_subsample</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">replace</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">advertising_df_subsample</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&quot;TV&quot;</span><span class="p">,</span> <span class="s2">&quot;radio&quot;</span><span class="p">,</span> <span class="s2">&quot;newspaper&quot;</span><span class="p">]]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">advertising_df_subsample</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;sales&quot;</span><span class="p">]</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+    <span class="n">beta_hats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    
+<span class="n">beta_hats_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">beta_hats</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="n">results</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">beta_hats_df</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Estimated values for $\hat{\beta}$&quot;</span> <span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/475845c343b23de0e7ed0ef4ed6896fdf3228bfcd9792c2ec86a1c1e054f6eba.png" src="_images/475845c343b23de0e7ed0ef4ed6896fdf3228bfcd9792c2ec86a1c1e054f6eba.png" />
+</div>
+</div>
+</section>
+<section id="modellgute">
+<h2>Modellgüte<a class="headerlink" href="#modellgute" title="Permalink to this heading">#</a></h2>
+<p>Wie gut das Model darin ist, die unabhängige Variable zu erklären, lässt sich am besten im relativen Vergleich sagen. Gute Regressionsmodelle sollten durch die Informationen der unabhängigen Variablen in der Lage sein, bessere Prognosen abzugeben als ein Modell, das nicht auf die Informationen der unabhängigen Variablen zurückgreifen kann. Eine naive Prognose und geeignete Benchmark für ein Regressionsproblem wäre beispielsweise das arithmetische Mittel der Realisierungen der abhängigen Variable <span class="math notranslate nohighlight">\(\bar{y} = \frac{1}{n} \sum_{i=1}^n y_i\)</span>. Je besser ein Modell, umso geringer sollten im Durchschnitt die quadrierten oder die absoluten Abweichungen zwischen Realsierung und Prognose sein. Die Prognosen des linearen Regressionsmodells sind durch die geschätzte Regressionsgerade <span class="math notranslate nohighlight">\(\boldsymbol{\hat{\beta}}^T \boldsymbol{x}\)</span> gegeben:</p>
+<p>Wir definieren den mean-squared-error (MSE):</p>
+<div class="math notranslate nohighlight">
+\[
+MSE(\boldsymbol{y}, \boldsymbol{{\hat{y}}}) = \frac{1}{n} \sum_{i = 1}^n \left(y_i - \hat{y}_i\right)^2
+\]</div>
+<p>Als Alternative definieren wir den mean-absolute-error (MAE):</p>
+<div class="math notranslate nohighlight">
+\[
+MAE(\boldsymbol{y}, \boldsymbol{{\hat{y}}}) = \frac{1}{n} \sum_{i = 1}^n |y_i - \hat{y}_i|
+\]</div>
+<p>wobei <span class="math notranslate nohighlight">\(\hat{y}\)</span> den prognostizierten Wert repräsentiert, der durch beliebige Modelle generiert werden kann. Im Vergleich wird der MAE weniger stark durch vereinzelte hohe fehlerhafte Prognosen beeinflusst. In beiden Fällen, kann das Verhältnis aus der jeweiligen Metrik für das Regressionmodell und für die unbedingte Prognose (z.B. <span class="math notranslate nohighlight">\(\bar{y}\)</span>) zu betrachten. Bestimmen wir beispielsweise:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\sum_{i = 1}^n \left(y_i - \hat{y}_i\right)^2}{\sum_{i = 1}^n \left(y_i - \bar{y}\right)^2} 
+\]</div>
+<p>so ist das Regressionsmodell umso vorteilhafter je kleiner der Wert ist. Dies bedeutet, dass mit dem Modell und dessen Verwendung der unabhängigen Variablen, die Realisierungen besser vorhergesagt (und somit besser erklärt) werden können, als ohne die Information der unabhängigen Variablen. Selbstverständlich können auf diese Weise auch zwei Modelle verglichen werden, die jeweils die Information der unabhängigen Variablen verwenden. Lediglich die alleinige Betrachtung des MSE und der MAE ist normalerweise nicht besonders aussagekräftig, da wir nur wissen, dass ein Wert nahe null ein gutes Zeichen ist. Was jedoch für die Einschätzung von null verschiedener Werte angeht, hängt es stark an der numerischen Reichweite der abhängigen Variable, was als geriner Werte betrachtet werden kann. Daher ist es besser immer eine sinnvolle Benchmark bei der Evaluation des Modells mit einzubeziehen. Für das lineare Regressionsmodell wird oft eine normierte Variante der Gütemessung verwendet, das Bestimmtheismaß <span class="math notranslate nohighlight">\(R^2\)</span>, welches durch:</p>
+<div class="math notranslate nohighlight">
+\[
+R^2 = 1 - \frac{\sum_{i = 1}^n \left(y_i - \hat{y}_i\right)^2}{\sum_{i = 1}^n \left(y_i - \bar{y}\right)^2} 
+\]</div>
+<p>definiert ist. Der Wertebereich liegt zwischen <span class="math notranslate nohighlight">\(0\)</span> und <span class="math notranslate nohighlight">\(1\)</span>, wobei höhere Werte auf eine bessere Erklärungsgüte des linearen Regressionsmodells hinweisen. Ist die Annahme eines linearen Zusammenhangs zwischen den unabhängigen und der abhängigen Variable verletzt, können jedoch auch Werte kleiner <span class="math notranslate nohighlight">\(0\)</span> resultieren. Da mit der Aufnahme weiterer unabhängigen Variablen meist die Modellgüte steigt, sollte beim Output der linearen Regression eher das adjustiere Bestimmtheitsmaß verwendet werden, welches diese Eigenschaft korrigiert.</p>
+<p>Neben der quantitativen Modellgüte ist es oft auch sinnvoll, einen Scatterplot zu erzeugen, bei dem Realisierungen auf der x-Achse und die Vorhersagen auf der y-Achse geplottet werden. Ein perfektes Modell würde Punkte entlang einer Diagonalen erzeugen, Punkte oberhalb der Diagonalen repräsentieren Überschätzungen und Punkte unterhalb repräsentieren Unterschätzungen des Modells. Ein weiterer informativer Scatterplot ist die Visualisierungen der Abweichungen <span class="math notranslate nohighlight">\(\epsilon = y - \hat{y}\)</span> über alle Beobachtungen. Mit dieser Grafik kann visuell überprüft werden, ob es über die Beobachtungen zu systematischen Abweichungen kommt.</p>
+<p>In der unteren Zelle bestimmen wir das Verhältnis der MSE für das lineare Regressionsmodell und <span class="math notranslate nohighlight">\(\bar{y}\)</span>. Zudem betrachten wir die beiden angesprochenen Grafiken. Insgesamt scheint das Modell die Sales-Werte relativ gut und vor allem wesentlich besser als die unbedingte Prognose <span class="math notranslate nohighlight">\(\bar{y}\)</span> zu erklären. Es scheint jedoch, dass das Modell für höhere Sales-Werte bessere Prognosen liefert, als für kleinere Werte und insbesondere Sales-Werte im mittleren Bereich systematisch überschätzt werden. Diese Erkenntnisse deuten an, dass der lineare Zusammenhang zwischen den unabhängigen Variablen und der abhängigen Variable gegebenfalls nicht ganz der Realität entspricht und ein Modell, welches in der Lage ist nicht-lineare Zusammenhänge abzubilden, unter Umständen besser geeignet ist.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&quot;TV&quot;</span><span class="p">,</span> <span class="s2">&quot;radio&quot;</span><span class="p">,</span> <span class="s2">&quot;newspaper&quot;</span><span class="p">]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;sales&quot;</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="n">y_hat</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">mse_model</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">)</span>
+<span class="n">mse_benchmark</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="p">[</span><span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">()]</span><span class="o">*</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The mean squared error ratio of the linear regression model and the arithmetic mean of sales is: </span><span class="si">{</span><span class="n">mse_model</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mse_benchmark</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">transform</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$y$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\hat</span><span class="si">{y}</span><span class="s2">$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">advertising_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">y</span> <span class="o">-</span> <span class="n">y_hat</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;observation number&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\epsilon$&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Estimation performance of the linear regression model&quot;</span> <span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The mean squared error ratio of the linear regression model and the arithmetic mean of sales is: 0.1028
+</pre></div>
+</div>
+<img alt="_images/d18b23fd4633c2d96a6d8c3d6a96498277579eeb1960902191ea4e0184185ec1.png" src="_images/d18b23fd4633c2d96a6d8c3d6a96498277579eeb1960902191ea4e0184185ec1.png" />
+</div>
+</div>
+</section>
+<section id="beurteilung-der-unabhangigen-variablen">
+<h2>Beurteilung der unabhängigen Variablen<a class="headerlink" href="#beurteilung-der-unabhangigen-variablen" title="Permalink to this heading">#</a></h2>
+<p>Ist das Modell geschätzt und hat man seine Güte für ausreichend befunden, können die Ergebnisse der Parameterschätzung verwendet werden, um die Variablen mit dem größten Einfluss auf die abhängige Variable zu identifizieren. Die geschätzten Parameter des Advertising-Regressionsmodells lauten: <span class="math notranslate nohighlight">\(\hat{\beta}_{\text{TV}} = 0.0458\)</span>, <span class="math notranslate nohighlight">\(\hat{\beta}_{\text{radio}} = 0.1885\)</span>, <span class="math notranslate nohighlight">\(\hat{\beta}_{\text{newspaper}} = -0.0100\)</span>. Anhand dieser Werte würde man zunächst vermuten, dass der größte Einfluss von der Radiowerbung ausgeht, da mit einer Erhöhrung dieser um eine Einheit die größte Erhöhung der abhängigen Variable einhergeht. Hierbei muss jedoch beachtet werden, dass die numerische Reichweite der Realisierungen dieser Variable unter Umständen von denen der anderen abweicht, wodurch die Veränderungen um eine Einheit nicht vergleichbar sind. Betrachten wir die numerische Reichweite der unabhängigen Variablen in der unteren Zelle trifft genau dies zu. Um die geschätzten Parameter und deren Einfluss auf die abhängige Variable wirklich vergleichen zu können, müssen diese zunächst auf vergleichbare Wertebereiche gebracht werden. Wird das Modell mit diesen standardisierten Variablen geschätzt, kann der jeweilige Einfluss der unabhängigen Variable anhand des geschätzten Parameters verglichen werden.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">advertising_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&quot;TV&quot;</span><span class="p">,</span> <span class="s2">&quot;radio&quot;</span><span class="p">,</span> <span class="s2">&quot;newspaper&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>TV</th>
+      <th>radio</th>
+      <th>newspaper</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>200.000000</td>
+      <td>200.000000</td>
+      <td>200.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>147.042500</td>
+      <td>23.264000</td>
+      <td>30.554000</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>85.854236</td>
+      <td>14.846809</td>
+      <td>21.778621</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.700000</td>
+      <td>0.000000</td>
+      <td>0.300000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>74.375000</td>
+      <td>9.975000</td>
+      <td>12.750000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>149.750000</td>
+      <td>22.900000</td>
+      <td>25.750000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>218.825000</td>
+      <td>36.525000</td>
+      <td>45.100000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>296.400000</td>
+      <td>49.600000</td>
+      <td>114.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Im der unteren Zelle schätzen wir das Modell erneut für die standardisierten Werte der unabhängigen Variablen. Die geschätzten Parameter sind: <span class="math notranslate nohighlight">\(\hat{\beta}_{\text{TV}} = 3.9193\)</span>, <span class="math notranslate nohighlight">\(\hat{\beta}_{\text{radio}} = 2.7921\)</span>, <span class="math notranslate nohighlight">\(\hat{\beta}_{\text{newspaper}} = -0.0225\)</span>. Anhand dieser Werte können wir den größten Einfluss durch die TV-Werbung identifizieren, die eine Erhöhung der Verkäufe um <span class="math notranslate nohighlight">\(3.9193\)</span> mit sich bringt, wenn die Ausgaben der TV-Werbung um eine Standardabweichung erhört werden.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&quot;TV&quot;</span><span class="p">,</span> <span class="s2">&quot;radio&quot;</span><span class="p">,</span> <span class="s2">&quot;newspaper&quot;</span><span class="p">]]</span>
+<span class="n">X_scaled</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;TV&quot;</span><span class="p">,</span> <span class="s2">&quot;radio&quot;</span><span class="p">,</span> <span class="s2">&quot;newspaper&quot;</span><span class="p">],</span> <span class="n">index</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;sales&quot;</span><span class="p">]</span>
+<span class="n">X_scaled</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X_scaled</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  sales   R-squared:                       0.897
+Model:                            OLS   Adj. R-squared:                  0.896
+Method:                 Least Squares   F-statistic:                     570.3
+Date:                Mon, 18 Sep 2023   Prob (F-statistic):           1.58e-96
+Time:                        20:00:19   Log-Likelihood:                -386.18
+No. Observations:                 200   AIC:                             780.4
+Df Residuals:                     196   BIC:                             793.6
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const         14.0225      0.119    117.655      0.000      13.787      14.258
+TV             3.9193      0.119     32.809      0.000       3.684       4.155
+radio          2.7921      0.128     21.893      0.000       2.541       3.044
+newspaper     -0.0225      0.128     -0.177      0.860      -0.274       0.229
+==============================================================================
+Omnibus:                       60.414   Durbin-Watson:                   2.084
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              151.241
+Skew:                          -1.327   Prob(JB):                     1.44e-33
+Kurtosis:                       6.332   Cond. No.                         1.46
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="variablenselektion">
+<h2>Variablenselektion<a class="headerlink" href="#variablenselektion" title="Permalink to this heading">#</a></h2>
+<p>Bisher sind wir davon ausgegangen, dass alle zur Verfügung stehenden Variablen mit in das Modell aufgenommen werden. Dies muss jedoch nicht immer von Vorteil sein. Inbesondere, wenn einzelne unabhängigen Variablen keinen positiven Beitrag zur Verbesserung des Modells beitragen, ist es wenig sinnvoll diese Variablen mit in das Modell aufzunehmen. Zudem kann es auch zu Problemen kommen, wenn unabhängige Variablen stark korreliert sind (Kollinearität). Welche Auswahl ist nun also die beste für das Modell. Bei einer geringen Anzahl an unabhängigen Variablen, können theoretisch Modelle für alle Variablenkombinationen geschätzt und anhand ihrer Güte verglichen werden. Es existieren jedoch für <span class="math notranslate nohighlight">\(p\)</span> unabhängige Variablen <span class="math notranslate nohighlight">\(2^p\)</span> Kombinationsmöglichkeiten, weshalb man bei diesem Ansatz schnell an die Grenzen der rechenbasierten Umsetzung stößt. In der Praxis wird meist sequentiell vorgegangen, Modelle mit einer Teilmenge aller unabhängigen Variablen bestimmt werden sollen. Dies kann entweder in “forward” oder “backward” Weise durchgeführt. Bei der forward-Selektion startet man mit einem Modell ohne unabhängige Variablen und schätzt Modelle mit jeweils einer Variablen. Die Variable durch die sich die Güte des Modells am stärksten verbessert, wird in das Modell als erstes mit aufgenommen. Im Anschluss werden erneut Modelle mit jeweiliger Hinzunahme einer Variablen ausser der bereits gewählten geschätzt und evaluiert. Mit aufenommen wird wieder die Variable, welche die größte Verbesserung mit sich bringt. Der Prozess wird beendet, wenn durch die erneute Hinzunahme einer Variablen keine signifikante Verbesserung mehr entsteht. Was man unter einer signifikanten Verbesserung verseht, wird durch den Nutzer festgelegt. Bei der backward-Selektion wird im ersten Schritt ein Modell mit allen Variablen geschätzt. Im Anschluss werden Modelle mit dem jeweiligen Weglassen einer Variablen geschätzt. Die Variable, durch deren Weglassen die Modellgüte am wenigsten stark reduziert wird, wird aus dem Modell entfernt. Dieser Prozess wird so oft wiederholt, bis die Reduktion der Modellgüte als zu hoch eingestuft wird.</p>
+<p>Als Beispiel betrachten wir die forward-Selektion für den Advertising Datensatz. Als Metrik zur Quantifizierung der Güte verwenden wir das <span class="math notranslate nohighlight">\(R^2\)</span>. Im ersten Schritt wird die TV-Variable ausgewählt. Als nächstes sehen wir eine Erhöhung des <span class="math notranslate nohighlight">\(R^2\)</span> um <span class="math notranslate nohighlight">\(0.2853\)</span>, wenn die radio-Variable mit in das Modell aufgenommen wird. Eine Aufnahme der newspaper-Variable würde das <span class="math notranslate nohighlight">\(R^2\)</span> nicht weiter erhöhen, weshalb man diese Variable nicht in das Modell mit aufnehmen muss.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">r2_score</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">variables</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;TV&quot;</span><span class="p">,</span> <span class="s2">&quot;radio&quot;</span><span class="p">,</span> <span class="s2">&quot;newspaper&quot;</span><span class="p">]</span>
+
+<span class="n">r2_scores</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="n">variable</span><span class="p">]]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;sales&quot;</span><span class="p">]</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+    <span class="n">y_hat</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">r2_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">),</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variable names: </span><span class="si">{</span><span class="n">variables</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;R^2 values for univariate regressions:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">r2_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variable with the highest R^2 value: </span><span class="si">{</span><span class="n">variables</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">r2_scores</span><span class="p">)]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Continue with the selection of the next variable:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">variables</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;radio&quot;</span><span class="p">,</span> <span class="s2">&quot;newspaper&quot;</span><span class="p">]</span>
+
+<span class="n">r2_scores</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&quot;TV&quot;</span><span class="p">,</span> <span class="n">variable</span><span class="p">]]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;sales&quot;</span><span class="p">]</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+    <span class="n">y_hat</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">r2_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">),</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Remaining variable names: </span><span class="si">{</span><span class="n">variables</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;R^2 values for regressions:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">r2_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variable with the highest R^2 improvement: </span><span class="si">{</span><span class="n">variables</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">r2_scores</span><span class="p">)]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Variable names: [&#39;TV&#39;, &#39;radio&#39;, &#39;newspaper&#39;]
+R^2 values for univariate regressions:
+[0.6119, 0.332, 0.0521]
+Variable with the highest R^2 value: TV
+Continue with the selection of the next variable:
+
+Remaining variable names: [&#39;radio&#39;, &#39;newspaper&#39;]
+R^2 values for regressions:
+[0.8972, 0.6458]
+Variable with the highest R^2 improvement: radio
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="abweichungen-der-modellannahmen">
+<h2>Abweichungen der Modellannahmen<a class="headerlink" href="#abweichungen-der-modellannahmen" title="Permalink to this heading">#</a></h2>
+<p>Das lineare Regressionsmodell verwendet relativ viele vereinfachende Annahmen. Wir wollen diese noch einmal abschließend diskutieren, um damit zu sensibilisieren, wodurch falsche Einschätzungen unter Verwendung des linearen Regressionsmodells stammen können. Konkret handelt es sich um folgende Annahmen:</p>
+<ul class="simple">
+<li><p>Linearer Zusammenhang zwichen den unabhängigen und der abhängigen Variable</p></li>
+<li><p>Normalverteilung der abhängigen Variable</p></li>
+<li><p>Homoskedastizität</p></li>
+<li><p>Unabhängige Fehlerterme</p></li>
+<li><p>Geringe Korrelation der unabhängigen Variablen (gerine bzw. keine Multikollinearität)</p></li>
+</ul>
+<p><strong>Linearer Zusammenhang</strong></p>
+<p>Durch die lineare Regressionsgerade wird ein linearer Zusammenhang zwischen unabhängiger und abhängiger Variable festgelegt. Dies bedeutet, dass die Veränderung einer unabhängigen Variable um eine Einheit immer zu einer konstanten Veränderung der abhängigen Variable führt. Dies ist nicht immer realistisch. Beispielsweise kann man vermuten, dass die Erhöhung für Werbeausgaben ab einem bestimmten Betrag den zusätzlichen Nutzen durch erhöhte Verkaufszahlen verlieren. In diesem Fall wäre es nicht so, dass die Erhöhung der Werbeausgaben immer zur gleichen Erhöhung des Umsatzes führt, sonder die Erhöhung des Umsatzes davon abhängt, wie hoch die Ausgaben für Werbemaßnahmen bereits sind. Eine weitere Annahme des klassischen linearen Regressionsmodells ist, dass die Additivität der unabhängigen Variablen. Dies bedeutet, dass der Einfluss jeder unabhängigen Variable unabhängig von den anderen Variablen ist. Dies ändert sich, wenn beispielsweise Interaktionseffekt mit aufgenommen werden. Bei einem Interaktionseffekt interessiert man sich für Wechselwirkungen des Einflusses mehrerer Variablen. Für das Beispiel des Advertisement-Datensatzes haben wir nach der Variablenselektion gesehen, dass:</p>
+<div class="math notranslate nohighlight">
+\[
+y = \beta_0 + \beta_1 x_{\text{TV}} + \beta_2 x_{\text{radio}} + \epsilon
+\]</div>
+<p>ein gutes Modell darstellt. Wenn wir den Interaktionsterm mit aufnehmen, verändert sich das Modell zu:</p>
+<div class="math notranslate nohighlight">
+\[
+y = \beta_0 + \beta_1 x_{\text{TV}} + \beta_2 x_{\text{radio}} + \beta_3 x_{\text{TV}} x_{\text{radio}} + \epsilon
+\]</div>
+<p>Alternativ können wir dieses Modell entweder zu:</p>
+<div class="math notranslate nohighlight">
+\[
+y = \beta_0 + \left(\beta_1 + \beta_3 x_{\text{radio}} \right) x_{\text{TV}} + \beta_2 x_{\text{radio}} + \epsilon
+\]</div>
+<p>oder zu:</p>
+<div class="math notranslate nohighlight">
+\[
+y = \beta_0 + \beta_1 x_{\text{TV}} + \left(\beta_2 + \beta_3 x_{\text{TV}} \right) x_{\text{radio}} + \epsilon
+\]</div>
+<p>umschreiben. Je nach Variante des Modells wird ersichtlich, dass der Einfluss der TV-Werbung bzw. der Radio-Werbung mit von der jeweils anderen Werbeart abghängt und somit die ursprüngliche Charakteristik der Additivität verschwindet. In der unteren Zelle schätzen wir das Modell mit dem Interaktionsterm. Wir sehen anhand des Outputs, dass der Interaktionsterm einen signifikant von null verschiedenen positiven Einfluss hat. Zudem verbessert sich das Bestimmtheitsmaß. Der positive Wert kann so interpretiert werden, dass sich der positive Einfluss einer Werbemaßnahme verstärkt, wenn die andere Werbemaßnahme erhöht wird.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&quot;TV&quot;</span><span class="p">,</span> <span class="s2">&quot;radio&quot;</span><span class="p">]]</span>
+<span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;TV_radio&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">TV</span> <span class="o">*</span> <span class="n">X</span><span class="o">.</span><span class="n">radio</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;sales&quot;</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  sales   R-squared:                       0.968
+Model:                            OLS   Adj. R-squared:                  0.967
+Method:                 Least Squares   F-statistic:                     1963.
+Date:                Mon, 18 Sep 2023   Prob (F-statistic):          6.68e-146
+Time:                        20:00:19   Log-Likelihood:                -270.14
+No. Observations:                 200   AIC:                             548.3
+Df Residuals:                     196   BIC:                             561.5
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          6.7502      0.248     27.233      0.000       6.261       7.239
+TV             0.0191      0.002     12.699      0.000       0.016       0.022
+radio          0.0289      0.009      3.241      0.001       0.011       0.046
+TV_radio       0.0011   5.24e-05     20.727      0.000       0.001       0.001
+==============================================================================
+Omnibus:                      128.132   Durbin-Watson:                   2.224
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             1183.719
+Skew:                          -2.323   Prob(JB):                    9.09e-258
+Kurtosis:                      13.975   Cond. No.                     1.80e+04
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 1.8e+04. This might indicate that there are
+strong multicollinearity or other numerical problems.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Neben der Aufnahme von Interaktionen (und somit der Lockerung der Additivtätsannahme), kann das lineare Regressionsmodell auch angepasst werden, um mögliche nicht-lineare Zusammenhänge abzubilden. Mögliche Lösungen sind durch die Polynome oder durch Splines gegeben. Die Modellierung nicht-linearer Zusammenhänge erfolgt jedoch in einem späteren Kapitel.</p>
+<p><strong>Normalverteilungsannahme</strong></p>
+<p>Bisher haben wir den Unterschied des Regressionmodells:</p>
+<div class="math notranslate nohighlight">
+\[
+y = \boldsymbol{\beta}^T \boldsymbol{x} + \epsilon
+\]</div>
+<p>und der Regressionsgeraden:</p>
+<div class="math notranslate nohighlight">
+\[
+y = \boldsymbol{\beta}^T \boldsymbol{x} 
+\]</div>
+<p>näher diskutiert. Durch die Regressionsgerade wird lediglich der bedingte Erwartungswert für <span class="math notranslate nohighlight">\(y\)</span> festgelegt. Bedingt auf die Informationen der unabhängigen Variablen <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span>, welchen Wert erwarten wir für <span class="math notranslate nohighlight">\(y\)</span>. Im traditionellen Regressionsmodell wird jedoch oft auch noch die Annahme getroffen, dass <span class="math notranslate nohighlight">\(\epsilon\)</span> normal verteilt ist <span class="math notranslate nohighlight">\(\epsilon \sim N(0; \sigma^2)\)</span>. Darauf folgt, dass <span class="math notranslate nohighlight">\(y\)</span> ebenso normal verteilt ist, <span class="math notranslate nohighlight">\(y \sim N(\boldsymbol{\beta}^T \boldsymbol{x} ; \sigma^2)\)</span>. Durch das Modell kann also nicht nur der Erwartungswert geschätzt werden, sondern wir können auch Berechnungen für andere Bereiche der Verteilung durchführen. Beispielsweise kann bei gegeben Werten der unabhängigen Variablen bestimmt werden, mit welcher Wahrscheinlichkeit ein bestimmter Wert für <span class="math notranslate nohighlight">\(y\)</span> unter- oder überschritten wird. Diese Einschätzungen sind nur dann akkurat, wenn die Normalverteilungsannahme nicht verletzt wrid. Hierfür wird im Output des Modells oft der Jarque-Bera Test mit der Nullhypothese der Normalverteilung ausgegeben. In unserem Beispiel in der Zelle, müsste diese Annahme verworfen werden. Grundsätzlich ist dies für die Schätzung der Parameter weniger problematisch, jedoch sollten keine Aussagen auf Basis der Normalverteilung getroffen werden. Die Annahme der Normalverteilung wird in der Literatur für verschiedene Modelle relativ oft getroffen, obwohl sie in der Realität für empirische Daten oft verworfen werden muss. Die dennoch häufige Verwendung hat oft etwas mit den mathematisch angenehmen Eigenschaften der Normalverteilung zu tun.</p>
+<p><strong>Homoskedastizität</strong></p>
+<p>Die Eigenschaft der Homoskedastizität entsteht aus der Annahme, dass die Varianz aller Residuen gleich ist <span class="math notranslate nohighlight">\(\epsilon \sim N(0; \sigma^2)\)</span>, wäre dies nicht so, würden sich für einzelne Beobachtungen <span class="math notranslate nohighlight">\(i\)</span> die Varianzen <span class="math notranslate nohighlight">\(\sigma_i^2\)</span> unterscheiden. In der unteren Zelle sehen Sie ein Beispiel simulierter Daten, deren Varianz mit der unabhängigen Variable größer wird. Der entsprechende Residuenplot ist hier besonders aussagekräftig, da er graphisch gut anzeigt, dass die Abweichungen der Vorhersagen auf unterschiedliche Art schwanken. Die gute Nachricht ist, dass den geschätzten Parametern der Regressionsgerade weiter getraut werden kann, da diese konsistent unverzerrt sind, jedoch sollten beim Vorliegen von Heteroskedastizität auf die statistische Inferenz geachtet werden. Die Standardfehler der Schätzer werden tendenziell unterschätzt, was zu falschen Rückschlüssen führen kann. Möglichkeiten im Umgang mit Heteroskedastizität bestehen in der Anpassung der Standardfehler oder angepassten Schätzverfahren wie dem Weighted-Least-Squares Ansatz, beim dem die Beobachtungen der Lossfunktion invers proportional zu ihrer Varianz gewichtet werden.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
+<span class="c1"># simulate data</span>
+<span class="n">beta_0</span><span class="p">,</span> <span class="n">beta_1</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span>
+<span class="n">sigma_c</span> <span class="o">=</span> <span class="mf">1.</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)):</span>
+    <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">beta_0</span> <span class="o">+</span> <span class="n">beta_1</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">()</span> <span class="o">*</span> <span class="n">sigma_c</span> <span class="o">*</span> <span class="mf">0.003</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">})</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">x</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">y</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># estimate model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">epsilon</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">results</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># visualize residuals</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)),</span> <span class="n">epsilon</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;observation number&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\epsilon$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/85bdb50f07a2fece040acb7df26f0346fda781644c193d6a9d325eb885bea197.png" src="_images/85bdb50f07a2fece040acb7df26f0346fda781644c193d6a9d325eb885bea197.png" />
+</div>
+</div>
+<p><strong>Unabhängige Fehlerterme</strong></p>
+<p>Die Annahme unabhängiger Fehlerterme impliziert, dass keine systematische Zusammenhänge zwischen den Residuen <span class="math notranslate nohighlight">\(\epsilon\)</span> der einzelnen Beobachtungen existieren. Diese Annahme ist oft für Zeitreihendaten oder auch Clusterdaten nicht erfüllt. Ähnlich wie beim Vorliegen der Heteroskedastizität betreffen die Konsequenzen in erster Linie die statistische Inferenz, während die Schätzer der Regressionsgeraden asymptotisch unverzerrt bleiben. Der Umgang kann durch Anpassung der Standardfehler oder durch die Aufnahme angepasster Modelle für die Fehlerterme erfolgen. In den Wirtschaftswissenschaften liegen Daten oft als Zeitreihen vor. Hierbei kann oft von null verschiedene Autokorrelation beobachtet werden. Autokorrelation beschreibt den linearen Zusammenhang aufeinander folgender Werte. Die Auto-Kovarianz einer Variablen kann mittels:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\gamma}(h) = \frac{1}{T} \sum_{t = 1}^{T-h} \left(x_t - \bar{x}\right)\left(x_{t-h}  - \bar{x}\right)
+\]</div>
+<p>geschätzt werden, wobei <span class="math notranslate nohighlight">\(h\)</span> den zeitlichen Abstand der aufeinanderfolgenden Beobachtungen und <span class="math notranslate nohighlight">\(T\)</span> die Anzahl der Beobachtungen über die Zeit beschreibt. Wenn Sie diese Formel mit dem Schätzer der Kovarianz zweier Variablen vergleichen, erkennen Sie, dass die Auto-Kovarianz den Zusammenhang mit den eigenen Werten in Abstand von <span class="math notranslate nohighlight">\(h\)</span> Zeitpunkten bestimmt. Die normierte Form der Auto-Kovarianz ist die Auto-Korrelation, welche durch:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\rho}(h) = \frac{\hat{\gamma}(h)}{\hat{\gamma}(0)}
+\]</div>
+<p>geschätzt werden kann. Dieser Wert ist im Intervall <span class="math notranslate nohighlight">\([-1, 1]\)</span> und kann auf analoge Weise wie die Korrelation nach Bravais-Pearson interpretiert werden. Wird eine von null verschiedene Auto-Korrelation gemessen, bietet es sich an, gegenwärtige Datenpunkte mit Hilfe vergangener Daten zu modellieren.</p>
+<p><strong>Multikollinearität</strong></p>
+<p>Zuletzt kann es problematisch für das Schätzen des linearen Regressionsmodells werden, wenn unabhängige Variable (hohe) Abhängigkeiten aufweisen. Intuitiv wird es auf diese Art schwer die individuellen Einflüsse dieser Variablen getrennt voneinander zu identifizieren. Im Extremfall perfekter linearer Abhängigkeit entstehen zudem auch mathematische Probleme, die das Schätzen unmöglich machen. Es bietet sich daher immer an, im ersten Schritt auf die Korrelationen der unabhängigen Variablen zu achten. In der unteren Zelle sehen Sie die Korrelationsmatrix für unseren Beispielsdatensatz. In diesem Fall ist die Korrelation zwischen den beiden wichtigsten Variablen relativ gering, weshalb für diesen Datensatz der Aspekt der Multikollinearität keine Rolle spielt. Sollten hohe Korrelationen festgestellt werden, könnte eine erste einfache Hilfe sein, eine der stark korrelierten Variablen aus dem Modell zu entfernen. Methodisch kann durch den variance-inflation-factor quantifiziert werden, wie stark die Multikollinearität für den bestehenden Datensatz ausgeprägt ist.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">advertising_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;sales&quot;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>TV</th>
+      <th>radio</th>
+      <th>newspaper</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>TV</th>
+      <td>1.000000</td>
+      <td>0.054809</td>
+      <td>0.056648</td>
+    </tr>
+    <tr>
+      <th>radio</th>
+      <td>0.054809</td>
+      <td>1.000000</td>
+      <td>0.354104</td>
+    </tr>
+    <tr>
+      <th>newspaper</th>
+      <td>0.056648</td>
+      <td>0.354104</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="zusammenfassung">
+<h2>Zusammenfassung<a class="headerlink" href="#zusammenfassung" title="Permalink to this heading">#</a></h2>
+<p>Auch wenn das lineare Regressionsmodell wahrscheinlich in vielen Fällen für die Realität stark vereinfachende Annahmen trifft, ist es didaktisch gesehen ein sehr guter Einstieg in die Modellierung abhängiger Variablen. Wir haben in diesem Kapitel viele Details näher betrachtet und diskutiert, was wir für die kommenden Modelle nicht beibehalten können. Jedoch gilt, dass viele Grundgedanken, wie beispielsweise die gedankliche Unterscheidung des Modells und der Schätzung des bedingten Erwartungswerts, auf die gleiche Weise für andere und zum Teil wesentlich komplexere Modelle bestehen. Die wichtigsten Aspekte dieses Kapitels für diesen Kurs sind:</p>
+<ul class="simple">
+<li><p>wie ist das Modell definiert - hieraus kann abgeleitet werden, welche Art von Zusammenhang zwischen der abhängigen und den unabhängigen Variablen angenommen wird</p></li>
+<li><p>wie werden die Parameter des Modells geschätzt - die Verwendung einer Lossfunktion, die unter Veränderung der Parameter minimiert wird ist sehr gängig für viele verschiedene Modelle</p></li>
+<li><p>welche Rückschlüsse können anhand des geschätzten Modells gemacht werden - wie gut kann das Modell die Daten erklären, welche Variablen sind wichtig, wie ist deren Einfluss</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04_SupervisedLearning.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Die Analyse abhängiger Variablen</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="06_Classification.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Klassifizierung</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trainieren-des-linearen-regressionsmodells">Trainieren des linearen Regressionsmodells</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schatzunsicherheit">Schätzunsicherheit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modellgute">Modellgüte</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#beurteilung-der-unabhangigen-variablen">Beurteilung der unabhängigen Variablen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variablenselektion">Variablenselektion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abweichungen-der-modellannahmen">Abweichungen der Modellannahmen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#zusammenfassung">Zusammenfassung</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Prof. Dr. Ralf Kellner
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

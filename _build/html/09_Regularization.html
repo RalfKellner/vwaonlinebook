@@ -1,0 +1,663 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Regularisierung &#8212; Datenanalyse und Datenmanagement</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '09_Regularization';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Dimensionsreduktion" href="10_DimensionalityReduction.html" />
+    <link rel="prev" title="Modellkomplexität" href="08_ModelComplexity.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_Introduction.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/Logo_VWA.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/Logo_VWA.jpg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_Introduction.html">
+                    Einführung
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_PythonIntroduction.html">Einführung in Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_DataAccess.html">Zugang zu Daten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_DescriptiveAnalysis.html">Deskriptive Analyse von Daten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_SupervisedLearning.html">Die Analyse abhängiger Variablen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_LinearRegression.html">Das multiple lineare Regressionmodell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_Classification.html">Klassifizierung</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="07_ModellAccuracy.html">Generalisierung funktionaler Zusammenhänge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_ModelComplexity.html">Modellkomplexität</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Regularisierung</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="10_DimensionalityReduction.html">Dimensionsreduktion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_Clustering.html">Clustering</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2F09_Regularization.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/09_Regularization.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Regularisierung</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Regularisierung</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-1-und-l-2-regularisierung"><span class="math notranslate nohighlight">\(L_1\)</span> und <span class="math notranslate nohighlight">\(L_2\)</span> Regularisierung</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#wahl-des-tuning-parameters">Wahl des Tuning Parameters</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="regularisierung">
+<h1>Regularisierung<a class="headerlink" href="#regularisierung" title="Permalink to this heading">#</a></h1>
+<p>Wir konnten im letzten Kapitel feststellen, dass komplexere Modelle nicht automatisch besser als einfachere Modelle sind. Eine besondere Herausforderung bei der Verwendung komplexere Modelle ist es, sie so zu trainieren, dass sie nicht nur für Trainings- sondern auch für Testdaten gute Ergebnisse mit sich bringen. Letzteres ist insbesondere für die Identifikation allgemeiner Zusammenhänge von Bedeutung. Je komplexer die Zusammenhänge sind, die Modelle abbilden können, umso mehr besteht die Gefahr darin, dass die Modelle zu sehr an die Trainingsdaten angepasst sind. Bedenkt man, dass sich die Beobachtungen in den Daten teils durch einen deterministischen Zusammenhang und teils durch zufällige Abweichungen zusammensetzen, kann es passieren, dass die zufällige Abweichung der Trainingsdaten mit durch das Modell gelernt wird. Per Definition werden die zufälligen Abweichungen für neue Daten anders sein als in den Trainingsdaten, wodurch das Modelle zum Teil stark abweichende Prognosen generiert. Diese Eigenschaft wird Overfitting genannt und hängt stark mit der höheren Varianz von Schätzern komplexer Modelle zusammen. Zudem werden Modelle nicht nur mit komplexerer funktionaler Form, sondern auch mit der Aufnahme vieler Variablen flexibler. Denken wir an die polynomiale Regression des letzten Kapitels, erhöht sich mit der Aufnahme des Polynoms eines höheren Grades um die gleiche Anzahl der bereits im Modell bestehenden unabhängigen Variablen. Um das Niveau an Flexiblität des Modells nicht manuell auswählen zu müssen, sondern den Grad der Flexibilität beim Training des Modells mit zu trainieren, gibt es verschiedene Techniken, die im Allgemeinen als Regularisierung des Modells bezeichnet werden können. Intuitiv kann Regularisierung als Manipultation des Trainingsprozesses aufgefasst werden, die eine zu spezifische Anpassung des Modells an die Trainingsdaten verhindert und so zu einer verbessertern Generalisierung des Modells verhilft.</p>
+<section id="l-1-und-l-2-regularisierung">
+<h2><span class="math notranslate nohighlight">\(L_1\)</span> und <span class="math notranslate nohighlight">\(L_2\)</span> Regularisierung<a class="headerlink" href="#l-1-und-l-2-regularisierung" title="Permalink to this heading">#</a></h2>
+<p>Wie in den vorherigen Kapiteln wollen wir das Prinzip der Regularisierung anhand einer konkreten Technik besprechen. Wir fokussieren uns auf die <span class="math notranslate nohighlight">\(L_1\)</span> und <span class="math notranslate nohighlight">\(L_2\)</span> Regularisierung des Regressionsmodells. Hierzu erinnern wir uns kurz an die gängige Lossfunktion des linearen Regressionsmodells, den MSE:</p>
+<div class="math notranslate nohighlight">
+\[
+L\left(\boldsymbol{y}, f_{\boldsymbol{\beta}}(\boldsymbol{X}) \right) = \sum_{i=1}^n \left(y_i - \boldsymbol{\beta}^T \boldsymbol{x}_i \right)^2
+\]</div>
+<p>Bei der <span class="math notranslate nohighlight">\(L_1\)</span> Regularisierung des linaren Regressionsmodells verändert sich die Lossfunktion zu:</p>
+<div class="math notranslate nohighlight">
+\[
+L\left(\boldsymbol{y}, f_{\boldsymbol{\beta}}(\boldsymbol{X}) \right) = \sum_{i=1}^n \left(y_i - \boldsymbol{\beta}^T \boldsymbol{x}_i \right)^2 + \gamma \sum_{j = 1}^p | \beta_j | 
+\]</div>
+<p>wobei <span class="math notranslate nohighlight">\(\gamma\)</span> ein durch den Nutzer festzulegender Hyperparameter ist und <span class="math notranslate nohighlight">\(\sum_{q = 1}^p | \beta_q | 1\)</span> die <span class="math notranslate nohighlight">\(L_1\)</span> Norm des Parametervektors ohne den <span class="math notranslate nohighlight">\(\beta_0\)</span> Parameter darstellt. Wird ein lineares Regressionsmodell mit Hilfe dieser Lossfunktion trainiert, spricht man auch von der Lasso Regression. Eine Alternative hierzu ist die Ridge Regression, bei der die Lossfunktion:</p>
+<div class="math notranslate nohighlight">
+\[
+L\left(\boldsymbol{y}, f_{\boldsymbol{\beta}}(\boldsymbol{X}) \right) = \sum_{i=1}^n \left(y_i - \boldsymbol{\beta}^T \boldsymbol{x}_i \right)^2 + \gamma \sum_{j = 1}^p  \beta_j^2
+\]</div>
+<p>zum Schätzen des Parametervektors verwendet wird. Mit steigendem Gewicht <span class="math notranslate nohighlight">\(\gamma\)</span> werden die Parameter immer mehr in Richtung <span class="math notranslate nohighlight">\(0\)</span> gezogen, weshalb diese Art der Regularisierung auch Shrinkage bezeichnet wird. Bei der Lasso Regression ist es so, dass die Variablen mit der geringsten Verbesserung (Minimierung der Lossfunktion) zuerst einen Parameterwert nahe oder gleich <span class="math notranslate nohighlight">\(0\)</span> erhalten, was somit als automatische Variablenselektion verstanden werden kann. Bei der Ridge Regression werden eher alle Parameter gleichzeitig in Richtung <span class="math notranslate nohighlight">\(0\)</span> verschoben. In der unteren Zelle schauen wir uns die geschätzen Parameter des Regressionsmodells für den Advertising Datensatz an. Im Modell haben wir neben den ursprünglichen Variablen <span class="math notranslate nohighlight">\(x_{\text{TV}}\)</span>, <span class="math notranslate nohighlight">\(x_{\text{radio}}\)</span>, <span class="math notranslate nohighlight">\(x_{\text{newspaper}}\)</span> auch alle möglichen Interaktionsterme dieser Variablen sowie die quadrierten unabhängigen Variablen mit aufgenommen. Zudem wurden alle Variablen standardisiert, um die geschätzen Parameter besser vergleichen zu können. Für beide Regularisierungsarten zeigt sich, dass die Variablen <span class="math notranslate nohighlight">\(x_{\text{TV}}\)</span>, <span class="math notranslate nohighlight">\(x_{\text{TV}}^2\)</span> und <span class="math notranslate nohighlight">\(x_{\text{TV}} x_{\text{radio}}\)</span> am wichtigsten sind. Wir können jedoch auch erkennen, dass bei der Lasso Regression mit steigendem Gewicht der Regularisierung von diesen drei Variablen zuerst die Variable <span class="math notranslate nohighlight">\(x_{\text{TV}}^2\)</span> aus dem Modell genommen werden würde, indem der Parameter gegen <span class="math notranslate nohighlight">\(0\)</span> geht. Im Vergleich wird bei der Ridge Regression der Einfluss von <span class="math notranslate nohighlight">\(x_{\text{TV}}\)</span> und <span class="math notranslate nohighlight">\(x_{\text{TV}}^2\)</span> beinahe auf symmetrische Art reduziert.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Lasso</span><span class="p">,</span> <span class="n">Ridge</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">PolynomialFeatures</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="n">advertising_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../Daten/Advertising.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span> <span class="s2">&quot;Unnamed: 0&quot;</span><span class="p">)</span>
+<span class="n">advertising_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;sales&quot;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">advertising_df</span><span class="o">.</span><span class="n">sales</span>
+<span class="n">polynomial_transformer</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="n">degree</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">include_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">X_poly</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">polynomial_transformer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+<span class="n">X_poly</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">polynomial_transformer</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">()</span>
+<span class="n">X_poly</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_poly</span> <span class="o">-</span> <span class="n">X_poly</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">X_poly</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+
+<span class="n">alpha_lasso</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.002</span><span class="p">)</span>
+<span class="n">lasso_coefs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="n">alpha_lasso</span><span class="p">:</span>
+    <span class="n">lasso</span> <span class="o">=</span> <span class="n">Lasso</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">)</span>
+    <span class="n">lasso</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_poly</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">lasso_coefs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lasso</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+
+<span class="n">alpha_ridge</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">ridge_coefs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="n">alpha_ridge</span><span class="p">:</span>
+    <span class="n">ridge</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">)</span>
+    <span class="n">ridge</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_poly</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">ridge_coefs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ridge</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+
+
+<span class="n">lasso_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lasso_coefs</span><span class="p">),</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">X_poly</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">lasso_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha_lasso</span>
+<span class="n">ridge_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ridge_coefs</span><span class="p">),</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">X_poly</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">ridge_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha_ridge</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">lasso_df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Lasso&quot;</span><span class="p">)</span>
+<span class="n">ridge_df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Ridge&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\alpha$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\alpha$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\beta$&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\beta$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/e66453ac8ab18b02ce7e9110017644c5a8abf4479fa7537bd551c759f2aa100e.png" src="_images/e66453ac8ab18b02ce7e9110017644c5a8abf4479fa7537bd551c759f2aa100e.png" />
+</div>
+</div>
+<p>Um den positiven Einfluss auf die Performance des Modells zu demonstrieren, kommen wir noch einmal zum synthetischen Beispiels des letzten Kapitels zurück, bei dem das polynomiale Regressionsmodell mit dem Grad <span class="math notranslate nohighlight">\(q = 12\)</span> für die Testdaten im Durchschnitt wesentlich höhere Abweichungen zwischen Prognose und Realisierung generiert hat, als für die Trainingsdaten. In der unteren Zelle verwenden wir erneut dieses Modell, jedoch trainieren wir es im Vergleich mit einer <span class="math notranslate nohighlight">\(L_1\)</span> Regularisierung. Wie sie sehen können, verbessert sich das Ergebnis der Testdaten deutlich und auch graphisch können wir erkennen, dass das regularisierte Modell deutlich besser den tatsächlichen Zusammenhang abbildet.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">PolynomialFeatures</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span><span class="p">,</span> <span class="n">Lasso</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+<span class="c1"># let us define a true functional relationship which is more complex than a simple linear relationship</span>
+<span class="k">def</span> <span class="nf">true_fun</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mf">1.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># generate some sample data</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">degrees</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">15</span><span class="p">]</span>
+
+<span class="c1"># these values are for plotting the function</span>
+<span class="n">X_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="c1"># some training and some test data samples</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n_samples</span><span class="p">))</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n_samples</span><span class="p">))</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">true_fun</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.25</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">true_fun</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.25</span>
+
+
+<span class="k">def</span> <span class="nf">plot_poly_regression</span><span class="p">(</span><span class="n">degrees</span><span class="p">,</span> <span class="n">sklearn_linear_model</span><span class="p">,</span> <span class="n">main_title</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ax</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+
+    <span class="n">polynomial_features</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="n">degrees</span><span class="p">,</span> <span class="n">include_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">X_poly</span> <span class="o">=</span> <span class="n">polynomial_features</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">regression_model</span> <span class="o">=</span> <span class="n">sklearn_linear_model</span>
+    <span class="n">regression_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_poly</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_range</span><span class="p">,</span> <span class="n">true_fun</span><span class="p">(</span><span class="n">X_range</span><span class="p">),</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;true relationship&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_range</span><span class="p">,</span> <span class="n">regression_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">polynomial_features</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_range</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))),</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;estimated model&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;training data&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;test data&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;green&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">mse_train</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">regression_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">polynomial_features</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))))</span>
+    <span class="n">mse_test</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">regression_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">polynomial_features</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">main_title</span><span class="si">}</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> MSE_train: </span><span class="si">{</span><span class="n">mse_train</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, MSE_test: </span><span class="si">{</span><span class="n">mse_test</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span>
+
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plot_poly_regression</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">main_title</span> <span class="o">=</span> <span class="s1">&#39;degrees=12, linear regression&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">)</span>
+<span class="n">plot_poly_regression</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">Lasso</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0001</span><span class="p">),</span> <span class="n">main_title</span> <span class="o">=</span> <span class="s1">&#39;degrees=12, lasso regression&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/ralfkellner/Library/Mobile Documents/com~apple~CloudDocs/Kurse/VWA/Datenanalyse_und_management/.venv/lib/python3.9/site-packages/sklearn/linear_model/_coordinate_descent.py:628: ConvergenceWarning: Objective did not converge. You might want to increase the number of iterations, check the scale of the features or consider increasing regularisation. Duality gap: 1.726e-01, tolerance: 1.393e-03
+  model = cd_fast.enet_coordinate_descent(
+</pre></div>
+</div>
+<img alt="_images/0d6a0763b5499f908f5072e9db7aa92e18ea5f6e5760aca0cdcde00125842ea6.png" src="_images/0d6a0763b5499f908f5072e9db7aa92e18ea5f6e5760aca0cdcde00125842ea6.png" />
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="wahl-des-tuning-parameters">
+<h1>Wahl des Tuning Parameters<a class="headerlink" href="#wahl-des-tuning-parameters" title="Permalink to this heading">#</a></h1>
+<p>Bisher haben wir noch nicht darüber gesprochen, in welcher Stärke die Regularisierung beim Schätzen des Modells mit einbezogen werden sollte. Dies wird über die Wahl des <span class="math notranslate nohighlight">\(\alpha\)</span> Parameters festgelegt. Es handelt sich hierbei um einen Parameter, der nicht durch die Daten trainiert, sondern extern festgelegt werden muss. Man spricht deshalb von einem Hyperparameter. Ein Vorgehen diesen zu bestimmen besteht darin, verschiedene Werte für <span class="math notranslate nohighlight">\(\alpha\)</span> auszuprobieren und den Wert zu verwenden, der den niedrigsten Testfehler generiert. Zwei Aspekte sind hierbei jedoch kritisch zu betrachten. Wenn die Informationen der Testdaten zur Optimierung des Hyperparameters verwendet werden, haben wir keine Performance des finalen Modells evaluiert, welche unabhängig von den Informationen bekannter Daten besteht. Zudem gelten auch für diese Evaluation der Modellgüte die genannten Aspekte des vorletzten Kapitels, weshalb ein Form der Kreuzvalidierung der des einfachen Aufteilens der Daten vorzuziehen ist. Für einen Datensatz bietet es sich an zunächst einen Teil der Daten vorzuhalten und mit den übrigen Daten eine K-Fold Kreuzvalidierung für verschiedene Werte von <span class="math notranslate nohighlight">\(\alpha\)</span> durchzuführen. Der beste Wert von <span class="math notranslate nohighlight">\(alpha\)</span> kann dann verwendet werden, um das Modell noch einmal mit allen Daten zu trainieren und anschließend dieses Modell anhand dervorgehaltenen Daten zu evaluieren. Wiederholen und unterschiedliches Aufteilen der (vorgehaltenen) Daten, kann zu unterschiedlichen besten Werten für <span class="math notranslate nohighlight">\(\alpha\)</span> führen. Dies gibt jedoch potentiell weitere Einblicke, wie sensitiv der beste Wert für <span class="math notranslate nohighlight">\(\alpha\)</span> gegenüber unterschiedlichen Stichproben ist.</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="08_ModelComplexity.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Modellkomplexität</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="10_DimensionalityReduction.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Dimensionsreduktion</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Regularisierung</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-1-und-l-2-regularisierung"><span class="math notranslate nohighlight">\(L_1\)</span> und <span class="math notranslate nohighlight">\(L_2\)</span> Regularisierung</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#wahl-des-tuning-parameters">Wahl des Tuning Parameters</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Prof. Dr. Ralf Kellner
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

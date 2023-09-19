@@ -1,0 +1,1133 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Einführung in Python &#8212; Datenanalyse und Datenmanagement</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '01_PythonIntroduction';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Zugang zu Daten" href="02_DataAccess.html" />
+    <link rel="prev" title="Einführung" href="00_Introduction.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_Introduction.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/Logo_VWA.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/Logo_VWA.jpg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_Introduction.html">
+                    Einführung
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Einführung in Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_DataAccess.html">Zugang zu Daten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_DescriptiveAnalysis.html">Deskriptive Analyse von Daten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_SupervisedLearning.html">Die Analyse abhängiger Variablen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_LinearRegression.html">Das multiple lineare Regressionmodell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_Classification.html">Klassifizierung</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="07_ModellAccuracy.html">Generalisierung funktionaler Zusammenhänge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_ModelComplexity.html">Modellkomplexität</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_Regularization.html">Regularisierung</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="10_DimensionalityReduction.html">Dimensionsreduktion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_Clustering.html">Clustering</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2F01_PythonIntroduction.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/01_PythonIntroduction.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Einführung in Python</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-als-taschenrechner">Python als Taschenrechner</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#funktionen-in-python">Funktionen in Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hilfe">Hilfe</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datentypen-in-python">Datentypen in Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objektzuweisungen-in-python">Objektzuweisungen in Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fehlermeldungen-in-python">Fehlermeldungen in Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datenstrukturierung">Datenstrukturierung</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eigene-funktionen-definieren">Eigene Funktionen definieren</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-und-pakete">Module und Pakete</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logische-kontrollstrukturen-und-schleifen">Logische Kontrollstrukturen und Schleifen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#populare-pakete-in-python">Populäre Pakete in Python</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="einfuhrung-in-python">
+<h1>Einführung in Python<a class="headerlink" href="#einfuhrung-in-python" title="Permalink to this heading">#</a></h1>
+<p>Python ist eine interpretierte Programmiersprache. Dies bedeutet, dass der vom Mensch geschriebene Code durch den Interpreter so übersetzt wird, dass der Computer die Anweisungen des Menschen versteht. Der Python Interpretet kann auf der offiziellen <a class="reference external" href="https://www.python.org/">Homepage</a> kostenfrei herunter geladen werden. Um angenehm und effizient mit Python zu arbeiten empfiehlt es sich jedoch Python zusammen mit einer Entwicklungsumbebung zu installieren. Beliebte Beispiele sind <a class="reference external" href="https://www.anaconda.com/">Anaconda</a>, <a class="reference external" href="https://code.visualstudio.com/">VS Code</a> oder <a class="reference external" href="https://www.jetbrains.com/de-de/pycharm/">Pycharm</a>. Sie müssen jedoch keine dieser Optionen installieren, da wir mit Hilfe von Notebooks arbeiten werden, die direkt im Google Drive geöffnet und ausgeführt werden können. Die einzige Voraussetzung ist ein Google Konto. Sollten Sie über kein Google Konto verfügen und auch kein Konto erstellen wollen, kontaktieren Sie mich bitte per <a class="reference external" href="mailto::ralf&#46;kellner&#37;&#52;&#48;uni-passau&#46;de">Email</a>.</p>
+<p>Es folgt eine Einführung in Python, die Ihnen helfen sollte, Codebeispiele aus dem Kurs besser nachvollziehen zu können. Ziel gegen Ende des Kurses sollte zudem sein, dass Sie bestehende Code-Beispiele für eigene Analysen anpassen und auswerten können. Ich empfehle Ihnen daher von Beginn an, aktiv beim Erlernen der Inhalte teilzunehmen. Dies gelingt am besten, wenn Sie parallel zu diesen Unterlagen ein leeres Colab Notebook auf Ihrem Google Drive öffnen und die Codebeispiele reproduzieren. Im besten Fall experimentieren Sie ein wenig mit den Beispielen durch leichte Veränderungen und überprüfen Sie für sich, ob der Output dem entspricht, was Sie erwarten. Um eine programmierbare Zelle auszuführen, klicken Sie in die Zelle und führen den Code mit Klick auf das Play-Symbol aus. Alternativ können Sie auch in die Zelle klicken und auf Ihrer Tastatur Controll+Enter drücken. Hierbei wird der gesamte Code in der Zelle ausgeführt. Lediglich Zeilen denen das #-Symbol vorausgeht werden vom Interpreter ignoriert, da es sich hierbei um einen Kommentar handelt.</p>
+<section id="python-als-taschenrechner">
+<h2>Python als Taschenrechner<a class="headerlink" href="#python-als-taschenrechner" title="Permalink to this heading">#</a></h2>
+<p>In seiner einfachsten Form kann Python wie ein Taschenrechner verwendet werden. Die elementaren mathematischen Funktionen sind:</p>
+<ul class="simple">
+<li><p>+ für die Addition</p></li>
+<li><p>- für die Subtraktion</p></li>
+<li><p>* für die Multiplikation</p></li>
+<li><p>\ für die Division</p></li>
+<li><p>** Für die Exponentialrechnung</p></li>
+</ul>
+<p>Addition</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Diese Zeile ist ein Kommentar und wird vom Interpreter ignoriert. Kommentare sind wichtige Werkzeuge um Code nachvollziehbar zu machen.</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Addition:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Subraktion:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">42</span> <span class="o">-</span> <span class="mi">21</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Multiplikation:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Division:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">5</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exponentialrechnung:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Addition:
+4
+Subraktion:
+21
+Multiplikation:
+4
+Division:
+2.5
+Exponentialrechnung:
+8
+</pre></div>
+</div>
+</div>
+</div>
+<p>Weitere Rechenoperationen sind:</p>
+<ul class="simple">
+<li><p>\ für die Floor-Division</p></li>
+<li><p>% für den Modulus</p></li>
+</ul>
+<p>Zudem gelten natürlich die gängigen Regeln der Mathematik wie die Kommutativ-, Assoziativ- und Distributivgesetze.</p>
+</section>
+<section id="funktionen-in-python">
+<h2>Funktionen in Python<a class="headerlink" href="#funktionen-in-python" title="Permalink to this heading">#</a></h2>
+<p>Wie bei gängigen Taschenrechner existieren für Python “build-in” Funktionen. Beispiel hierfür sind der Minimum oder der Maximum Operator oder die Betragsfunktion. Funktionsnamen werden immer klein geschrieben. Die Argumente der Funktion werden in eine Klammer nach dem Funktionsnamen eingegben.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Das Maximum aus den Zahlen 2, 4, 5 ist:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Das Minimum aus den Zahlen -1, 2, 4 ist&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der absoulte Wert der Zahl -2 ist:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Das Maximum aus den Zahlen 2, 4, 5 ist:
+5
+Das Minimum aus den Zahlen -1, 2, 4 ist
+-1
+Der absoulte Wert der Zahl -2 ist:
+2
+</pre></div>
+</div>
+</div>
+</div>
+<section id="hilfe">
+<h3>Hilfe<a class="headerlink" href="#hilfe" title="Permalink to this heading">#</a></h3>
+<p>Um Informationen zum Umgang mit Funktionen zu erhalten, existiert die “help” Funktion. Lassen Sie uns mit Hilfe der help-Funktion etwas über die print-Funktion heraus finden.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="nb">print</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Help on built-in function print in module builtins:
+
+print(...)
+    print(value, ..., sep=&#39; &#39;, end=&#39;\n&#39;, file=sys.stdout, flush=False)
+    
+    Prints the values to a stream, or to sys.stdout by default.
+    Optional keyword arguments:
+    file:  a file-like object (stream); defaults to the current sys.stdout.
+    sep:   string inserted between values, default a space.
+    end:   string appended after the last value, default a newline.
+    flush: whether to forcibly flush the stream.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="datentypen-in-python">
+<h2>Datentypen in Python<a class="headerlink" href="#datentypen-in-python" title="Permalink to this heading">#</a></h2>
+<p>Wie Sie im obigen Output erkennen können, ist die Ausgabe beim Ergebnis der Division anders als bei den restlichen Berechnungen. Anstelle der ganzen Zahl, steht eine Zahl mit einem Komma (im englischsprachigen Raum entspricht die Verwendung des Punktes unserer Verwendung des Kommas und anders herum). Ganze Zahlen sind vom Typ Integer, mit Komma getrennte Zahlen sind vom Typ Float, Text wird in der Regel durch den String Datentyp repräsentiert. Zudem existiert noch der Boolean Datentyp, der entweder den Wert True oder False annehmen kann.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Datentyp der Zahl 4 ist:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Datentyp der Zahl 2.5 ist:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="mf">2.5</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Datentyp des Wortes &#39;Analyse&#39; ist:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="s2">&quot;Analyse&quot;</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Datentyp des Wertes True ist:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Der Datentyp der Zahl 4 ist:
+&lt;class &#39;int&#39;&gt;
+Der Datentyp der Zahl 2.5 ist:
+&lt;class &#39;float&#39;&gt;
+Der Datentyp des Wortes &#39;Analyse&#39; ist:
+&lt;class &#39;str&#39;&gt;
+Der Datentyp des Wertes True ist:
+&lt;class &#39;bool&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="objektzuweisungen-in-python">
+<h2>Objektzuweisungen in Python<a class="headerlink" href="#objektzuweisungen-in-python" title="Permalink to this heading">#</a></h2>
+<p>Eine für die Analyse sehr erleichternde Option ist die Zuweisung von Zwischenergebnissen mittels des = Symbols. Auf diese Art können Ergebnisse während der Analyse gespeichert und für die weitere Analyse verwendet werden. Bei der Vergabe des Objektnamens bestehen nur wenige Restriktionen. So dürfen die Objektnamen lediglich nicht mit einer Zahl beginnen. Darüber hinaus existieren Empfehlungen für Standards bei der Benennung, welche jedoch nicht verpflichtend sind. Dennoch steigert eine Einhaltung dieser oder zumindest eine konsistente Art der Benennung die Übersichtlichkeit und das Verständnis des Codes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">**</span><span class="mi">3</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="fehlermeldungen-in-python">
+<h2>Fehlermeldungen in Python<a class="headerlink" href="#fehlermeldungen-in-python" title="Permalink to this heading">#</a></h2>
+<p>Wann immer es bei der Ausführung des Codes zu Fehlern kommt, wird die Berechung unterbrochen und eine Fehlermeldung wird erzeugt. Hierfür existieren verschiedene Fehlerarten, die es dem Nutzer möglichst einfach machen sollen, die Fehlerquelle zu identifizieren. Unterhalb sehen Sie ein Beispiel für einen NameError, der daraus resultiert, dass die Variable d noch nicht definiert und somit unbekannt ist.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;error_msg.jpg&#39;</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/cf7a9f7b3ac013887c585e652c773323976e50723e2c50402251ff35717a2fa2.jpg" src="_images/cf7a9f7b3ac013887c585e652c773323976e50723e2c50402251ff35717a2fa2.jpg" />
+</div>
+</div>
+</section>
+<section id="datenstrukturierung">
+<h2>Datenstrukturierung<a class="headerlink" href="#datenstrukturierung" title="Permalink to this heading">#</a></h2>
+<p>Häufig besteht ein Datensatz aus mehreren Beobachtung verschiedener Variablen wie z.B. das Alter, das Gewicht und die Haarlänge mehrerer Personen. Wir werden im Verlauf des Kurses sehr praktische und fortgeschrittene Arten sehen, wie derartige Daten mittels Python temporär gespeichert und analysisert werden können. Als Grundlage betrachten wir zunächst die fundamentalen Konstrukte in Python meherer Datenpunkte zu sammeln:</p>
+<ul class="simple">
+<li><p>Listen</p></li>
+<li><p>Tuple</p></li>
+<li><p>Dictionaries</p></li>
+</ul>
+<p>Um jeweils das gewünschte Objekt zu erzeugen, werden die Symbole:</p>
+<ul class="simple">
+<li><p>Liste: []</p></li>
+<li><p>Tuple: ()</p></li>
+<li><p>Dictionary: {}</p></li>
+</ul>
+<p>verwendet. Listen und Tupel sind eine Ansammlung einzelner Daten bzw. Objekte. Der Hauptunterschied besteht in der Veränderlichkeit bei Listen und der Unveränderlichkeit bei Tupeln. Auf einzelne Werte aus Listen und Tupeln kann mit dem richtigen Index (Position in der Liste oder im Tuple) zugegriffen werden. Dictionaries sind ähnlich wie traditionelle Wörterbücher und bestehen aus Key-Value-Paaren. Der Zugriff auf einzelne Werte erfolgt über die Identifizierung mit dem passende Key. Für ein besseres Verständnis, betrachten wir in der unteren Zelle einige Beispiele.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Wir definieren eine Liste</span>
+<span class="n">meine_Liste</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+<span class="c1"># Wir definieren ein Tupel</span>
+<span class="n">mein_Tupel</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Wir definieren ein Dictionary</span>
+<span class="n">mein_Dict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">mein_Dict</span><span class="p">[</span><span class="s1">&#39;Eins&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">mein_Dict</span><span class="p">[</span><span class="s1">&#39;Zwei&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">mein_Dict</span><span class="p">[</span><span class="s1">&#39;Drei&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Um auf einzelne Werte aus Listen und Tupeln zuzugreifen, muss der Index verwendet werden</span>
+<span class="c1"># WICHTIG: in Python wird beim Zählen mit der 0 und nicht mit der 1 begonnen</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">meine_Liste</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">mein_Tupel</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">mein_Dict</span><span class="p">[</span><span class="s1">&#39;Drei&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1
+2
+3
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Um Teile von Listen und Tupeln ausgeben zu können, kann das sogenannte Slicing mittels : verwendet werden</span>
+<span class="c1"># gibt die Werte bis zum Index (aber nicht einschließlich) 2 aus</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">meine_Liste</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="c1"># gibt die Werte 1 bis 3 des Tuples aus</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">meine_Liste</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+
+<span class="c1"># mit dem - Symbol wird vom Ende gezählt</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mein_Tupel</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1, 2]
+[2, 3]
+(2, 3)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Es existieren viele weitere Möglichkeiten komplexere Teile einer Liste oder eines Tupels zu extrahieren. Aus Gründen der Übersichtlichkeit wollen wir auf diese zunächst verzichten bzw. bei möglichen Verwendungen darauf zurückgreifen. Vorerst abschließend sei noch zu erwähnen, dass Listen und Tupel nicht nur einzelne Zahlen, sondern ganz allgemein Objekte als einzelne Elemente aufnehmen können. So kann z.B. eine Liste aus mehreren Listen bestehen. Möchte man aus einer Liste oder einem Tupel nur die eindeutigen Werte und nicht die Duplikate, existiert hierfür das Set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Beispiel einer verschachtelten Liste</span>
+<span class="n">nested_Liste</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nested_Liste</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">Liste_mit_Duplikaten</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">Liste_mit_Duplikaten</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1, 2]
+{1, 2, 4, 5}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="eigene-funktionen-definieren">
+<h2>Eigene Funktionen definieren<a class="headerlink" href="#eigene-funktionen-definieren" title="Permalink to this heading">#</a></h2>
+<p>Oft müssen Analysen auf individuelle bzw. der Fragestellung spezifische Art durchgeführt werden. Insbesondere wenn bestimmte Teile der Analyse repetitiv durchgeführt werden, bietet es sich an eigene Funktionen zu definieren. Diese Möglichkeit besteht in Python wobei eine Funktion eine zusammenhänge Sequenz an zu interpretierenden Codebefehlen ist. In Python wird eine Funktion durch das def-Keywort initiiert, anschließend folgt ein selbst gewählter Name für die Funktion und eine Klammer in der Funktionsargumente definiert werden. Der Beginn der Codesequenz beginnt und endet mittels Einrückung. Ist eine Funktion definiert, wird vorerst noch nichts ausgewertet. Dies passiert erst mit dem Aufruf einer Funktion. Es genügt, wenn eine Funktion einmalig zu Beginn definiert wird. Betrachten wir am besten ein paar Beispiele.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Eine Funktion ohne Argument</span>
+<span class="k">def</span> <span class="nf">say_hello</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello!&quot;</span><span class="p">)</span>
+
+<span class="c1"># Eine Funktion mit Argument</span>
+<span class="k">def</span> <span class="nf">add_one</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">number</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="c1"># Eine Funktion mit einer Liste als Argument, die sowohl das Maximum und den Index des Maximums ausgibt</span>
+<span class="k">def</span> <span class="nf">find_maximum</span><span class="p">(</span><span class="n">a_list</span><span class="p">):</span>
+    <span class="n">max_value</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">a_list</span><span class="p">)</span>
+    <span class="n">max_index</span> <span class="o">=</span> <span class="n">a_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">max_value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">max_value</span><span class="p">,</span> <span class="n">max_index</span>    
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Nun führen wir die Funktionen aus</span>
+<span class="n">say_hello</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">add_one</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">find_maximum</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hello!
+3
+(3, 2)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Welche Datentypen als Argument übergeben werden, lässt sich meistens durch den Aufruf help(Funktionsname) heraus finden. Grundsätzlich können alle Datentypen an Funktionen übergeben werden und auch von Funktionen ausgegben werden. Es gilt jedoch auch hier, kommt es zu einem Fehler während dem Ausführen der Funktion, wird kein Ergebnis, sondern eine Fehlermeldung übergeben. Fortgeschritten Aspekte zum Thema Funktionen sind die Verwendung von Type-Hinting sowie die Übergabe belieber Anzahl von Funktionsargumenten.</p>
+</section>
+<section id="module-und-pakete">
+<h2>Module und Pakete<a class="headerlink" href="#module-und-pakete" title="Permalink to this heading">#</a></h2>
+<p>Wenn es sich für ein Projekt anbietet, mehrere Funktionen zu definieren, können diese einmalig in einer separaten Datei definiert und für verschiedene Analysen importiert werden. Beispielsweise habe ich in meinem aktuellen Ordner eine Datei mit dem Namen <em>my_module.py</em> gespeichert, in der folgende Funktionen definiert sind:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">print_python_is_fun</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Python is fun to learn!&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">add_two</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">number</span> <span class="o">+</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Funktionen aus dieser Datei können nun auf folgende Art importiert werden:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Entweder durch die from ... import ... syntax</span>
+
+<span class="kn">from</span> <span class="nn">my_module</span> <span class="kn">import</span> <span class="n">print_python_is_fun</span><span class="p">,</span> <span class="n">add_two</span>
+
+<span class="n">print_python_is_fun</span><span class="p">()</span>
+<span class="n">add_two</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python is fun to learn!
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Es können auch &quot;blind&quot; alle Funktionen aus der Datei importiert werden</span>
+<span class="c1"># dies ist aber eher untypisch und wird selten gemacht</span>
+<span class="kn">from</span> <span class="nn">my_module</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">print_python_is_fun</span><span class="p">()</span>
+<span class="n">add_two</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python is fun to learn!
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Meist werden in Python Module mit einem Alias importiert und durch den . können zugehörige Funktionen verwendet werden</span>
+<span class="kn">import</span> <span class="nn">my_module</span> <span class="k">as</span> <span class="nn">mm</span>
+
+<span class="n">mm</span><span class="o">.</span><span class="n">print_python_is_fun</span><span class="p">()</span>
+<span class="n">mm</span><span class="o">.</span><span class="n">add_two</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python is fun to learn!
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4
+</pre></div>
+</div>
+</div>
+</div>
+<p>Die Datei wird Modul genannt und hat den Vorteil, dass dort Funktionen oder auch Objekte definiert werden können, die für meherere Analysen nach Import immer wieder verwendet werden können. Geht man noch einen Schritt weiter und bündelt meherere Module thematisch in einem Ordner, erhält man was in Python als Paket bezeichnet wird. Dies ist eine der größte Stärken von Python. Es existieren viele von Entwickler*innen und Pythonnutzer*innen geschriebene Pakete, welche zur freien Verfügung stehen und eine große Bandbreite moderner Methoden aus den Bereichen der Informatik, Mathematik, Statistik und Datenanalyse abdecken. Als Beispiel sehen Sie im Code unten wie jeweils eine Funktion aus einem Modul aus dem Paket <em>my_package</em> importiert wird.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">my_package.your_module</span> <span class="kn">import</span> <span class="n">print_something_else</span>
+<span class="kn">from</span> <span class="nn">my_package.my_module</span> <span class="kn">import</span> <span class="n">print_python_is_fun</span>
+
+<span class="n">print_python_is_fun</span><span class="p">()</span>
+<span class="n">print_something_else</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python is fun to learn!
+Something else
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="logische-kontrollstrukturen-und-schleifen">
+<h2>Logische Kontrollstrukturen und Schleifen<a class="headerlink" href="#logische-kontrollstrukturen-und-schleifen" title="Permalink to this heading">#</a></h2>
+<p>Zum Ende dieser kurzen Einführung richten wir den Blick auf zwei für die praktische Arbeit wichtige Werkzeuge. Bei manchen Teilen der Analyse kann es sein, dass bestimmte Prozesse in Abhängigkeit von Bedingungen durchgeführt werden müssen. Um zu evaluieren unter welchem Bedinungnsstrang man sich befindet logischer Operatoren deren Output vom Typ Boolean ist. Die wichtigsten logischen Operatoren sind:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-left head"><p>Operator</p></th>
+<th class="text-right head"><p>Bedeutung</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>==</p></td>
+<td class="text-right"><p>ist gleich</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>!=</p></td>
+<td class="text-right"><p>ist ungleich</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>&gt;</p></td>
+<td class="text-right"><p>größer als</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>&lt;</p></td>
+<td class="text-right"><p>kleiner als</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>&gt;=</p></td>
+<td class="text-right"><p>größer oder gleich</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>&lt;=</p></td>
+<td class="text-right"><p>kleiner oder gleich</p></td>
+</tr>
+</tbody>
+</table>
+<p>Einzelne logische Abfragen können auch mittels <em>and</em> oder <em>or</em> verknüft und durch <em>not</em> negiert werden.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="ow">and</span> <span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="ow">or</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True False
+False
+True
+</pre></div>
+</div>
+</div>
+</div>
+<p>Die wichtigsten Kontrollstrukturen sind <em>if</em> bzw. <em>if-else</em> abfragen. Diese erlauben es Auswertungen je nach Bedingung durchzuführen. Zudem können sie miteinander kombiniert bzw. ineinandner verschachtelt werden.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">python_is_fun</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="k">if</span> <span class="n">python_is_fun</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Yeah!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Yeah!
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">python_is_fun</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">if</span> <span class="n">python_is_fun</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Yeah!&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Are you serious?&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Are you serious?
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">python_is_fun</span> <span class="o">=</span> <span class="mi">42</span>
+
+<span class="k">if</span> <span class="n">python_is_fun</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Yeah!&quot;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">python_is_fun</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Are you serious?&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The answer for the ultimate question of life, the universe, and everything is:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">python_is_fun</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The answer for the ultimate question of life, the universe, and everything is:
+42
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wiederholte Auswertungen für Elemente eines Objekts können mittels des <em>for</em> loops ausgeführt werden.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Eine einfache Schleife</span>
+<span class="n">people</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Andrew&quot;</span><span class="p">,</span> <span class="s2">&quot;Max&quot;</span><span class="p">,</span> <span class="s2">&quot;Francis&quot;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># Eine Schleife mittels laufendem Index</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># Eine Schleife mittels Index und Objekt</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">person</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">people</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Person number </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">person</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># Eine Schleife über zwei Objekte</span>
+<span class="n">people</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Andrew&quot;</span><span class="p">,</span> <span class="s2">&quot;Max&quot;</span><span class="p">,</span> <span class="s2">&quot;Francis&quot;</span><span class="p">]</span>
+<span class="n">ages</span> <span class="o">=</span> <span class="p">[</span><span class="mi">21</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">23</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">age</span><span class="p">,</span> <span class="n">person</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ages</span><span class="p">,</span> <span class="n">people</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">person</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">age</span><span class="si">}</span><span class="s2"> years old.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># Eine Schleife über zwei Objekte mit Index</span>
+<span class="n">people</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Andrew&quot;</span><span class="p">,</span> <span class="s2">&quot;Max&quot;</span><span class="p">,</span> <span class="s2">&quot;Francis&quot;</span><span class="p">]</span>
+<span class="n">ages</span> <span class="o">=</span> <span class="p">[</span><span class="mi">21</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">23</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">age</span><span class="p">,</span> <span class="n">person</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">ages</span><span class="p">,</span> <span class="n">people</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Person number </span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">person</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">age</span><span class="si">}</span><span class="s2"> years old.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Andrew
+Max
+Francis
+--------------------------------------------------
+0
+1
+2
+3
+4
+--------------------------------------------------
+Person number 1: Andrew
+Person number 2: Max
+Person number 3: Francis
+--------------------------------------------------
+Andrew is 21 years old.
+Max is 24 years old.
+Francis is 23 years old.
+--------------------------------------------------
+Person number 1: Andrew is 21 years old.
+Person number 2: Max is 24 years old.
+Person number 3: Francis is 23 years old.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Eine weitere Möglichkeit der iterativen Auswertung besteht durch die <em>while</em> Schleife. Diese wird mit einer Bedingung kombiniert und solange ausgeführt, wie diese Bedingung <em>True</em> ist.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">number</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="k">while</span> <span class="n">number</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+    <span class="n">number</span> <span class="o">=</span> <span class="n">number</span> <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5
+4
+3
+2
+1
+0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="populare-pakete-in-python">
+<h2>Populäre Pakete in Python<a class="headerlink" href="#populare-pakete-in-python" title="Permalink to this heading">#</a></h2>
+<p>Wie bereits erwähnt, existieren für Python viele Pakete mit nützlichen Funktionen. Beispiele populärer Pakete sind:</p>
+<ul class="simple">
+<li><p>Numpy: Scientific computing</p></li>
+<li><p>Pandas: Datenmanipulation und Analyse</p></li>
+<li><p>Scikit-learn: Machine Learning</p></li>
+<li><p>Matplotlib: Datenvisualisierung</p></li>
+</ul>
+<p>Wir werden mit diesem Paketen im Kurs arbeiten und bei Bedarf näher darauf eingegen.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="00_Introduction.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Einführung</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02_DataAccess.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Zugang zu Daten</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-als-taschenrechner">Python als Taschenrechner</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#funktionen-in-python">Funktionen in Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hilfe">Hilfe</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datentypen-in-python">Datentypen in Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objektzuweisungen-in-python">Objektzuweisungen in Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fehlermeldungen-in-python">Fehlermeldungen in Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datenstrukturierung">Datenstrukturierung</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eigene-funktionen-definieren">Eigene Funktionen definieren</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-und-pakete">Module und Pakete</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logische-kontrollstrukturen-und-schleifen">Logische Kontrollstrukturen und Schleifen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#populare-pakete-in-python">Populäre Pakete in Python</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Prof. Dr. Ralf Kellner
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

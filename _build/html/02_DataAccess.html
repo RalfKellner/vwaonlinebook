@@ -1,0 +1,1123 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Zugang zu Daten &#8212; Datenanalyse und Datenmanagement</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '02_DataAccess';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Deskriptive Analyse von Daten" href="03_DescriptiveAnalysis.html" />
+    <link rel="prev" title="Einführung in Python" href="01_PythonIntroduction.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_Introduction.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/Logo_VWA.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/Logo_VWA.jpg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_Introduction.html">
+                    Einführung
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_PythonIntroduction.html">Einführung in Python</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Zugang zu Daten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_DescriptiveAnalysis.html">Deskriptive Analyse von Daten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_SupervisedLearning.html">Die Analyse abhängiger Variablen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_LinearRegression.html">Das multiple lineare Regressionmodell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_Classification.html">Klassifizierung</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="07_ModellAccuracy.html">Generalisierung funktionaler Zusammenhänge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_ModelComplexity.html">Modellkomplexität</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_Regularization.html">Regularisierung</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="10_DimensionalityReduction.html">Dimensionsreduktion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_Clustering.html">Clustering</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2F02_DataAccess.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/02_DataAccess.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Zugang zu Daten</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dateiimport">Dateiimport</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datenbanken">Datenbanken</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apis">APIs</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="zugang-zu-daten">
+<h1>Zugang zu Daten<a class="headerlink" href="#zugang-zu-daten" title="Permalink to this heading">#</a></h1>
+<p>Es bestehen viele Wege, um Daten für eine Auswertung zu beziehen. Wir wollen daher in diesem Abschnitt auf ein paar gängige Methoden des Datenbezugs eingehen:</p>
+<ul class="simple">
+<li><p>Download und Import kleinerer Dateien wie z.B. csv- oder txt-Dateien</p></li>
+<li><p>Verwendung von Datenbanken</p></li>
+<li><p>Zugang zu Daten mittels APIs</p></li>
+</ul>
+<p>Dies soll lediglich als kleiner Einblick verstanden werden, um eine Idee davon zu erhalten, welche Wege des Datenzugangs bestehen. Darüber hinaus existieren viele weitere Möglichkeiten. Es gilt jedoch für nahezu jeden dieser Wege, dass er mit steigenden Ansprüchen komplexer werden kann und man für detaillierte Mittel und Wege weiteres Wissen aufbauen muss.</p>
+<section id="dateiimport">
+<h2>Dateiimport<a class="headerlink" href="#dateiimport" title="Permalink to this heading">#</a></h2>
+<p>Mit die gewöhnlichste Art Zugang zu Daten zu erhalten, ist das Teilen von Dateien. Übliche Formate sind csv oder txt Dateien, bei denen in der Regel jede Zeile einer Beobachtung entspricht und die Variablen durch Komma- oder andere Trennzeichen getrennt sind.</p>
+<p>Im der unteren Zelle sehen Sie wie mittels pandas eine csv-Datei eingelesen wird. Sehr ähnlich funktioniert dies auch für txt-Dateien. Je nachdem wie die Daten in der Datei getrennt sind (z.B. Leerzeichen, Komma, etc.), muss dies beim Einlesen der Datei explizit angegben werden. Genauere Hilfe hierzu erhalten Sie durch den <em>help(pd.read_csv)</em> Aufruf. Die Datei aus diesem Beispiel (dann mit aktuellen Daten) können Sie selbst relativ leicht unter diesem <a class="reference external" href="https://finance.yahoo.com/quote/DAX/history?p=DAX">Link</a> durch Klicken auf den Download-Button herunterladen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">dax_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../Daten/DAX.csv&quot;</span><span class="p">)</span>
+<span class="n">dax_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Date</th>
+      <th>Open</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Close</th>
+      <th>Adj Close</th>
+      <th>Volume</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2022-07-19</td>
+      <td>23.180000</td>
+      <td>23.719999</td>
+      <td>23.170000</td>
+      <td>23.590000</td>
+      <td>22.978786</td>
+      <td>74900</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2022-07-20</td>
+      <td>23.430000</td>
+      <td>23.600000</td>
+      <td>23.280001</td>
+      <td>23.350000</td>
+      <td>22.745005</td>
+      <td>17100</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2022-07-21</td>
+      <td>23.150000</td>
+      <td>23.510000</td>
+      <td>23.150000</td>
+      <td>23.510000</td>
+      <td>22.900860</td>
+      <td>4900</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2022-07-22</td>
+      <td>23.740000</td>
+      <td>23.740000</td>
+      <td>23.330000</td>
+      <td>23.330000</td>
+      <td>22.725523</td>
+      <td>4700</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2022-07-25</td>
+      <td>23.600000</td>
+      <td>23.600000</td>
+      <td>23.340000</td>
+      <td>23.440001</td>
+      <td>22.832674</td>
+      <td>9000</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>246</th>
+      <td>2023-07-12</td>
+      <td>29.770000</td>
+      <td>30.011000</td>
+      <td>29.770000</td>
+      <td>30.000000</td>
+      <td>30.000000</td>
+      <td>6400</td>
+    </tr>
+    <tr>
+      <th>247</th>
+      <td>2023-07-13</td>
+      <td>30.389999</td>
+      <td>30.459999</td>
+      <td>30.350000</td>
+      <td>30.459999</td>
+      <td>30.459999</td>
+      <td>4900</td>
+    </tr>
+    <tr>
+      <th>248</th>
+      <td>2023-07-14</td>
+      <td>30.309999</td>
+      <td>30.309999</td>
+      <td>30.309999</td>
+      <td>30.309999</td>
+      <td>30.309999</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>249</th>
+      <td>2023-07-17</td>
+      <td>30.170000</td>
+      <td>30.430000</td>
+      <td>30.120001</td>
+      <td>30.430000</td>
+      <td>30.430000</td>
+      <td>2900</td>
+    </tr>
+    <tr>
+      <th>250</th>
+      <td>2023-07-18</td>
+      <td>30.299999</td>
+      <td>30.410000</td>
+      <td>30.290001</td>
+      <td>30.410000</td>
+      <td>30.410000</td>
+      <td>26100</td>
+    </tr>
+  </tbody>
+</table>
+<p>251 rows × 7 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="datenbanken">
+<h2>Datenbanken<a class="headerlink" href="#datenbanken" title="Permalink to this heading">#</a></h2>
+<p>Das Speichern und Abrufen mittels csv, txt oder ähnlicher Dateiformate ist in manchen Fällen nicht ausreichend. Beispielsweise erreichen csv oder Excel Dateien ihr Limit bei ca. einer Million Beobachtungen. Dies mag viel erscheinen, ist es jedoch in manchen Fällen nicht. Zudem ist es oft besser Daten in etwas komplexerer Form strukturieren zu können. Hierfür bieten sich Datenbanken an, über die Daten mittels einer “query language” abgerufen werden können. Eine der für diesen Zweck bekanntesten Sprachen (für relationelle Datenbanken) ist Structured Query Language - SQL. Hiermit können spezifische Werte durch einzelne Befehle aus der Datenbank abgefragt werden. Um Ihnen ein kleines Beispiel zu geben, sehen Sie in den nächsten drei Zellen, wie Daten in eine Datenbank geschrieben und wieder abgefragt werden können.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Aufbau einer Verbindung zur Datenbank dax.sqlite</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;dax.sqlite&quot;</span><span class="p">)</span>
+<span class="c1"># Schreiben von Daten mit Hilfe eines pandas DataFrame</span>
+<span class="n">dax_df</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="n">con</span> <span class="o">=</span> <span class="n">conn</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ohlc&quot;</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
+
+<span class="c1"># Beispiel für den Abruf aller Daten aus dem Tabellenblatt ohlc</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;dax.sqlite&quot;</span><span class="p">)</span>
+<span class="n">curs</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="c1"># dies ist der SQL Befehl</span>
+<span class="n">sql_query</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM ohlc&quot;</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">curs</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql_query</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">res</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="k">break</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0, &#39;2022-07-19&#39;, 23.18, 23.719999, 23.17, 23.59, 22.978786, 74900)
+(1, &#39;2022-07-20&#39;, 23.43, 23.6, 23.280001, 23.35, 22.745005, 17100)
+(2, &#39;2022-07-21&#39;, 23.15, 23.51, 23.15, 23.51, 22.90086, 4900)
+(3, &#39;2022-07-22&#39;, 23.74, 23.74, 23.33, 23.33, 22.725523, 4700)
+(4, &#39;2022-07-25&#39;, 23.6, 23.6, 23.34, 23.440001, 22.832674, 9000)
+(5, &#39;2022-07-26&#39;, 23.040001, 23.139999, 22.93, 22.965, 22.36998, 3500)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
+
+<span class="c1"># Beispiel für den Abruf aller Daten ab einem bestimmten Daten aus dem Tabellenblatt ohlc</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;dax.sqlite&quot;</span><span class="p">)</span>
+<span class="n">curs</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">sql_query</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM ohlc WHERE Date&gt;=&#39;2022-08-01&#39;&quot;</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">curs</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql_query</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">res</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="k">break</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(9, &#39;2022-08-01&#39;, 24.1, 24.209999, 23.771, 24.004, 23.382059, 44200)
+(10, &#39;2022-08-02&#39;, 23.82, 23.92, 23.639999, 23.639999, 23.027491, 18600)
+(11, &#39;2022-08-03&#39;, 23.940001, 24.08, 23.700001, 24.040001, 23.417128, 21600)
+(12, &#39;2022-08-04&#39;, 24.215, 24.32, 24.195, 24.23, 23.602203, 11200)
+(13, &#39;2022-08-05&#39;, 24.0, 24.15, 23.940001, 24.120001, 23.495054, 4200)
+(14, &#39;2022-08-08&#39;, 24.24, 24.35, 24.052, 24.156, 23.530123, 8000)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="apis">
+<h2>APIs<a class="headerlink" href="#apis" title="Permalink to this heading">#</a></h2>
+<p>Oft teilen Firmen Daten auf ihren Servern mittels eines Application Programming Interfaces (API). Sie können sich dies wie eine Speisekarte in einem Restaurant vorstellen. Der Anbieter (das Restaurant) hat Daten auf seinem Server (die Gerichte in der Küche). Um Essen bestellen zu können, benötigen Sie die Informationen zu den verschiedenen Gerichten. Dies wären die Endpunkte des APIs. Wenn Sie diese kennen, sind Sie in der Lage eine Ihren Wünschen entsprechende Bestellung aufzugeben und bekommen im besten Fall unmittelbar die angefragten Daten.</p>
+<p>Als kleines Beispiel benützen wir die Star Wars API. Folgende Endpunkte sind beispielsweise verfügbar:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://swapi.dev/api/films">https://swapi.dev/api/films</a></p></li>
+<li><p><a class="reference external" href="https://swapi.dev/api/people">https://swapi.dev/api/people</a></p></li>
+<li><p><a class="reference external" href="https://swapi.dev/api/planets">https://swapi.dev/api/planets</a></p></li>
+<li><p><a class="reference external" href="https://swapi.dev/api/species">https://swapi.dev/api/species</a></p></li>
+<li><p><a class="reference external" href="https://swapi.dev/api/starships">https://swapi.dev/api/starships</a></p></li>
+<li><p><a class="reference external" href="https://swapi.dev/api/vehicles">https://swapi.dev/api/vehicles</a></p></li>
+</ul>
+<p>Wenn Sie nun Informationen zu Personen aus dem Star Wars Universum benötigen, können Sie den Endpunkt <a class="reference external" href="https://swapi.dev/api/people">https://swapi.dev/api/people</a> verwenden. Mittels Python senden Sie eine GET Anfrage, um die Daten zu bestellen. Sie erhalten die entsprchenden Daten im json Format zurück, welches für diese Art der Datenabfrage sehr beliebt ist. Durch pandas lassen sich die Daten schnell und einfach in einen leicht zu analysierenden Datensatz konvertieren.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Senden der GET Anfrage</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://swapi.dev/api/people/&quot;</span><span class="p">)</span>
+<span class="c1"># So sehen die übermittelten Daten im json-Format aus</span>
+<span class="c1"># In Python werden diese als dictionary dargestellt</span>
+<span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;count&#39;: 82,
+ &#39;next&#39;: &#39;https://swapi.dev/api/people/?page=2&#39;,
+ &#39;previous&#39;: None,
+ &#39;results&#39;: [{&#39;name&#39;: &#39;Luke Skywalker&#39;,
+   &#39;height&#39;: &#39;172&#39;,
+   &#39;mass&#39;: &#39;77&#39;,
+   &#39;hair_color&#39;: &#39;blond&#39;,
+   &#39;skin_color&#39;: &#39;fair&#39;,
+   &#39;eye_color&#39;: &#39;blue&#39;,
+   &#39;birth_year&#39;: &#39;19BBY&#39;,
+   &#39;gender&#39;: &#39;male&#39;,
+   &#39;homeworld&#39;: &#39;https://swapi.dev/api/planets/1/&#39;,
+   &#39;films&#39;: [&#39;https://swapi.dev/api/films/1/&#39;,
+    &#39;https://swapi.dev/api/films/2/&#39;,
+    &#39;https://swapi.dev/api/films/3/&#39;,
+    &#39;https://swapi.dev/api/films/6/&#39;],
+   &#39;species&#39;: [],
+   &#39;vehicles&#39;: [&#39;https://swapi.dev/api/vehicles/14/&#39;,
+    &#39;https://swapi.dev/api/vehicles/30/&#39;],
+   &#39;starships&#39;: [&#39;https://swapi.dev/api/starships/12/&#39;,
+    &#39;https://swapi.dev/api/starships/22/&#39;],
+   &#39;created&#39;: &#39;2014-12-09T13:50:51.644000Z&#39;,
+   &#39;edited&#39;: &#39;2014-12-20T21:17:56.891000Z&#39;,
+   &#39;url&#39;: &#39;https://swapi.dev/api/people/1/&#39;},
+  {&#39;name&#39;: &#39;C-3PO&#39;,
+   &#39;height&#39;: &#39;167&#39;,
+   &#39;mass&#39;: &#39;75&#39;,
+   &#39;hair_color&#39;: &#39;n/a&#39;,
+   &#39;skin_color&#39;: &#39;gold&#39;,
+   &#39;eye_color&#39;: &#39;yellow&#39;,
+   &#39;birth_year&#39;: &#39;112BBY&#39;,
+   &#39;gender&#39;: &#39;n/a&#39;,
+   &#39;homeworld&#39;: &#39;https://swapi.dev/api/planets/1/&#39;,
+   &#39;films&#39;: [&#39;https://swapi.dev/api/films/1/&#39;,
+    &#39;https://swapi.dev/api/films/2/&#39;,
+    &#39;https://swapi.dev/api/films/3/&#39;,
+    &#39;https://swapi.dev/api/films/4/&#39;,
+    &#39;https://swapi.dev/api/films/5/&#39;,
+    &#39;https://swapi.dev/api/films/6/&#39;],
+   &#39;species&#39;: [&#39;https://swapi.dev/api/species/2/&#39;],
+   &#39;vehicles&#39;: [],
+   &#39;starships&#39;: [],
+   &#39;created&#39;: &#39;2014-12-10T15:10:51.357000Z&#39;,
+   &#39;edited&#39;: &#39;2014-12-20T21:17:50.309000Z&#39;,
+   &#39;url&#39;: &#39;https://swapi.dev/api/people/2/&#39;},
+  {&#39;name&#39;: &#39;R2-D2&#39;,
+   &#39;height&#39;: &#39;96&#39;,
+   &#39;mass&#39;: &#39;32&#39;,
+   &#39;hair_color&#39;: &#39;n/a&#39;,
+   &#39;skin_color&#39;: &#39;white, blue&#39;,
+   &#39;eye_color&#39;: &#39;red&#39;,
+   &#39;birth_year&#39;: &#39;33BBY&#39;,
+   &#39;gender&#39;: &#39;n/a&#39;,
+   &#39;homeworld&#39;: &#39;https://swapi.dev/api/planets/8/&#39;,
+   &#39;films&#39;: [&#39;https://swapi.dev/api/films/1/&#39;,
+    &#39;https://swapi.dev/api/films/2/&#39;,
+    &#39;https://swapi.dev/api/films/3/&#39;,
+    &#39;https://swapi.dev/api/films/4/&#39;,
+    &#39;https://swapi.dev/api/films/5/&#39;,
+    &#39;https://swapi.dev/api/films/6/&#39;],
+   &#39;species&#39;: [&#39;https://swapi.dev/api/species/2/&#39;],
+   &#39;vehicles&#39;: [],
+   &#39;starships&#39;: [],
+   &#39;created&#39;: &#39;2014-12-10T15:11:50.376000Z&#39;,
+   &#39;edited&#39;: &#39;2014-12-20T21:17:50.311000Z&#39;,
+   &#39;url&#39;: &#39;https://swapi.dev/api/people/3/&#39;},
+  {&#39;name&#39;: &#39;Darth Vader&#39;,
+   &#39;height&#39;: &#39;202&#39;,
+   &#39;mass&#39;: &#39;136&#39;,
+   &#39;hair_color&#39;: &#39;none&#39;,
+   &#39;skin_color&#39;: &#39;white&#39;,
+   &#39;eye_color&#39;: &#39;yellow&#39;,
+   &#39;birth_year&#39;: &#39;41.9BBY&#39;,
+   &#39;gender&#39;: &#39;male&#39;,
+   &#39;homeworld&#39;: &#39;https://swapi.dev/api/planets/1/&#39;,
+   &#39;films&#39;: [&#39;https://swapi.dev/api/films/1/&#39;,
+    &#39;https://swapi.dev/api/films/2/&#39;,
+    &#39;https://swapi.dev/api/films/3/&#39;,
+    &#39;https://swapi.dev/api/films/6/&#39;],
+   &#39;species&#39;: [],
+   &#39;vehicles&#39;: [],
+   &#39;starships&#39;: [&#39;https://swapi.dev/api/starships/13/&#39;],
+   &#39;created&#39;: &#39;2014-12-10T15:18:20.704000Z&#39;,
+   &#39;edited&#39;: &#39;2014-12-20T21:17:50.313000Z&#39;,
+   &#39;url&#39;: &#39;https://swapi.dev/api/people/4/&#39;},
+  {&#39;name&#39;: &#39;Leia Organa&#39;,
+   &#39;height&#39;: &#39;150&#39;,
+   &#39;mass&#39;: &#39;49&#39;,
+   &#39;hair_color&#39;: &#39;brown&#39;,
+   &#39;skin_color&#39;: &#39;light&#39;,
+   &#39;eye_color&#39;: &#39;brown&#39;,
+   &#39;birth_year&#39;: &#39;19BBY&#39;,
+   &#39;gender&#39;: &#39;female&#39;,
+   &#39;homeworld&#39;: &#39;https://swapi.dev/api/planets/2/&#39;,
+   &#39;films&#39;: [&#39;https://swapi.dev/api/films/1/&#39;,
+    &#39;https://swapi.dev/api/films/2/&#39;,
+    &#39;https://swapi.dev/api/films/3/&#39;,
+    &#39;https://swapi.dev/api/films/6/&#39;],
+   &#39;species&#39;: [],
+   &#39;vehicles&#39;: [&#39;https://swapi.dev/api/vehicles/30/&#39;],
+   &#39;starships&#39;: [],
+   &#39;created&#39;: &#39;2014-12-10T15:20:09.791000Z&#39;,
+   &#39;edited&#39;: &#39;2014-12-20T21:17:50.315000Z&#39;,
+   &#39;url&#39;: &#39;https://swapi.dev/api/people/5/&#39;},
+  {&#39;name&#39;: &#39;Owen Lars&#39;,
+   &#39;height&#39;: &#39;178&#39;,
+   &#39;mass&#39;: &#39;120&#39;,
+   &#39;hair_color&#39;: &#39;brown, grey&#39;,
+   &#39;skin_color&#39;: &#39;light&#39;,
+   &#39;eye_color&#39;: &#39;blue&#39;,
+   &#39;birth_year&#39;: &#39;52BBY&#39;,
+   &#39;gender&#39;: &#39;male&#39;,
+   &#39;homeworld&#39;: &#39;https://swapi.dev/api/planets/1/&#39;,
+   &#39;films&#39;: [&#39;https://swapi.dev/api/films/1/&#39;,
+    &#39;https://swapi.dev/api/films/5/&#39;,
+    &#39;https://swapi.dev/api/films/6/&#39;],
+   &#39;species&#39;: [],
+   &#39;vehicles&#39;: [],
+   &#39;starships&#39;: [],
+   &#39;created&#39;: &#39;2014-12-10T15:52:14.024000Z&#39;,
+   &#39;edited&#39;: &#39;2014-12-20T21:17:50.317000Z&#39;,
+   &#39;url&#39;: &#39;https://swapi.dev/api/people/6/&#39;},
+  {&#39;name&#39;: &#39;Beru Whitesun lars&#39;,
+   &#39;height&#39;: &#39;165&#39;,
+   &#39;mass&#39;: &#39;75&#39;,
+   &#39;hair_color&#39;: &#39;brown&#39;,
+   &#39;skin_color&#39;: &#39;light&#39;,
+   &#39;eye_color&#39;: &#39;blue&#39;,
+   &#39;birth_year&#39;: &#39;47BBY&#39;,
+   &#39;gender&#39;: &#39;female&#39;,
+   &#39;homeworld&#39;: &#39;https://swapi.dev/api/planets/1/&#39;,
+   &#39;films&#39;: [&#39;https://swapi.dev/api/films/1/&#39;,
+    &#39;https://swapi.dev/api/films/5/&#39;,
+    &#39;https://swapi.dev/api/films/6/&#39;],
+   &#39;species&#39;: [],
+   &#39;vehicles&#39;: [],
+   &#39;starships&#39;: [],
+   &#39;created&#39;: &#39;2014-12-10T15:53:41.121000Z&#39;,
+   &#39;edited&#39;: &#39;2014-12-20T21:17:50.319000Z&#39;,
+   &#39;url&#39;: &#39;https://swapi.dev/api/people/7/&#39;},
+  {&#39;name&#39;: &#39;R5-D4&#39;,
+   &#39;height&#39;: &#39;97&#39;,
+   &#39;mass&#39;: &#39;32&#39;,
+   &#39;hair_color&#39;: &#39;n/a&#39;,
+   &#39;skin_color&#39;: &#39;white, red&#39;,
+   &#39;eye_color&#39;: &#39;red&#39;,
+   &#39;birth_year&#39;: &#39;unknown&#39;,
+   &#39;gender&#39;: &#39;n/a&#39;,
+   &#39;homeworld&#39;: &#39;https://swapi.dev/api/planets/1/&#39;,
+   &#39;films&#39;: [&#39;https://swapi.dev/api/films/1/&#39;],
+   &#39;species&#39;: [&#39;https://swapi.dev/api/species/2/&#39;],
+   &#39;vehicles&#39;: [],
+   &#39;starships&#39;: [],
+   &#39;created&#39;: &#39;2014-12-10T15:57:50.959000Z&#39;,
+   &#39;edited&#39;: &#39;2014-12-20T21:17:50.321000Z&#39;,
+   &#39;url&#39;: &#39;https://swapi.dev/api/people/8/&#39;},
+  {&#39;name&#39;: &#39;Biggs Darklighter&#39;,
+   &#39;height&#39;: &#39;183&#39;,
+   &#39;mass&#39;: &#39;84&#39;,
+   &#39;hair_color&#39;: &#39;black&#39;,
+   &#39;skin_color&#39;: &#39;light&#39;,
+   &#39;eye_color&#39;: &#39;brown&#39;,
+   &#39;birth_year&#39;: &#39;24BBY&#39;,
+   &#39;gender&#39;: &#39;male&#39;,
+   &#39;homeworld&#39;: &#39;https://swapi.dev/api/planets/1/&#39;,
+   &#39;films&#39;: [&#39;https://swapi.dev/api/films/1/&#39;],
+   &#39;species&#39;: [],
+   &#39;vehicles&#39;: [],
+   &#39;starships&#39;: [&#39;https://swapi.dev/api/starships/12/&#39;],
+   &#39;created&#39;: &#39;2014-12-10T15:59:50.509000Z&#39;,
+   &#39;edited&#39;: &#39;2014-12-20T21:17:50.323000Z&#39;,
+   &#39;url&#39;: &#39;https://swapi.dev/api/people/9/&#39;},
+  {&#39;name&#39;: &#39;Obi-Wan Kenobi&#39;,
+   &#39;height&#39;: &#39;182&#39;,
+   &#39;mass&#39;: &#39;77&#39;,
+   &#39;hair_color&#39;: &#39;auburn, white&#39;,
+   &#39;skin_color&#39;: &#39;fair&#39;,
+   &#39;eye_color&#39;: &#39;blue-gray&#39;,
+   &#39;birth_year&#39;: &#39;57BBY&#39;,
+   &#39;gender&#39;: &#39;male&#39;,
+   &#39;homeworld&#39;: &#39;https://swapi.dev/api/planets/20/&#39;,
+   &#39;films&#39;: [&#39;https://swapi.dev/api/films/1/&#39;,
+    &#39;https://swapi.dev/api/films/2/&#39;,
+    &#39;https://swapi.dev/api/films/3/&#39;,
+    &#39;https://swapi.dev/api/films/4/&#39;,
+    &#39;https://swapi.dev/api/films/5/&#39;,
+    &#39;https://swapi.dev/api/films/6/&#39;],
+   &#39;species&#39;: [],
+   &#39;vehicles&#39;: [&#39;https://swapi.dev/api/vehicles/38/&#39;],
+   &#39;starships&#39;: [&#39;https://swapi.dev/api/starships/48/&#39;,
+    &#39;https://swapi.dev/api/starships/59/&#39;,
+    &#39;https://swapi.dev/api/starships/64/&#39;,
+    &#39;https://swapi.dev/api/starships/65/&#39;,
+    &#39;https://swapi.dev/api/starships/74/&#39;],
+   &#39;created&#39;: &#39;2014-12-10T16:16:29.192000Z&#39;,
+   &#39;edited&#39;: &#39;2014-12-20T21:17:50.325000Z&#39;,
+   &#39;url&#39;: &#39;https://swapi.dev/api/people/10/&#39;}]}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># mittels pandas lassen sich die json Daten in eine DataFrame konvertieren</span>
+<span class="n">star_wars_pepole_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;results&#39;</span><span class="p">])</span>
+<span class="n">star_wars_pepole_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>height</th>
+      <th>mass</th>
+      <th>hair_color</th>
+      <th>skin_color</th>
+      <th>eye_color</th>
+      <th>birth_year</th>
+      <th>gender</th>
+      <th>homeworld</th>
+      <th>films</th>
+      <th>species</th>
+      <th>vehicles</th>
+      <th>starships</th>
+      <th>created</th>
+      <th>edited</th>
+      <th>url</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Luke Skywalker</td>
+      <td>172</td>
+      <td>77</td>
+      <td>blond</td>
+      <td>fair</td>
+      <td>blue</td>
+      <td>19BBY</td>
+      <td>male</td>
+      <td>https://swapi.dev/api/planets/1/</td>
+      <td>[https://swapi.dev/api/films/1/, https://swapi...</td>
+      <td>[]</td>
+      <td>[https://swapi.dev/api/vehicles/14/, https://s...</td>
+      <td>[https://swapi.dev/api/starships/12/, https://...</td>
+      <td>2014-12-09T13:50:51.644000Z</td>
+      <td>2014-12-20T21:17:56.891000Z</td>
+      <td>https://swapi.dev/api/people/1/</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>C-3PO</td>
+      <td>167</td>
+      <td>75</td>
+      <td>n/a</td>
+      <td>gold</td>
+      <td>yellow</td>
+      <td>112BBY</td>
+      <td>n/a</td>
+      <td>https://swapi.dev/api/planets/1/</td>
+      <td>[https://swapi.dev/api/films/1/, https://swapi...</td>
+      <td>[https://swapi.dev/api/species/2/]</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>2014-12-10T15:10:51.357000Z</td>
+      <td>2014-12-20T21:17:50.309000Z</td>
+      <td>https://swapi.dev/api/people/2/</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>R2-D2</td>
+      <td>96</td>
+      <td>32</td>
+      <td>n/a</td>
+      <td>white, blue</td>
+      <td>red</td>
+      <td>33BBY</td>
+      <td>n/a</td>
+      <td>https://swapi.dev/api/planets/8/</td>
+      <td>[https://swapi.dev/api/films/1/, https://swapi...</td>
+      <td>[https://swapi.dev/api/species/2/]</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>2014-12-10T15:11:50.376000Z</td>
+      <td>2014-12-20T21:17:50.311000Z</td>
+      <td>https://swapi.dev/api/people/3/</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Darth Vader</td>
+      <td>202</td>
+      <td>136</td>
+      <td>none</td>
+      <td>white</td>
+      <td>yellow</td>
+      <td>41.9BBY</td>
+      <td>male</td>
+      <td>https://swapi.dev/api/planets/1/</td>
+      <td>[https://swapi.dev/api/films/1/, https://swapi...</td>
+      <td>[]</td>
+      <td>[]</td>
+      <td>[https://swapi.dev/api/starships/13/]</td>
+      <td>2014-12-10T15:18:20.704000Z</td>
+      <td>2014-12-20T21:17:50.313000Z</td>
+      <td>https://swapi.dev/api/people/4/</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Leia Organa</td>
+      <td>150</td>
+      <td>49</td>
+      <td>brown</td>
+      <td>light</td>
+      <td>brown</td>
+      <td>19BBY</td>
+      <td>female</td>
+      <td>https://swapi.dev/api/planets/2/</td>
+      <td>[https://swapi.dev/api/films/1/, https://swapi...</td>
+      <td>[]</td>
+      <td>[https://swapi.dev/api/vehicles/30/]</td>
+      <td>[]</td>
+      <td>2014-12-10T15:20:09.791000Z</td>
+      <td>2014-12-20T21:17:50.315000Z</td>
+      <td>https://swapi.dev/api/people/5/</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01_PythonIntroduction.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Einführung in Python</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03_DescriptiveAnalysis.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Deskriptive Analyse von Daten</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dateiimport">Dateiimport</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datenbanken">Datenbanken</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apis">APIs</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Prof. Dr. Ralf Kellner
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

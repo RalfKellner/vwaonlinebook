@@ -1,0 +1,648 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Modellkomplexität &#8212; Datenanalyse und Datenmanagement</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '08_ModelComplexity';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Regularisierung" href="09_Regularization.html" />
+    <link rel="prev" title="Generalisierung funktionaler Zusammenhänge" href="07_ModellAccuracy.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_Introduction.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/Logo_VWA.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/Logo_VWA.jpg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_Introduction.html">
+                    Einführung
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_PythonIntroduction.html">Einführung in Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_DataAccess.html">Zugang zu Daten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_DescriptiveAnalysis.html">Deskriptive Analyse von Daten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_SupervisedLearning.html">Die Analyse abhängiger Variablen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_LinearRegression.html">Das multiple lineare Regressionmodell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_Classification.html">Klassifizierung</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="07_ModellAccuracy.html">Generalisierung funktionaler Zusammenhänge</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Modellkomplexität</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_Regularization.html">Regularisierung</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="10_DimensionalityReduction.html">Dimensionsreduktion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_Clustering.html">Clustering</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2F08_ModelComplexity.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/08_ModelComplexity.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Modellkomplexität</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flexiblere-modelle-polynomiale-regression">Flexiblere Modelle - Polynomiale Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bias-variance-trade-off">Bias-Variance Trade-Off</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="modellkomplexitat">
+<h1>Modellkomplexität<a class="headerlink" href="#modellkomplexitat" title="Permalink to this heading">#</a></h1>
+<p>Bisher haben wir ausschließlich Modelle besprochen, für die der Ausgangspunkt der Prognose immer in Form der linearen Regressionsgerade gegeben war. Insbesondere für die lineare Regression scheint diese Annahme sehr restriktiv, da davon auszugehen ist, dass in der Realität die Zusammenhänge komplexer sein können. Als Beispiel sei noch einmel der Grenznutzen zusätzlicher Werbung und ihr Einfluss auf die Verkäufe einer Firma genannt. Um komplexere Zusammenhänge abbilden zu können, gibt es verschiedene Möglichkeiten. Mit Blick auf die lineare Regression können die unabhängigen Variablen auf nicht-lineare Art transformiert werden. Wir werden uns dies im nächsten Abschnitt mit Hilfe polynomialen Regression ansehen. Jedoch existieren weitaus mehr Möglichkeiten oder auch Modellierungen als die polynomiale Regression. Weitere Beispiele sind durch die Verwendung von Splines bei der Regression oder durch andere Modelle wir Regression Trees oder Neuronale Netzwerke gegeben.</p>
+<p>Unabhängig von der Modellwahl ist es jedoch im Regelfall so, dass komplexere Modelle schwieriger zu trainieren sind. Während die Performance der Modelle für Trainingsdaten meist schnell steigt, kann es sein, dass gleichzeitig die Ergebnisse für die Testdaten schlechter werden. Dieses Phänomen wird Overfitting genannt und beschreibt die Tatsache, dass das Modell zu spezifisch an die Trainingsdaten angepasst wird, wodurch es weniger gut darin ist allgemeine Zusammenhänge zu identifizieren. Als Folge ist die Performance für neue Daten oft schlechter. Es kommt auch noch hinzu, dass die Variabilität von komplexeren Modellen oft größer ist. Dies bedeutet, dass sich die Vorhersagen deutlich stärker unterscheiden, wenn andere Daten einer Stichprobe entnommen und für das Training des Modells verwendet werden. Andererseits haben zu stark vereinfachende Modelle, wie beispielsweise das lineare Regressionsmodell, oft das Problem, dass sie den wahren Zusammenhang nicht abbilden können und daher die Prognose systematisch verzerrt sind. Hierbei spricht man von einem Bias, als einer systematischen Abweichung von den wahren Werten. Beim Trainieren von Modelle gilt es, einen guten Kompromiss zwischen diesen gegensätzlichen Effekten zu finden. Um dies näher betrachten zu können, benötigen wir zunächst die Möglichkeit auf ein komplexeres Modell zurückgreifen zu können. Als Beispiel soll hierfür die polynomiale Regression dienen, welche wir uns jetzt ansehen.</p>
+<section id="flexiblere-modelle-polynomiale-regression">
+<h2>Flexiblere Modelle - Polynomiale Regression<a class="headerlink" href="#flexiblere-modelle-polynomiale-regression" title="Permalink to this heading">#</a></h2>
+<p>Bei der polynomialen Regression werden lediglich zu den unabhängigen Variablen deren exponentierte Formen bis zum Grad <span class="math notranslate nohighlight">\(q\)</span> in das lineare Regressionsmdoell mit aufgenommen. Das bedeutet für eine lineare Einfachregression wird das Regressionsmodell zu:</p>
+<div class="math notranslate nohighlight">
+\[
+y = \beta_0 + \beta_1 x + \beta_2 x^2 + ... + \beta_q x^q + \epsilon =  \epsilon
+\]</div>
+<p>Die Grafik in der unteren Zelle veranschaulicht, dass auf diese Weise auch nicht-lineare Zusammenhänge abgebildet werden können.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+<span class="n">poly_one</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+<span class="n">poly_two</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mf">0.15</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">poly_three</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mf">0.15</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mf">0.05</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">poly_one</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$f(x) = \beta_1 x$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">poly_two</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$f(x) = \beta_1 x + \beta_2 x^2$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">poly_three</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$f(x) = \beta_1 x + \beta_2 x^2 + \beta_3 x^3$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/5d12101202685af89253936979f2aca2448095791819d577afc052ea010e6c2f.png" src="_images/5d12101202685af89253936979f2aca2448095791819d577afc052ea010e6c2f.png" />
+</div>
+</div>
+<p>Der Grad des Polynoms muss jedoch vom Nutzer spezifiziert werden und wenn wir mehrere unabhängige Variablen im Modell haben, deren Polynom bis zu einem bestimmten Grad mit in das Modell mit aufgenommen werden, erhöht sich sehr schnell die Anzahl der Variablen im Modell. Zudem ist es aus den oben genannten nicht immer gut, die Komplexität des Modells zu sehr durch die Aufnahme von Polynome hohen Grades zu erhöhen. Für ein besseres Verständnis betrachten wir ein einfaches und künstlich erzeugtes Beispiel.</p>
+<p>Wir gehen davon aus, dass der wahre Zusammenhang zwischen <span class="math notranslate nohighlight">\(x\)</span> und <span class="math notranslate nohighlight">\(y\)</span> durch:</p>
+<div class="math notranslate nohighlight">
+\[
+y = \cos(1.5 \pi x) + \epsilon
+\]</div>
+<p>spezifiziert ist. In der unteren Zelle können wir gut erkennen, dass ein lineares Modell nicht in der Lage sein wird, diesen Zusammenhang adäquat abzubilden.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+<span class="c1"># let us define a true functional relationship which is more complex than a simple linear relationship</span>
+<span class="k">def</span> <span class="nf">true_fun</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mf">1.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># generate some sample data</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">30</span>
+
+<span class="c1"># these values are for plotting the function</span>
+<span class="n">X_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="c1"># some training and some test data samples</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n_samples</span><span class="p">))</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n_samples</span><span class="p">))</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">true_fun</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.25</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">true_fun</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.25</span>
+
+<span class="c1"># visualize the relationship</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_range</span><span class="p">,</span> <span class="n">true_fun</span><span class="p">(</span><span class="n">X_range</span><span class="p">),</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;true relationship&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;training data&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;test data&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/1a52ec902afd2a7239c778fbaf33ac4de183ca11972016cd69793dfe542ee50f.png" src="_images/1a52ec902afd2a7239c778fbaf33ac4de183ca11972016cd69793dfe542ee50f.png" />
+</div>
+</div>
+<p>Um den nicht-linearen Zusammenhang besser abbilden zu können, folgen wir den Ansatz der polynomialen Regression. Für den Vergleich schätzen wir das traditionelle lineare Model und polynomiale Modelle mit den Graden <span class="math notranslate nohighlight">\(5\)</span> und <span class="math notranslate nohighlight">\(12\)</span>. In der unteren Grafik sehen wir die Resultate dieser Modell von links nach rechts, wobei der MSE für die Trainings- und Testdaten jeweils in der Überschrift mit angegben ist. Wir können beobachten, dass wie erwartet der MSE für das lineare Modell am größten ist. Dies liegt daran, dass bis auf die zwei Schnittpunkte der geschätzte Zusammenhang nie mit dem wahren Zusammenhang übereinstimmt und es zum Teil zu relativ hohen Abweichungen kommt. Was jedoch auch gut zu erkennen ist, ist dass der MSE nicht für das Modell mit dem polynomialen Grad <span class="math notranslate nohighlight">\(q=12\)</span> sondern das Modell mit dem Grad <span class="math notranslate nohighlight">\(q=5\)</span> zum geringsten Testfehler führt. Dies liegt an der starken Anpassung des Modells mit dem Grad <span class="math notranslate nohighlight">\(q=12\)</span> an die Trainingsdaten, wodurch der allgemeine Zusammenhang weniger gut identifiziert wird. Wir können in diesem Beispiel somit festhalten, dass ein etwas komplexeres Modell den wahren Zusammenhang am besten abbildet. Der Grund hierfür besteht darin, dass das Modell die Effekte der Abweichung vom wahren Zusammenhang und starker Anpassungsgüte an die Daten am besten ausgleicht. Dieser Trade-Off steht in Verbindung mit dem Bias-Variance Trade-Off auf den wir jetzt noch kurz in allgemeiner Form eingehen wollen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">PolynomialFeatures</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+
+<span class="k">def</span> <span class="nf">plot_poly_regression</span><span class="p">(</span><span class="n">degrees</span><span class="p">,</span> <span class="n">sklearn_linear_model</span><span class="p">,</span> <span class="n">main_title</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ax</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+
+    <span class="n">polynomial_features</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="n">degrees</span><span class="p">,</span> <span class="n">include_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">X_poly</span> <span class="o">=</span> <span class="n">polynomial_features</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">regression_model</span> <span class="o">=</span> <span class="n">sklearn_linear_model</span>
+    <span class="n">regression_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_poly</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_range</span><span class="p">,</span> <span class="n">true_fun</span><span class="p">(</span><span class="n">X_range</span><span class="p">),</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;true relationship&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_range</span><span class="p">,</span> <span class="n">regression_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">polynomial_features</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_range</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))),</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;estimated model&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;training data&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;test data&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;green&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">mse_train</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">regression_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">polynomial_features</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))))</span>
+    <span class="n">mse_test</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">regression_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">polynomial_features</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">main_title</span><span class="si">}</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> MSE_train: </span><span class="si">{</span><span class="n">mse_train</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, MSE_test: </span><span class="si">{</span><span class="n">mse_test</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plot_poly_regression</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">main_title</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;degrees = </span><span class="si">{</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plot_poly_regression</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">main_title</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;degrees = </span><span class="si">{</span><span class="mi">5</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plot_poly_regression</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="n">LinearRegression</span><span class="p">(),</span> <span class="n">main_title</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;degrees = </span><span class="si">{</span><span class="mi">12</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/21ea6e3ff7df808ab45a2f361fa8d13a3574c72567d02f2ec5a826eb810f44bb.png" src="_images/21ea6e3ff7df808ab45a2f361fa8d13a3574c72567d02f2ec5a826eb810f44bb.png" />
+</div>
+</div>
+</section>
+<section id="bias-variance-trade-off">
+<h2>Bias-Variance Trade-Off<a class="headerlink" href="#bias-variance-trade-off" title="Permalink to this heading">#</a></h2>
+<p>Der Bias-Variance Trade-Off zerlegt die erwartete Abweichung zwischen Prognose und tatsächlicher Realisierung eines Datenpunktes <span class="math notranslate nohighlight">\((\boldsymbol{x}, y)\)</span> in seine einzelnen Bestandteile:</p>
+<div class="math notranslate nohighlight">
+\[
+E \left(y - \hat{f} \left( \boldsymbol{x} \right) \right)^2 = Var\left(\hat{f} \left( \boldsymbol{x} \right)\right) + \left[ Bias\left(\hat{f} \left( \boldsymbol{x} \right)\right)\right]^2 + Var\left(\epsilon\right)
+\]</div>
+<p>Zufällige Abweichung zwischen Realisierungen und Prognosen eines Modells lassen sich nicht durch die Wahl des passenden Modells oder durch die perfekte Schätzung der Parameter reduzieren. Der Beitrag dieser Abweichungen ist durch <span class="math notranslate nohighlight">\(Var\left(\epsilon\right)\)</span> gegeben. Dies bedeutet selbst wenn man den wahren Zusammenhang und die Parameter des Modells kennt, treten bedingt durch die Zufälligkeit immer Abweichungen der Realisierungen vom deterministischen Zusammenhang auf. In der Realität ist jedoch weder das passende Modell noch seine Parameter bekannt. Wenn ein Modell für unterschiedliche Stichproben geschätzt wird, resultieren jedes Mal unterschiedliche Parameterschätzungen und Prognosen <span class="math notranslate nohighlight">\(\hat{f} \left( \boldsymbol{x} \right)\)</span>. Dies beeinflusst die Abweichung zwischen tatsächlicher Realisierung und Prognose und ist durch <span class="math notranslate nohighlight">\(Var\left(\hat{f} \left( \boldsymbol{x} \right)\right)\)</span> quantifiziert. Dies bedeutet, bedingt durch die Varianz sind die Prognosen mit dem geschätzten Modell je nach Stichprobe mal weiter und mal weniger weit vom wahren Zusammenhang <span class="math notranslate nohighlight">\(f \left( \boldsymbol{x} \right)\)</span> entfernt. Insofern sich diese Abweichungen im Mittelwert wieder ausgleichen und im Mittelwert die Prognosen der geschätzten Modelle der Prognose des wahren Modelle entspricht, kommt es zu keinen systematischen Abweichungen zwischen <span class="math notranslate nohighlight">\(\hat{f} \left( \boldsymbol{x} \right)\)</span> und <span class="math notranslate nohighlight">\(f \left( \boldsymbol{x} \right)\)</span>. In diesem Fall spricht man von einem unverzerrten Schätzer, für die der Bias gleich <span class="math notranslate nohighlight">\(0\)</span> ist. Kommt es jedoch im Erwartungswert zu systematischen Abweichungen zwischen der Prognose des geschätzten Modells und dem tatsächlichen Zusammenhang, so ist der Bias von <span class="math notranslate nohighlight">\(0\)</span> verschieden und eine weiter Quelle für die Abweichungen zwischen Prognose und tatsächlicher Realisierung des Modells. Wir fassen zusammen, Abweichungen entstehen haben folgende mögliche Ursachen:</p>
+<ul class="simple">
+<li><p>die Zufälligkeit der Realisierung: <span class="math notranslate nohighlight">\(\epsilon = y - f\left( \boldsymbol{x} \right)\)</span></p></li>
+<li><p>die Varianz des geschätzten Modells für verschiedene Stichproben <span class="math notranslate nohighlight">\(Var\left(\hat{f} \left( \boldsymbol{x} \right)\right)\)</span></p></li>
+<li><p>die systematische Abweichung des geschätzten Modells und dem wahren Zusammenhang, dem <span class="math notranslate nohighlight">\(Bias\)</span>: <span class="math notranslate nohighlight">\(E \left(\hat{f} \left( \boldsymbol{x} \right)  - f \left( \boldsymbol{x} \right)  \right)\)</span></p></li>
+</ul>
+<p>Da wir den wahren Zusammenhang <span class="math notranslate nohighlight">\(f \left( \boldsymbol{x} \right) \)</span> in der Realität nicht kennen, ist es normalerweise auch nicht möglich, diese Komponenten einzeln zu bestimmen. Dennoch ist es wichtig die genannten Ursachen für die Abweichung zwischen Realisierung und Prognose zu verstehen, da Bias und Varianz eines Modells durch die Komplexität beeinflusst werden können. Komplexe Modelle weisen oft einen tendenziell kleineren Bias auf, bringen jedoch eine höhere Varianz mit sich. Entsprechend muss dies bei der Modellwahl wohl mit berücksichtigt werden, um am Ende ein Modell zu wählen und zu trainieren, welches beide Fehlerquellen möglichst gering hält</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="07_ModellAccuracy.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Generalisierung funktionaler Zusammenhänge</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="09_Regularization.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Regularisierung</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flexiblere-modelle-polynomiale-regression">Flexiblere Modelle - Polynomiale Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bias-variance-trade-off">Bias-Variance Trade-Off</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Prof. Dr. Ralf Kellner
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

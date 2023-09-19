@@ -1,0 +1,17 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: 00_Introduction
+chapters:
+- file: 01_PythonIntroduction
+- file: 02_DataAccess
+- file: 03_DescriptiveAnalysis
+- file: 04_SupervisedLearning
+- file: 05_LinearRegression
+- file: 06_Classification
+- file: 07_ModellAccuracy
+- file: 08_ModelComplexity
+- file: 09_Regularization
+- file: 10_DimensionalityReduction
+- file: 11_Clustering

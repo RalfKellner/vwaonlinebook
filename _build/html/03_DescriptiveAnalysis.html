@@ -155,7 +155,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="00_Introduction.html">
-                    Einführung
+                    Datenanalyse und Datenmanagment
                 </a>
             </li>
         </ul>
@@ -407,7 +407,7 @@ document.write(`
 <ul class="simple">
 <li><p>nominal: Kategorien, ohne sinnvolle Reihung</p></li>
 <li><p>ordinal: mögliche Reihung, keine sinnvolle Interpretation der Abstände</p></li>
-<li><p>karindal bzw. metrisch: mögliche Reihung und Abstandsinterpretation, zum Teil jedoch ohne sinnvollen Nullpunkt (Intervallskala vs. Verhältnisskala)</p></li>
+<li><p>kardinal bzw. metrisch: mögliche Reihung und Abstandsinterpretation, zum Teil jedoch ohne sinnvollen Nullpunkt (Intervallskala vs. Verhältnisskala)</p></li>
 </ul>
 <p>In der unteren Zelle sehen wir beispielsweise einen Datensatz von Schülern, bei dem es um eine mögliche Analyse zwischen den Zusammenhang zwischen der Prüfungsleistung (G3) und weiteren Merkmalen geht. Die Variable “sex” bezieht sich z.B. auf das Geschlecht und ist kategorial, hier ist es durch “F” für female und “M” wie male abgekürzt. Um die Ausprägungen dieser Variable später analysieren zu können bietet es sich an die Kategorien in Zahlenwerte zu transformieren. Dennoch machen auch nach der Kodierung mathematische Berechnungen wie die Addition inhaltlich keinen Sinn. “Fedu” und “Medu” sind gemäß der Variablenbeschreibung klar ordinal. Beispielsweise das Alter “age” ist metrisch.</p>
 <div class="cell docutils container">
@@ -984,7 +984,7 @@ z = \frac{x - \min(x)}{\max(x) - \min(x)}
 
 <span class="n">gender</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;male&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">250</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;female&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">250</span>
 <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">gender</span><span class="p">)</span>
-<span class="n">assessment</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bad&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">150</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;neural&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">200</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;good&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">150</span>
+<span class="n">assessment</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bad&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">150</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;neutral&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">200</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;good&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">150</span>
 <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">assessment</span><span class="p">)</span>
 <span class="n">numerical</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
 
@@ -1035,32 +1035,32 @@ None
     <tr>
       <th>0</th>
       <td>female</td>
-      <td>neural</td>
-      <td>0.460717</td>
+      <td>bad</td>
+      <td>7.782904</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>male</td>
-      <td>good</td>
-      <td>-0.791882</td>
+      <td>female</td>
+      <td>neutral</td>
+      <td>2.085163</td>
     </tr>
     <tr>
       <th>2</th>
       <td>female</td>
-      <td>good</td>
-      <td>3.034854</td>
+      <td>bad</td>
+      <td>1.941810</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>male</td>
-      <td>bad</td>
-      <td>2.621412</td>
+      <td>female</td>
+      <td>neutral</td>
+      <td>1.298946</td>
     </tr>
     <tr>
       <th>4</th>
       <td>male</td>
-      <td>good</td>
-      <td>0.619691</td>
+      <td>bad</td>
+      <td>3.103853</td>
     </tr>
   </tbody>
 </table>
@@ -1114,36 +1114,36 @@ None
   <tbody>
     <tr>
       <th>0</th>
-      <td>neural</td>
-      <td>0.460717</td>
+      <td>bad</td>
+      <td>7.782904</td>
       <td>1.0</td>
       <td>0.0</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>good</td>
-      <td>-0.791882</td>
-      <td>0.0</td>
+      <td>neutral</td>
+      <td>2.085163</td>
       <td>1.0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>good</td>
-      <td>3.034854</td>
+      <td>bad</td>
+      <td>1.941810</td>
       <td>1.0</td>
       <td>0.0</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>bad</td>
-      <td>2.621412</td>
-      <td>0.0</td>
+      <td>neutral</td>
+      <td>1.298946</td>
       <td>1.0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>good</td>
-      <td>0.619691</td>
+      <td>bad</td>
+      <td>3.103853</td>
       <td>0.0</td>
       <td>1.0</td>
     </tr>
@@ -1156,14 +1156,14 @@ None
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The variable assessment has the following unique values:&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">assessment</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
 
-<span class="n">df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">to_replace</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bad&quot;</span><span class="p">,</span> <span class="s2">&quot;neural&quot;</span><span class="p">,</span> <span class="s2">&quot;good&quot;</span><span class="p">],</span> <span class="n">value</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">to_replace</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bad&quot;</span><span class="p">,</span> <span class="s2">&quot;neutral&quot;</span><span class="p">,</span> <span class="s2">&quot;good&quot;</span><span class="p">],</span> <span class="n">value</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The variable assessment has the following unique values:
-[&#39;neural&#39; &#39;good&#39; &#39;bad&#39;]
+[&#39;bad&#39; &#39;neutral&#39; &#39;good&#39;]
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -1193,36 +1193,36 @@ None
   <tbody>
     <tr>
       <th>0</th>
-      <td>2</td>
-      <td>0.460717</td>
+      <td>1</td>
+      <td>7.782904</td>
       <td>1.0</td>
       <td>0.0</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>3</td>
-      <td>-0.791882</td>
-      <td>0.0</td>
+      <td>2</td>
+      <td>2.085163</td>
       <td>1.0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>3</td>
-      <td>3.034854</td>
+      <td>1</td>
+      <td>1.941810</td>
       <td>1.0</td>
       <td>0.0</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>1</td>
-      <td>2.621412</td>
-      <td>0.0</td>
+      <td>2</td>
+      <td>1.298946</td>
       <td>1.0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>3</td>
-      <td>0.619691</td>
+      <td>1</td>
+      <td>3.103853</td>
       <td>0.0</td>
       <td>1.0</td>
     </tr>
@@ -1273,48 +1273,48 @@ None
   <tbody>
     <tr>
       <th>0</th>
-      <td>2</td>
-      <td>0.460717</td>
+      <td>1</td>
+      <td>7.782904</td>
       <td>1.0</td>
       <td>0.0</td>
-      <td>-0.675089</td>
-      <td>0.436486</td>
+      <td>2.835300</td>
+      <td>0.991506</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>3</td>
-      <td>-0.791882</td>
-      <td>0.0</td>
+      <td>2</td>
+      <td>2.085163</td>
       <td>1.0</td>
-      <td>-1.274583</td>
-      <td>0.337571</td>
+      <td>0.0</td>
+      <td>0.016813</td>
+      <td>0.455506</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>3</td>
-      <td>3.034854</td>
+      <td>1</td>
+      <td>1.941810</td>
       <td>1.0</td>
       <td>0.0</td>
-      <td>0.556893</td>
-      <td>0.639762</td>
+      <td>-0.054099</td>
+      <td>0.442021</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>1</td>
-      <td>2.621412</td>
-      <td>0.0</td>
+      <td>2</td>
+      <td>1.298946</td>
       <td>1.0</td>
-      <td>0.359020</td>
-      <td>0.607113</td>
+      <td>0.0</td>
+      <td>-0.372103</td>
+      <td>0.381545</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>3</td>
-      <td>0.619691</td>
+      <td>1</td>
+      <td>3.103853</td>
       <td>0.0</td>
       <td>1.0</td>
-      <td>-0.599004</td>
-      <td>0.449040</td>
+      <td>0.520726</td>
+      <td>0.551337</td>
     </tr>
   </tbody>
 </table>
@@ -1336,7 +1336,7 @@ None
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/76c06d60d1a1b0b2e26e186132b43b003838de0713fa6842ea28bb6fcc69dd45.png" src="_images/76c06d60d1a1b0b2e26e186132b43b003838de0713fa6842ea28bb6fcc69dd45.png" />
+<img alt="_images/e4e38c5f131753f92b4b878218024e9ee9e21ff671aee2a727c423271cf0e2c1.png" src="_images/e4e38c5f131753f92b4b878218024e9ee9e21ff671aee2a727c423271cf0e2c1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1347,7 +1347,7 @@ None
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/1470d4a3baa9087f5e2a540ce3de47d09a6d47a5b5c66e08964dfe1fb5912d0e.png" src="_images/1470d4a3baa9087f5e2a540ce3de47d09a6d47a5b5c66e08964dfe1fb5912d0e.png" />
+<img alt="_images/4c59a4ad6ba72479510916c18e820ddca26ff9e594e2bf5785da769f157a2872.png" src="_images/4c59a4ad6ba72479510916c18e820ddca26ff9e594e2bf5785da769f157a2872.png" />
 </div>
 </div>
 </section>

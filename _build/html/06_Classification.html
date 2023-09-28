@@ -587,7 +587,7 @@ f_{\boldsymbol{ \beta }}(x) = \frac{1}{1 + e^{- \left(\beta_0 + \beta_1 x\right)
 <p>zusammenfassen. Da die Parameter anhand mehererer Datenpunkt geschätzt werden, ist die Lossfunktion durch den Durchschnitt dieser Werte definiert:</p>
 <div class="math notranslate nohighlight">
 \[
-L\left(\boldsymbol{y},  f_{\boldsymbol{ \beta }}(\boldsymbol{x})\right) = - \frac{1}{n} \sum_{i=1}^n \log \left(f_{\boldsymbol{ \beta }}(\boldsymbol{x})\right)y + \log \left(1 - f_{\boldsymbol{ \beta }}\left(\boldsymbol{x}\right) \right)\left(1 - y\right)
+L\left(\boldsymbol{y},  f_{\boldsymbol{ \beta }}(\boldsymbol{x})\right) = - \frac{1}{n} \sum_{i=1}^n \log \left(f_{\boldsymbol{ \beta }}(\boldsymbol{x}_i)\right)y_i + \log \left(1 - f_{\boldsymbol{ \beta }}\left(\boldsymbol{x}_i\right) \right)\left(1 - y_i\right)
 \]</div>
 <p>Auch wenn die Darstellung dieser Lossfunktion formaler anspruchsvoller aussieht, als der Durchschnitt der quadratischen Abweichun des linearen Regressionsmodells, so bleibt das Prinzip analog das gleiche. Die Parameter werden so angepasst, dass sie die Modellprognosen möglichst ähnlich zu den tatsächlichen Beobachtungen verhalten. Im Fall der binären Klassifizierung bedeutet dies, dass hohe Wahrscheinlichkeitsprobnose für die tatsächliche Kategorie abgegeben werden. Gelingt dies, kann davon ausgegangen werden, ass das Modell durch die Wahl der Parameter erkannt hat, welche Variablen einen entsprechenden Einfluss auf die Kategorisierung haben.</p>
 <p>Notation: Auch wenn es zum jetzigen Zeitpunkt etwas unnötig erscheint, möchte ich an dieser Stelle eine vektor-orientierte Schreibweise der eben definierten Lossfunktion einführen. Hierzu definieren wir eine one-hot-kodierung der abhängigen Variable, die durch</p>
@@ -608,7 +608,7 @@ L\left(\boldsymbol{y},  f_{\boldsymbol{ \beta }}(\boldsymbol{x})\right) = - \fra
 <p>gegeben ist. Zudem definieren wir den Vektor der Wahrscheinlichkeitsprognosen für beide Kategorien mit <span class="math notranslate nohighlight">\(\boldsymbol{\pi}_{\boldsymbol{\beta}}^T = \begin{pmatrix} f_{\boldsymbol{ \beta }}(\boldsymbol{x}) &amp; 1 - f_{\boldsymbol{ \beta }}(\boldsymbol{x}) \end{pmatrix}\)</span>. Auf diese Weise kann die Lossfunktion auch durch:</p>
 <div class="math notranslate nohighlight">
 \[
-L\left(\boldsymbol{\tilde{Y}},  f_{\boldsymbol{ \beta }}(\boldsymbol{x})\right) = -\frac{1}{n} \sum_{i=1}^n \tilde{\boldsymbol{y}}_i \log \left( \boldsymbol{\pi}_{\boldsymbol{\beta}, i} \right)
+L\left(\boldsymbol{\tilde{Y}},  f_{\boldsymbol{ \beta }}(\boldsymbol{x})\right) = -\frac{1}{n} \sum_{i=1}^n \tilde{\boldsymbol{y}}_i^T \log \left( \boldsymbol{\pi}_{\boldsymbol{\beta}, i} \right)
 \]</div>
 <p>dargestellt werden. Diese etwas allgemeinere Darstellung kann dür den Fall einer abhängigen Variablen mit mehr als zwei Kategorien analog verwendet werden. Näheres folgt etwas später in diesem Kapitel.</p>
 <p>Als einführendes Beispiel schätzen wir das logistische Regressionsmodell für den Datensatz der Kreditkartenausfälle. Im Output sehen wir die geschätzten Parameter des logistischen Regressionsmodells, wobei postive Einflüsse der Variablen balance und inconce und ein negativer Einfluss der Variablen student ersichtlich werden. Man sollte hier bei der Interpretation der Einflussstärke aufpassen, da die erklärenden Variablen nicht in vergleichbarer numerischer Reichweite sind. Während die Variable student Dummy-Kodierung aufweist, beläuft sich der Mittelwert der balance auf ungefähr 835 und der des income auf 33517. Um den Einflussstärke besser vergleichen zu können, schätzen wir das Modell mit standardisierten Formen der Variablen balance und income in der Zelle unterhalb erneut und können auf diese Art erkennen, dass die Variable balance den größten Einfluss auf den Zahlungsaufall hat. Dies bedeutet, je höher die Belastung der Kreditkarte, umso höher die Wahrscheinlichkeit eines Ausfalls. Zudem haben Studierende eine geringere Ausfallquote. Gemäß dem p-value der Variable income, kann nicht von einem statistisch signifikant von null verschiedenen Einfluss ausgegangen werden. Die Interpretation wäre jedoch analog zur Variablen balance.</p>
@@ -642,8 +642,8 @@ L\left(\boldsymbol{\tilde{Y}},  f_{\boldsymbol{ \beta }}(\boldsymbol{x})\right) 
 Dep. Variable:                default   No. Observations:                10000
 Model:                          Logit   Df Residuals:                     9996
 Method:                           MLE   Df Model:                            3
-Date:                Tue, 26 Sep 2023   Pseudo R-squ.:                  0.4619
-Time:                        13:51:01   Log-Likelihood:                -785.77
+Date:                Thu, 28 Sep 2023   Pseudo R-squ.:                  0.4619
+Time:                        11:40:52   Log-Likelihood:                -785.77
 converged:                       True   LL-Null:                       -1460.3
 Covariance Type:            nonrobust   LLR p-value:                3.257e-292
 ==============================================================================
@@ -691,8 +691,8 @@ quasi-separation. In this case some parameters will not be identified.
 Dep. Variable:                default   No. Observations:                10000
 Model:                          Logit   Df Residuals:                     9996
 Method:                           MLE   Df Model:                            3
-Date:                Tue, 26 Sep 2023   Pseudo R-squ.:                  0.4619
-Time:                        13:51:01   Log-Likelihood:                -785.77
+Date:                Thu, 28 Sep 2023   Pseudo R-squ.:                  0.4619
+Time:                        11:40:52   Log-Likelihood:                -785.77
 converged:                       True   LL-Null:                       -1460.3
 Covariance Type:            nonrobust   LLR p-value:                3.257e-292
 ==============================================================================
@@ -886,7 +886,7 @@ P\left(y = k | \boldsymbol{x}\right) = f_{\boldsymbol{\beta}_k} \left( \boldsymb
 <p>Für das Softmax-Modell müssen somit <span class="math notranslate nohighlight">\(p+1\)</span> mehr Parameter geschätzt werden, dennoch ist dieser Ansatz im Machine Learning etwas populärer, hingegen wird die multinomiale Regression vermehrt in der statistischen Analyse eingesetzt. Auch wenn diese Modelle mehr Parameter und mehr Modellgleichungen als die logistische Regression verwenden, bleibt die Art der Modellierung der logistischen Regression ähnlich. Ausgangspunkt ist immer die lineare Regressionsgerade, welche je nach Bedarf der Modellierung unter Verwendung einer passenden Funktion transformiert wird. Auch die Modelle für <span class="math notranslate nohighlight">\(K&gt;2\)</span> Kategorien, können unter der gleichen Lossfunktion geschätzt werden. Sei <span class="math notranslate nohighlight">\(\tilde{\boldsymbol{y}}\)</span> ein <span class="math notranslate nohighlight">\(K\)</span> dimensionaler one-hot-Vektor, der an der Position <span class="math notranslate nohighlight">\(k\)</span> den Wert <span class="math notranslate nohighlight">\(1\)</span> und an allen übrigen Positionen den Wert <span class="math notranslate nohighlight">\(0\)</span> hat. Zudem sei <span class="math notranslate nohighlight">\( \boldsymbol{\pi}_{B} \)</span> der Vektor der Wahrscheinlichkeitsprognosen, dann werden alle Parameter <span class="math notranslate nohighlight">\(B\)</span> des Modells durch die Minimieren der Lossfunktion:</p>
 <div class="math notranslate nohighlight">
 \[
-L\left(\boldsymbol{y},  \boldsymbol{f}_{\boldsymbol{ B }}(\boldsymbol{x})\right) = -\frac{1}{n} \sum_{i=1}^n \tilde{y}_i \log \left( \boldsymbol{\pi}_{\boldsymbol{B}, i} \right)
+L\left(\boldsymbol{y},  \boldsymbol{f}_{\boldsymbol{ B }}(\boldsymbol{x})\right) = -\frac{1}{n} \sum_{i=1}^n \tilde{y}_i^T \log \left( \boldsymbol{\pi}_{\boldsymbol{B}, i} \right)
 \]</div>
 <p>geschätzt. Wie bei der logistischen Regression, handelt es sich bei den Funktionen die zur Transformation in Wahrscheinlichkeiten eingesetzt werden um nicht-lineare Funktionen. Das bedeutet, dass die Vorzeichen der Parameter in Ihrer Wirkungsrichtung auf die jeweilige Kategorienwahrscheinlichkeit interpretiert werden können, jedoch hängt die Stärke des Einflusses auf die jeweilige Wahrscheinlichkeitsprognosen vom aktuellen Wert der unabhängigen Variable ab. Wenn es um die Beurteilung der Güte der Modelle geht, können die Kennzahlen aus der binären Klassifizierung zum Teil genauso (accuracy, confusion matrix) und zum Teil in adaptierter Form verwendet werden. Da in den Wirtschaftswissenschaften meist Regressionsprobleme und binäre Klassifizierungsprobleme verbreiteter sind, verzichten wir auf Beispiele und weitere Darstellungen zur Klassifizierung von mehr als zwei Kategorien. Zudem möchte ich noch darauf hinweisen, dass die hier besprochenen Modelle für nomiale Kategorien entwickelt worden sind. Handelt es sich um eine ordinal skalierte abhängige Variable, muss die Reihung der Variable mit berücksichtigt werden. Dies wird beispielsweise beim ordinalen Regressionsmodell gemacht.</p>
 </section>

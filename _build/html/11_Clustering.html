@@ -795,7 +795,7 @@ S(i) = \frac{b(i) - a(i)}{\max \lbrace a(i), b(i)\rbrace}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/77c3bdccc1c9ae2f32227669e8873ebcfeab545bd37815af751b3a16300892f9.png" src="_images/77c3bdccc1c9ae2f32227669e8873ebcfeab545bd37815af751b3a16300892f9.png" />
+<img alt="_images/c62b5580213717f52445f868870b7274ef2d3587157c3d0e0f58ca5f143d05bd.png" src="_images/c62b5580213717f52445f868870b7274ef2d3587157c3d0e0f58ca5f143d05bd.png" />
 </div>
 </div>
 <p>Eine noch differenzierte graphische Betrachtung der Clusteringgüte kann generiert werden, wenn man je geschätzten Cluster die Silhouetten Scores in aufsteigender Reihenfolge visualisiert. So können wir sehen, in welchen Clustern es zu den höchsten Scores kommt und in welchen Clustern gegenenfalls einzelne weniger gute Zuordnungen statt finden. Wir betrachten auch hierzu die passende Grafik für unser Beispiel und sehen, dass der Cluster im linken unteren Eck die höchsten Silhouetten Scores aufweist. Dies macht Sinn, da er weiter von den anderen beiden Clustern entfernt ist, wodurch eine bessere Abgrenzung zustande kommt. Zudem sehen wir dass für den Cluster in der Mitte ein negativer Silhouette Score realisiert wird. Hierbei handelt es sich um den einzelnen Datenpunkt, der sehr nahe zum Cluster in der linken Ecke ist. Die Idee des Silhouette Scores kann natürlich auch für andere Distanzmaße angepasst werden. Zudem können andere Kennzahle für die Evaluation der Clusterzuordnung zu Rate gezogen werden. Die Funktionsweise der meisten Kennzahlen ist jedoch im Prinzip ähnlich zur Silhouette Score, weshalb wir auf weitere Darstellungen verzichten.</p>
@@ -818,7 +818,7 @@ S(i) = \frac{b(i) - a(i)}{\max \lbrace a(i), b(i)\rbrace}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/e8a0f1a20b6881c5ab81bcbac9e7f434a117b9258b375a2d274348e6a4b1e213.png" src="_images/e8a0f1a20b6881c5ab81bcbac9e7f434a117b9258b375a2d274348e6a4b1e213.png" />
+<img alt="_images/5b5a79e5d4dc6fe23b51ecf2cdc3443c44c5265ceb21a460953916f3b082c456.png" src="_images/5b5a79e5d4dc6fe23b51ecf2cdc3443c44c5265ceb21a460953916f3b082c456.png" />
 </div>
 </div>
 </section>
@@ -894,17 +894,17 @@ C_0 = \lbrace \boldsymbol{x}_0 \rbrace, C_1 = \lbrace \boldsymbol{x}_1 \rbrace, 
 <p>Schritt 2: Zusammenführen der Beobachtungen <span class="math notranslate nohighlight">\(i=0\)</span> und <span class="math notranslate nohighlight">\(i=1\)</span> zu Cluster mit Index <span class="math notranslate nohighlight">\(i=5\)</span>, da diese mit <span class="math notranslate nohighlight">\(1.23\)</span> den geringsten euklidischen Abstand haben. Der neue Cluster hat <span class="math notranslate nohighlight">\(2\)</span> Beobachtungen und den Index <span class="math notranslate nohighlight">\(i=5\)</span>: wir erhalten folgende Cluster:</p>
 <div class="math notranslate nohighlight">
 \[
-C_2 = \lbrace \boldsymbol{x}_2 \rbrace, C_3 = \lbrace \boldsymbol{x}_3 \rbrace, C_4 = \lbrace \boldsymbol{x}_4 \rbrace, C_5 = \lbrace \boldsymbol{x}_1, \boldsymbol{x}_2 \rbrace
+C_2 = \lbrace \boldsymbol{x}_2 \rbrace, C_3 = \lbrace \boldsymbol{x}_3 \rbrace, C_4 = \lbrace \boldsymbol{x}_4 \rbrace, C_5 = \lbrace \boldsymbol{x}_0, \boldsymbol{x}_1 \rbrace
 \]</div>
 <p>Schritt 3: Im obigen Beispiel verwenden wir die Single Linkage Methode, um die Cluster zusammenzuführen. Daher müssen wir lediglich überprüfen, welche nächsten beiden Werte den geringsten Abstand haben. Dies trifft auf die ursprünglichen Beobachtungen <span class="math notranslate nohighlight">\(i=1, i=4\)</span> mit einem Abstand von <span class="math notranslate nohighlight">\(2.67\)</span> zu. Da <span class="math notranslate nohighlight">\(i=1\)</span> bereits in den neuen Cluster mit Index <span class="math notranslate nohighlight">\(i = 5\)</span> enthalten ist, müssen wir diesen Cluster mit Beobachtung <span class="math notranslate nohighlight">\(i=4\)</span> zusammenführen. Es entsteht ein neuer Cluster aus den Clustern <span class="math notranslate nohighlight">\(C_4, C_5\)</span> dessen Index <span class="math notranslate nohighlight">\(i=6\)</span> ist.</p>
 <div class="math notranslate nohighlight">
 \[
-C_2 = \lbrace \boldsymbol{x}_2 \rbrace, C_3 = \lbrace \boldsymbol{x}_3 \rbrace, C_6 = \lbrace \boldsymbol{x}_1, \boldsymbol{x}_2, \boldsymbol{x}_4 \rbrace
+C_2 = \lbrace \boldsymbol{x}_2 \rbrace, C_3 = \lbrace \boldsymbol{x}_3 \rbrace, C_6 = \lbrace \boldsymbol{x}_0, \boldsymbol{x}_1, \boldsymbol{x}_4 \rbrace
 \]</div>
 <p>Schritt4: Der nächste kleinste euklidische Abstand wäre der Wert <span class="math notranslate nohighlight">\(3.17\)</span> zwischen den ursprünglichen Beobachtungen <span class="math notranslate nohighlight">\(i=0, i=4\)</span>. Diese sind bereits durch den vorherigen Schritt im Cluster <span class="math notranslate nohighlight">\(C_6\)</span> verbunden, weshalb wir gleich zum nächsten kleineren Wert mit <span class="math notranslate nohighlight">\(5.61\)</span> springen. Dieser bezieht sich auf die ursprünglichen Beobachtungen <span class="math notranslate nohighlight">\(i=2, i=3\)</span>, welche noch nicht in einem Cluster sind, daher entsteht aus diesen beiden Beobachtungen der neue Cluster <span class="math notranslate nohighlight">\(C_7\)</span>.</p>
 <div class="math notranslate nohighlight">
 \[
-C_6 = \lbrace \boldsymbol{x}_1, \boldsymbol{x}_2, \boldsymbol{x}_4 \rbrace, C_7 = \lbrace \boldsymbol{x}_2, \boldsymbol{x}_3 \rbrace
+C_6 = \lbrace \boldsymbol{x}_0, \boldsymbol{x}_1, \boldsymbol{x}_4 \rbrace, C_7 = \lbrace \boldsymbol{x}_2, \boldsymbol{x}_3 \rbrace
 \]</div>
 <p>Schritt 5: Der nächste kleinste euklidische Abstand ist der Wert <span class="math notranslate nohighlight">\(16.19\)</span> zwischen den ursprünglichen Beobachtungen <span class="math notranslate nohighlight">\(i=1, i=3\)</span>. Da diese Beobachtungen in unterschiedlichen Clustern <span class="math notranslate nohighlight">\(C_6, C_7\)</span> sind, werden diese im letzten Schritt zum Cluster mit allen Beobachtungen zusammengeführt.</p>
 <p>Eine visuelle Form des hierarchischen Clusterings ist durch Dendogramme gegeben, welche die paarweisen Zusammführungen visualisieren. Im der nächsten Grafik sehen wir die fünf Beobachtungen unseres Beispiels sowie das zugehörige Dendogramm der Schritte 1-5. Mit einer gewünschten Clusteranzahl, können die Cluster aus der Information des Dendogramms extrahiert werden. Wird das Dendogramm wie bei uns von unten nach oben visualisiert, so resultieren <span class="math notranslate nohighlight">\(K\)</span> Cluster durch einen horizontalen Schnitt durch das Dendogramm, so dass <span class="math notranslate nohighlight">\(K\)</span> getrennte Äste bestehen bleiben.</p>
